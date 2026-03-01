@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Items — NIT KKR Marketplace</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --pri: #1447E6;
+      --pri-dark: #0B2E99;
+      --pri-deep: #071A5E;
+      --pri-light: #EEF3FF;
+      --pri-mid: #C7D6FD;
+      --acc: #F5A623;
+      --acc-green: #0DA678;
+      --acc-red: #E53935;
+      --text: #0D1B2A;
+      --text-2: #3B4A5A;
+      --text-3: #7A8FA6;
+      --bg: #F5F7FC;
+      --surface: #FFFFFF;
+      --surface-2: #F0F4FF;
+      --border: #DDE4F0;
+      --shadow-sm: 0 2px 8px rgba(20, 71, 230, .08);
+      --shadow: 0 6px 28px rgba(20, 71, 230, .12);
+      --shadow-lg: 0 16px 56px rgba(20, 71, 230, .18);
+      --radius: 18px;
+      --radius-sm: 10px;
+      --nav-h: 70px;
+      --sw: 272px;
+      --tr: .22s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    [data-theme="dark"] {
+      --pri: #4D79FF;
+      --pri-dark: #3360DD;
+      --pri-deep: #1A2E6B;
+      --pri-light: #10193A;
+      --pri-mid: #1C2E5A;
+      --text: #E8EEFF;
+      --text-2: #9AAAC8;
+      --text-3: #5C7099;
+      --bg: #080E1E;
+      --surface: #0F1828;
+      --surface-2: #131F38;
+      --border: #1D2E50;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: background .3s, color .3s
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    button {
+      cursor: pointer;
+      font-family: inherit
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--pri-mid);
+      border-radius: 99px
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: .85rem;
+      border: 2px solid transparent;
+      transition: all var(--tr);
+      cursor: pointer;
+      font-family: 'Figtree', sans-serif
+    }
+
+    .btn-primary {
+      background: var(--pri);
+      color: #fff;
+      border-color: var(--pri)
+    }
+
+    .btn-primary:hover {
+      background: var(--pri-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(20, 71, 230, .3)
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--pri);
+      border-color: var(--pri)
+    }
+
+    .btn-outline:hover {
+      background: var(--pri-light);
+      transform: translateY(-1px)
+    }
+
+    .btn-ghost {
+      background: var(--surface-2);
+      color: var(--text-2);
+      border-color: var(--border)
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--pri);
+      color: var(--pri);
+      background: var(--pri-light)
+    }
+
+    .btn-green {
+      background: var(--acc-green);
+      color: #fff;
+      border-color: var(--acc-green)
+    }
+
+    .btn-green:hover {
+      background: #0b8f65;
+      transform: translateY(-1px)
+    }
+
+    .btn-sm {
+      padding: 7px 13px;
+      font-size: .78rem
+    }
+
+    /* Profile Dropdown Updated */
+    .profile-dropdown {
+      position: relative
+    }
+
+    .profile-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--pri), var(--acc));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .95rem;
+      cursor: pointer;
+      border: 2.5px solid var(--border);
+      transition: all var(--tr)
+    }
+
+    .profile-avatar:hover {
+      border-color: var(--pri);
+      box-shadow: var(--shadow)
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      width: 220px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-lg);
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 1000;
+      animation: ddSlide .25s ease forwards
+    }
+
+    @keyframes ddSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .dropdown-menu.open {
+      display: flex
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text-2);
+      transition: all var(--tr)
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--pri-light);
+      color: var(--pri)
+    }
+
+    .dropdown-menu i {
+      width: 20px;
+      text-align: center;
+      font-size: .95rem;
+      color: var(--pri)
+    }
+
+    .dropdown-menu hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 6px 0
+    }
+
+    .dropdown-menu a.danger {
+      color: var(--acc-red)
+    }
+
+    .dropdown-menu a.danger:hover {
+      background: #fef2f2
+    }
+
+    .dropdown-menu a.danger i {
+      color: var(--acc-red)
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: var(--nav-h);
+      background: rgba(255, 255, 255, .93);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: background .3s
+    }
+
+    [data-theme="dark"] .navbar {
+      background: rgba(8, 14, 30, .93)
+    }
+
+    .nav-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0
+    }
+
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--pri), var(--pri-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 3px 10px rgba(20, 71, 230, .3)
+    }
+
+    .nav-logo-text .l1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .93rem;
+      color: var(--text)
+    }
+
+    .nav-logo-text .l2 {
+      font-size: .62rem;
+      color: var(--text-3)
+    }
+
+    .nav-search-bar {
+      flex: 1;
+      max-width: 460px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      padding: 8px 15px;
+      transition: border-color var(--tr), box-shadow var(--tr)
+    }
+
+    .nav-search-bar:focus-within {
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px rgba(20, 71, 230, .1)
+    }
+
+    .nav-search-bar i {
+      color: var(--text-3);
+      font-size: .82rem
+    }
+
+    .nav-search-bar input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: 'Figtree', sans-serif;
+      font-size: .86rem;
+      color: var(--text);
+      flex: 1;
+      min-width: 0
+    }
+
+    .nav-search-bar input::placeholder {
+      color: var(--text-3)
+    }
+
+    .nav-links-mini {
+      display: flex;
+      gap: 2px;
+      list-style: none
+    }
+
+    .nav-links-mini a {
+      color: var(--text-2);
+      font-size: .82rem;
+      font-weight: 500;
+      padding: 6px 9px;
+      border-radius: 7px;
+      transition: all var(--tr);
+      white-space: nowrap
+    }
+
+    .nav-links-mini a:hover,
+    .nav-links-mini a.active {
+      color: var(--pri);
+      background: var(--pri-light)
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-left: auto;
+      flex-shrink: 0
+    }
+
+    .icon-btn {
+      width: 35px;
+      height: 35px;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      font-size: .85rem;
+      cursor: pointer;
+      position: relative;
+      transition: all var(--tr)
+    }
+
+    .icon-btn:hover {
+      border-color: var(--pri);
+      color: var(--pri);
+      background: var(--pri-light)
+    }
+
+    .icon-btn .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 15px;
+      height: 15px;
+      border-radius: 99px;
+      background: var(--acc-red);
+      color: #fff;
+      font-size: .58rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      border: 2px solid var(--surface)
+    }
+
+    .prof-wrap {
+      position: relative;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 5px;
+      border: none;
+      background: none
+    }
+
+    .hamburger span {
+      width: 20px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px
+    }
+
+    /* PAGE HEADER */
+    .page-hdr {
+      background: linear-gradient(135deg, var(--pri-deep), var(--pri-dark));
+      padding: 36px 0 0;
+      position: relative;
+      overflow: hidden
+    }
+
+    .page-hdr::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px);
+      background-size: 30px 30px
+    }
+
+    .page-hdr .inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .77rem;
+      color: rgba(255, 255, 255, .5);
+      margin-bottom: 10px
+    }
+
+    .breadcrumb a {
+      color: rgba(255, 255, 255, .5);
+      transition: color var(--tr)
+    }
+
+    .breadcrumb a:hover {
+      color: #fff
+    }
+
+    .breadcrumb i {
+      font-size: .6rem
+    }
+
+    .breadcrumb .cur {
+      color: rgba(255, 255, 255, .85)
+    }
+
+    .page-hdr h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.95rem;
+      color: #fff;
+      margin-bottom: 5px
+    }
+
+    .page-hdr p {
+      color: rgba(255, 255, 255, .62);
+      font-size: .88rem;
+      margin-bottom: 22px
+    }
+
+    .cat-pills {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 18px;
+      scrollbar-width: none
+    }
+
+    .cat-pills::-webkit-scrollbar {
+      display: none
+    }
+
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, .12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, .18);
+      color: rgba(255, 255, 255, .78);
+      padding: 6px 14px;
+      border-radius: 99px;
+      font-size: .79rem;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all var(--tr);
+      flex-shrink: 0
+    }
+
+    .cat-pill:hover,
+    .cat-pill.active {
+      background: rgba(255, 255, 255, .24);
+      color: #fff;
+      border-color: rgba(255, 255, 255, .4)
+    }
+
+    .cat-pill.active {
+      background: var(--acc);
+      border-color: var(--acc)
+    }
+
+    /* LAYOUT */
+    .browse-layout {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: var(--sw) 1fr;
+      gap: 22px;
+      align-items: start
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      position: sticky;
+      top: calc(var(--nav-h) + 14px);
+      max-height: calc(100vh - var(--nav-h) - 28px);
+      overflow-y: auto;
+      scrollbar-width: thin
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 3px
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 99px
+    }
+
+    .filter-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px
+    }
+
+    .filter-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .97rem
+    }
+
+    .filter-clear {
+      font-size: .76rem;
+      color: var(--pri);
+      cursor: pointer;
+      font-weight: 600
+    }
+
+    .filter-clear:hover {
+      text-decoration: underline
+    }
+
+    .fg {
+      margin-bottom: 20px
+    }
+
+    .fg-title {
+      font-size: .74rem;
+      font-weight: 700;
+      color: var(--text-3);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer
+    }
+
+    .fg-title i {
+      transition: transform var(--tr);
+      font-size: .7rem
+    }
+
+    .fg-title.c i {
+      transform: rotate(-90deg)
+    }
+
+    .fg-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .fg-body.h {
+      display: none
+    }
+
+    .fc {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 5px 7px;
+      border-radius: 7px;
+      transition: background var(--tr);
+      font-size: .83rem;
+      color: var(--text-2)
+    }
+
+    .fc:hover {
+      background: var(--pri-light);
+      color: var(--pri)
+    }
+
+    .fc input {
+      display: none
+    }
+
+    .cb {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--tr)
+    }
+
+    .fc input:checked~.cb {
+      background: var(--pri);
+      border-color: var(--pri)
+    }
+
+    .fc input:checked~.cb::after {
+      content: '✓';
+      color: #fff;
+      font-size: .6rem;
+      font-weight: 700
+    }
+
+    .fc .cnt {
+      margin-left: auto;
+      font-size: .68rem;
+      color: var(--text-3);
+      background: var(--bg);
+      padding: 1px 6px;
+      border-radius: 99px
+    }
+
+    .price-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 9px
+    }
+
+    .pi {
+      position: relative
+    }
+
+    .pi span {
+      position: absolute;
+      left: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-3);
+      font-size: .79rem
+    }
+
+    .pi input {
+      width: 100%;
+      padding: 7px 7px 7px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Figtree', sans-serif;
+      font-size: .8rem;
+      outline: none;
+      transition: border-color var(--tr)
+    }
+
+    .pi input:focus {
+      border-color: var(--pri)
+    }
+
+    .rslider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--pri) 50%, var(--border) 50%);
+      outline: none;
+      cursor: pointer
+    }
+
+    .rslider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: var(--pri);
+      box-shadow: 0 2px 6px rgba(20, 71, 230, .4);
+      cursor: pointer
+    }
+
+    .hdiv {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2px 0 14px
+    }
+
+    .rrow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 5px 7px;
+      border-radius: 7px;
+      transition: background var(--tr)
+    }
+
+    .rrow:hover {
+      background: var(--pri-light)
+    }
+
+    .stars-r {
+      color: var(--acc);
+      font-size: .8rem
+    }
+
+    .rrow span {
+      font-size: .8rem;
+      color: var(--text-2)
+    }
+
+    /* MAIN */
+    .main-content {
+      min-width: 0
+    }
+
+    .browse-toolbar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 18px
+    }
+
+    .res-count {
+      font-size: .87rem;
+      color: var(--text-2)
+    }
+
+    .res-count strong {
+      color: var(--text);
+      font-weight: 700
+    }
+
+    .tsep {
+      flex: 1
+    }
+
+    .af {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap
+    }
+
+    .fchip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--pri-light);
+      color: var(--pri);
+      border: 1px solid var(--pri-mid);
+      border-radius: 99px;
+      padding: 3px 9px;
+      font-size: .72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--tr)
+    }
+
+    .fchip:hover {
+      background: var(--acc-red);
+      border-color: var(--acc-red);
+      color: #fff
+    }
+
+    .fchip i {
+      font-size: .62rem
+    }
+
+    .sort-wrap {
+      position: relative
+    }
+
+    .sort-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: .8rem;
+      font-weight: 600;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all var(--tr)
+    }
+
+    .sort-btn:hover {
+      border-color: var(--pri);
+      color: var(--pri)
+    }
+
+    .sort-dd {
+      position: absolute;
+      top: calc(100% + 5px);
+      right: 0;
+      z-index: 50;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      min-width: 175px;
+      padding: 5px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-5px);
+      transition: all var(--tr)
+    }
+
+    .sort-wrap.open .sort-dd {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0)
+    }
+
+    .sort-opt {
+      padding: 7px 11px;
+      border-radius: 7px;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all var(--tr);
+      color: var(--text-2)
+    }
+
+    .sort-opt:hover,
+    .sort-opt.active {
+      background: var(--pri-light);
+      color: var(--pri)
+    }
+
+    .sort-opt.active::before {
+      content: '✓ ';
+      font-weight: 700
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 3px;
+      background: var(--bg);
+      padding: 3px;
+      border-radius: 7px;
+      border: 1.5px solid var(--border)
+    }
+
+    .vbtn {
+      width: 28px;
+      height: 28px;
+      border-radius: 5px;
+      border: none;
+      background: transparent;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: .82rem;
+      transition: all var(--tr)
+    }
+
+    .vbtn.active {
+      background: var(--pri);
+      color: #fff
+    }
+
+    .mob-filter-btn {
+      display: none
+    }
+
+    /* PRODUCTS GRID */
+    .pgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+      gap: 16px
+    }
+
+    .pgrid.lv {
+      grid-template-columns: 1fr
+    }
+
+    .pc {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all var(--tr);
+      position: relative;
+      animation: cIn .35s both
+    }
+
+    .pc:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--pri)
+    }
+
+    @keyframes cIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .pc:nth-child(1) {
+      animation-delay: .04s
+    }
+
+    .pc:nth-child(2) {
+      animation-delay: .08s
+    }
+
+    .pc:nth-child(3) {
+      animation-delay: .12s
+    }
+
+    .pc:nth-child(4) {
+      animation-delay: .16s
+    }
+
+    .pc:nth-child(5) {
+      animation-delay: .20s
+    }
+
+    .pc:nth-child(6) {
+      animation-delay: .24s
+    }
+
+    .pc:nth-child(7) {
+      animation-delay: .28s
+    }
+
+    .pc:nth-child(8) {
+      animation-delay: .32s
+    }
+
+    .pc:nth-child(9) {
+      animation-delay: .36s
+    }
+
+    .pc:nth-child(10) {
+      animation-delay: .40s
+    }
+
+    .pc:nth-child(11) {
+      animation-delay: .44s
+    }
+
+    .pc:nth-child(12) {
+      animation-delay: .48s
+    }
+
+    .cimg {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.6rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--pri-light), var(--pri-mid))
+    }
+
+    .cimg .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 55%, rgba(0, 0, 0, .1))
+    }
+
+    .cbadge {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      z-index: 1;
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: .63rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .3px
+    }
+
+    .bn {
+      background: var(--acc-green);
+      color: #fff
+    }
+
+    .bu {
+      background: var(--acc);
+      color: #fff
+    }
+
+    .br {
+      background: var(--pri);
+      color: #fff
+    }
+
+    .bs {
+      background: #7C3AED;
+      color: #fff
+    }
+
+    .bh {
+      background: var(--acc-red);
+      color: #fff
+    }
+
+    .cwish {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 1;
+      width: 29px;
+      height: 29px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .92);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b0bec5;
+      font-size: .78rem;
+      cursor: pointer;
+      transition: all var(--tr);
+      box-shadow: var(--shadow-sm)
+    }
+
+    .cwish:hover {
+      color: var(--acc-red);
+      transform: scale(1.12)
+    }
+
+    .cwish.active {
+      color: var(--acc-red)
+    }
+
+    .cbody {
+      padding: 15px
+    }
+
+    .ccat {
+      font-size: .67rem;
+      color: var(--pri);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 3px
+    }
+
+    .ctitle {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--text);
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .cmeta {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: .72rem;
+      color: var(--text-3);
+      margin-bottom: 9px
+    }
+
+    .cmeta span {
+      display: flex;
+      align-items: center;
+      gap: 3px
+    }
+
+    .cprice {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--pri)
+    }
+
+    .cprice del {
+      font-size: .75rem;
+      color: var(--text-3);
+      font-weight: 400;
+      margin-left: 4px
+    }
+
+    .cprice .per {
+      font-size: .68rem;
+      color: var(--text-3);
+      font-weight: 500
+    }
+
+    .cseller {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 9px;
+      margin-bottom: 11px
+    }
+
+    .sav {
+      width: 25px;
+      height: 25px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--pri), var(--acc));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .62rem;
+      font-weight: 700;
+      flex-shrink: 0
+    }
+
+    .sname {
+      font-size: .76rem;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .sbranch {
+      font-size: .65rem;
+      color: var(--text-3)
+    }
+
+    .srating {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      font-size: .7rem;
+      color: var(--acc);
+      font-weight: 600
+    }
+
+    .cact {
+      display: flex;
+      gap: 6px
+    }
+
+    .cact .btn {
+      flex: 1;
+      justify-content: center;
+      padding: 7px 9px;
+      font-size: .76rem
+    }
+
+    .adot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    .adot.g {
+      background: var(--acc-green)
+    }
+
+    .adot.y {
+      background: var(--acc)
+    }
+
+    .adot.r {
+      background: var(--acc-red)
+    }
+
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: linear-gradient(90deg, #7C3AED, #2563EB);
+      color: #fff;
+      padding: 1px 7px;
+      border-radius: 99px;
+      font-size: .62rem;
+      font-weight: 700;
+      margin-left: 5px;
+      vertical-align: middle
+    }
+
+    /* LIST VIEW */
+    .pgrid.lv .pc {
+      display: flex;
+      flex-direction: row
+    }
+
+    .pgrid.lv .cimg {
+      width: 170px;
+      height: auto;
+      min-height: 150px;
+      flex-shrink: 0;
+      border-radius: var(--radius) 0 0 var(--radius);
+      font-size: 2.8rem
+    }
+
+    .pgrid.lv .cbody {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between
+    }
+
+    /* PAGINATION */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      margin-top: 32px;
+      flex-wrap: wrap
+    }
+
+    .pbtn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      font-size: .85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--tr)
+    }
+
+    .pbtn:hover {
+      border-color: var(--pri);
+      color: var(--pri);
+      background: var(--pri-light)
+    }
+
+    .pbtn.active {
+      background: var(--pri);
+      border-color: var(--pri);
+      color: #fff
+    }
+
+    .pbtn:disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .pdots {
+      color: var(--text-3);
+      padding: 0 3px
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--tr)
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible
+    }
+
+    .modal-box {
+      background: var(--surface);
+      border-radius: 22px;
+      max-width: 660px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(14px) scale(.97);
+      transition: transform var(--tr);
+      max-height: 90vh;
+      overflow-y: auto
+    }
+
+    .modal-overlay.open .modal-box {
+      transform: translateY(0) scale(1)
+    }
+
+    .mimg {
+      height: 230px;
+      background: linear-gradient(135deg, var(--pri-light), var(--pri-mid));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5.5rem;
+      position: relative
+    }
+
+    .mclose {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .9);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      cursor: pointer;
+      font-size: .88rem;
+      transition: all var(--tr)
+    }
+
+    .mclose:hover {
+      background: #fff;
+      color: var(--acc-red)
+    }
+
+    .mbody {
+      padding: 24px
+    }
+
+    .mcat {
+      font-size: .7rem;
+      color: var(--pri);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 5px
+    }
+
+    .mtitle {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      margin-bottom: 7px
+    }
+
+    .mprice {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--pri);
+      margin-bottom: 14px
+    }
+
+    .mdesc {
+      font-size: .87rem;
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-bottom: 18px
+    }
+
+    .mtags {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 18px
+    }
+
+    .mtag {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      padding: 3px 11px;
+      border-radius: 99px;
+      font-size: .74rem
+    }
+
+    .msrow {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 14px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      margin-bottom: 18px
+    }
+
+    .msav {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--pri), var(--acc));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem
+    }
+
+    .msinfo .msn {
+      font-weight: 600;
+      font-size: .9rem
+    }
+
+    .msinfo .msmeta {
+      font-size: .75rem;
+      color: var(--text-3);
+      margin-top: 2px
+    }
+
+    .macts {
+      display: flex;
+      gap: 9px
+    }
+
+    .macts .btn {
+      flex: 1;
+      justify-content: center
+    }
+
+    /* SCROLL TOP */
+    .stbtn {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 100;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: var(--pri);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(20, 71, 230, .4);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all var(--tr)
+    }
+
+    .stbtn.vis {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0)
+    }
+
+    .stbtn:hover {
+      background: var(--pri-dark);
+      transform: translateY(-2px)
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:1024px) {
+      .browse-layout {
+        grid-template-columns: 1fr
+      }
+
+      .sidebar {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 250;
+        border-radius: 0;
+        max-height: 100vh;
+        transform: translateX(-100%);
+        transition: transform .3s;
+        width: var(--sw)
+      }
+
+      .sidebar.mo {
+        display: block;
+        transform: translateX(0)
+      }
+
+      .mob-filter-btn {
+        display: flex !important
+      }
+
+      .nav-links-mini {
+        display: none
+      }
+    }
+
+    @media(max-width:640px) {
+      .pgrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 11px
+      }
+
+      .browse-toolbar {
+        gap: 7px
+      }
+
+      .cact {
+        flex-direction: column
+      }
+    }
+
+    @media(max-width:400px) {
+      .pgrid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">N</div>
+        <div class="nav-logo-text">
+          <div class="l1">KKR Market</div>
+          <div class="l2">NIT Kurukshetra</div>
+        </div>
+      </a>
+      <div class="nav-search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="mainSearch" placeholder="Search books, electronics, cycles…" oninput="doSearch()" />
+      </div>
+      <ul class="nav-links-mini">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="browse.html" class="active">Browse</a></li>
+        <li><a href="index.html#hiw">How It Works</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="icon-btn" id="themeToggle"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+        <button class="icon-btn"><i class="fa-solid fa-heart"></i><span class="badge">5</span></button>
+        <button class="icon-btn"><i class="fa-solid fa-bell"></i><span class="badge">3</span></button>
+        <div class="profile-dropdown">
+          <div class="profile-avatar" title="Profile" onclick="toggleProf()">RK</div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="dashboard.html"><i class="fa-solid fa-plus-circle"></i> Sell an Item</a>
+            <a href="chat.html"><i class="fa-solid fa-comments"></i> Messages <span
+                style="margin-left:auto;background:var(--acc-red);color:#fff;border-radius:99px;padding:1px 7px;font-size:.67rem">2</span></a>
+            <a href="#"><i class="fa-solid fa-heart"></i> Wishlist</a>
+            <a href="#"><i class="fa-solid fa-star"></i> My Ratings</a>
+            <hr>
+            <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="auth.html" class="danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+          </div>
+        </div>
+        <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <div class="page-hdr">
+    <div class="inner">
+      <div class="breadcrumb">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span class="cur">Browse Items</span>
+      </div>
+      <h1>Browse All Listings</h1>
+      <p id="hdrCount">Showing 2,440+ items across all categories</p>
+      <div class="cat-pills" id="catPills">
+        <span class="cat-pill active" onclick="filterCat(this,'all')">🌐 All</span>
+        <span class="cat-pill" onclick="filterCat(this,'books')">📚 Books</span>
+        <span class="cat-pill" onclick="filterCat(this,'electronics')">💻 Electronics</span>
+        <span class="cat-pill" onclick="filterCat(this,'hostel')">🛏 Hostel</span>
+        <span class="cat-pill" onclick="filterCat(this,'clothing')">🧥 Clothing</span>
+        <span class="cat-pill" onclick="filterCat(this,'cycles')">🚲 Cycles</span>
+        <span class="cat-pill" onclick="filterCat(this,'tools')">🧮 Tools</span>
+        <span class="cat-pill" onclick="filterCat(this,'misc')">📦 Misc</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BROWSE LAYOUT -->
+  <div class="browse-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Sidebar close (mobile) -->
+      <div class="filter-hdr">
+        <span class="filter-title"><i class="fa-solid fa-sliders"
+            style="margin-right:6px;color:var(--pri)"></i>Filters</span>
+        <span class="filter-clear" onclick="clearFilters()">Clear All</span>
+      </div>
+
+      <!-- Category -->
+      <div class="fg">
+        <div class="fg-title" onclick="tg(this)">Category <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="fg-body">
+          <label class="fc"><input type="checkbox" checked>
+            <div class="cb"></div> All Categories <span class="cnt">2440</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 📚 Books <span class="cnt">420</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 💻 Electronics <span class="cnt">310</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🛏 Hostel Essentials <span class="cnt">250</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🧥 Clothing <span class="cnt">180</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🚲 Cycles <span class="cnt">45</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🧮 Academic Tools <span class="cnt">130</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 📦 Miscellaneous <span class="cnt">200</span>
+          </label>
+        </div>
+      </div>
+      <hr class="hdiv">
+
+      <!-- Price -->
+      <div class="fg">
+        <div class="fg-title" onclick="tg(this)">Price Range <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="fg-body">
+          <div class="price-inputs">
+            <div class="pi"><span>₹</span><input type="number" placeholder="Min" id="pmin"></div>
+            <div class="pi"><span>₹</span><input type="number" placeholder="Max" id="pmax"></div>
+          </div>
+          <input type="range" class="rslider" id="prange" min="0" max="50000" value="25000" oninput="updSlider(this)">
+          <div style="display:flex;justify-content:space-between;font-size:.69rem;color:var(--text-3);margin-top:3px">
+            <span>₹0</span><span id="sval">₹25,000</span><span>₹50K</span>
+          </div>
+        </div>
+      </div>
+      <hr class="hdiv">
+
+      <!-- Condition -->
+      <div class="fg">
+        <div class="fg-title" onclick="tg(this)">Condition <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="fg-body">
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> ✨ Brand New <span class="cnt">320</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 👍 Like New <span class="cnt">580</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 📦 Good <span class="cnt">740</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🔧 Acceptable <span class="cnt">210</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🔄 For Rent <span class="cnt">180</span>
+          </label>
+        </div>
+      </div>
+      <hr class="hdiv">
+
+      <!-- Hostel -->
+      <div class="fg">
+        <div class="fg-title" onclick="tg(this)">Hostel / Location <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="fg-body">
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> BH-1 <span class="cnt">145</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> BH-2 <span class="cnt">188</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> BH-3 <span class="cnt">162</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> BH-4 <span class="cnt">203</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Kalpana Chawla Hall <span class="cnt">290</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Saraswati Bhawan <span class="cnt">175</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Academic Block <span class="cnt">88</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Any / Flexible <span class="cnt">312</span>
+          </label>
+        </div>
+      </div>
+      <hr class="hdiv">
+
+      <!-- Listing Type -->
+      <div class="fg">
+        <div class="fg-title" onclick="tg(this)">Listing Type <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="fg-body">
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🏷️ For Sale <span class="cnt">1820</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🔄 Rental <span class="cnt">180</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🔀 Exchange <span class="cnt">96</span>
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> 🆓 Free / Giveaway <span class="cnt">48</span>
+          </label>
+        </div>
+      </div>
+      <hr class="hdiv">
+
+      <!-- Rating -->
+      <div class="fg">
+        <div class="fg-title" onclick="tg(this)">Seller Rating <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="fg-body">
+          <div class="rrow"><span class="stars-r">★★★★★</span><span>5 Stars</span><span
+              style="margin-left:auto;font-size:.68rem;color:var(--text-3)">284</span></div>
+          <div class="rrow"><span class="stars-r">★★★★☆</span><span>4+ Stars</span><span
+              style="margin-left:auto;font-size:.68rem;color:var(--text-3)">621</span></div>
+          <div class="rrow"><span class="stars-r">★★★☆☆</span><span>3+ Stars</span><span
+              style="margin-left:auto;font-size:.68rem;color:var(--text-3)">890</span></div>
+        </div>
+      </div>
+      <hr class="hdiv">
+
+      <!-- Department -->
+      <div class="fg">
+        <div class="fg-title" onclick="tg(this)">Department <i class="fa-solid fa-chevron-down"></i></div>
+        <div class="fg-body">
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Computer Science
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Electronics & Comm.
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Mechanical Engg.
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Civil Engg.
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Electrical Engg.
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Chemical Engg.
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> Physics / Chemistry
+          </label>
+          <label class="fc"><input type="checkbox">
+            <div class="cb"></div> MCA / MBA
+          </label>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:10px">
+        <i class="fa-solid fa-filter"></i> Apply Filters
+      </button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+      <!-- Toolbar -->
+      <div class="browse-toolbar">
+        <span class="res-count" id="resCount">Showing <strong>12</strong> of <strong>2,440</strong></span>
+        <div class="af" id="af">
+          <span class="fchip">All Categories <i class="fa-solid fa-xmark"></i></span>
+          <span class="fchip">₹0 – ₹50K <i class="fa-solid fa-xmark"></i></span>
+        </div>
+        <div class="tsep"></div>
+        <button class="btn btn-ghost btn-sm mob-filter-btn" onclick="toggleSidebar()">
+          <i class="fa-solid fa-sliders"></i> Filters
+        </button>
+        <div class="sort-wrap" id="sw">
+          <button class="sort-btn" onclick="toggleSort()">
+            <i class="fa-solid fa-arrow-up-wide-short"></i>
+            <span id="sortLbl">Newest First</span>
+            <i class="fa-solid fa-chevron-down" style="font-size:.65rem"></i>
+          </button>
+          <div class="sort-dd" id="sdd">
+            <div class="sort-opt active" onclick="setSort(this,'Newest First')">Newest First</div>
+            <div class="sort-opt" onclick="setSort(this,'Oldest First')">Oldest First</div>
+            <div class="sort-opt" onclick="setSort(this,'Price: Low → High')">Price: Low → High</div>
+            <div class="sort-opt" onclick="setSort(this,'Price: High → Low')">Price: High → Low</div>
+            <div class="sort-opt" onclick="setSort(this,'Best Rated')">Best Rated</div>
+            <div class="sort-opt" onclick="setSort(this,'Most Popular')">Most Popular</div>
+          </div>
+        </div>
+        <div class="view-toggle">
+          <button class="vbtn active" id="gvBtn" onclick="setView('g')" title="Grid"><i
+              class="fa-solid fa-grid-2"></i></button>
+          <button class="vbtn" id="lvBtn" onclick="setView('l')" title="List"><i class="fa-solid fa-list"></i></button>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div class="pgrid" id="pgrid">
+
+        <div class="pc" data-cat="books">
+          <div class="cimg" style="background:linear-gradient(135deg,#e8f0fe,#c5d3f8)">📚<div class="overlay"></div>
+            <span class="cbadge bu">Used</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">📚 Books</div>
+            <div class="ctitle">Engineering Mathematics Vol I & II</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> BH-4</span><span><i
+                  class="fa-solid fa-clock"></i> 2h ago</span><span>
+                <div class="adot g"></div> Available
+              </span></div>
+            <div class="cprice">₹350 <del>₹800</del></div>
+            <div class="cseller">
+              <div class="sav">AK</div>
+              <div>
+                <div class="sname">Amit Kumar</div>
+                <div class="sbranch">CSE · 3rd Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.8</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('Engineering Mathematics','📚 Books','₹350','Used textbooks Sem 3 & 4. Minimal highlighting, all pages intact.','📚','AK','Amit Kumar','CSE · 3rd Year · BH-4')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc" data-cat="electronics">
+          <div class="cimg" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">💻<div class="overlay"></div>
+            <span class="cbadge bu">Used</span><button class="cwish active" onclick="tw(this)"><i
+                class="fa-solid fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">💻 Electronics</div>
+            <div class="ctitle">HP Pavilion 15 — i5, 8GB RAM</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> KC Hall</span><span><i
+                  class="fa-solid fa-clock"></i> 5h ago</span><span>
+                <div class="adot g"></div> Available
+              </span></div>
+            <div class="cprice">₹28,000 <del>₹42,000</del></div>
+            <div class="cseller">
+              <div class="sav">PS</div>
+              <div>
+                <div class="sname">Priya Sharma</div>
+                <div class="sbranch">ECE · 4th Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.9</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('HP Pavilion 15 Laptop','💻 Electronics','₹28,000','Intel i5 10th Gen, 8GB RAM, 512GB SSD. Charger included. Battery health 85%.','💻','PS','Priya Sharma','ECE · 4th Year · KC Hall')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc" data-cat="cycles">
+          <div class="cimg" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">🚲<div class="overlay"></div>
+            <span class="cbadge br">Rental</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">🚲 Cycles</div>
+            <div class="ctitle">Hero Sprint 26T — Daily Rental</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> Main Gate</span><span><i
+                  class="fa-solid fa-clock"></i> 1d ago</span><span>
+                <div class="adot g"></div> Available
+              </span></div>
+            <div class="cprice">₹30<span class="per">/day</span> <del>₹50</del></div>
+            <div class="cseller">
+              <div class="sav">RV</div>
+              <div>
+                <div class="sname">Rahul Verma</div>
+                <div class="sbranch">ME · 2nd Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.7</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('Hero Sprint 26T Cycle','🚲 Rental','₹30/day','Gear cycle, well-maintained. Helmet included. Deposit ₹500 refundable.','🚲','RV','Rahul Verma','ME · 2nd Year · Main Gate')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="pc" data-cat="hostel">
+          <div class="cimg" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)">🛏<div class="overlay"></div>
+            <span class="cbadge bu">Used</span><span class="cbadge bh" style="left:auto;right:9px">🔥 Hot</span><button
+              class="cwish" onclick="tw(this)"><i class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">🛏 Hostel Essentials</div>
+            <div class="ctitle">Room Essentials Bundle — 10 Items</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> BH-2</span><span><i
+                  class="fa-solid fa-clock"></i> 12h ago</span><span>
+                <div class="adot y"></div> 2 left
+              </span></div>
+            <div class="cprice">₹800 <del>₹2,200</del></div>
+            <div class="cseller">
+              <div class="sav">SM</div>
+              <div>
+                <div class="sname">Sanjay Mehta</div>
+                <div class="sbranch">Civil · 4th Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.6</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('Room Essentials Bundle','🛏 Hostel','₹800','Mattress cover, lamp, bucket, mug, hangers, power strip. Graduating senior clearance.','🛏','SM','Sanjay Mehta','Civil · 4th Year · BH-2')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc" data-cat="tools">
+          <div class="cimg" style="background:linear-gradient(135deg,#fee2e2,#fecaca)">🧮<div class="overlay"></div>
+            <span class="cbadge br">Rental</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">🧮 Academic Tools</div>
+            <div class="ctitle">Casio FX-991EX Calculator</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> BH-6</span><span><i
+                  class="fa-solid fa-clock"></i> 8h ago</span><span>
+                <div class="adot g"></div> Available
+              </span></div>
+            <div class="cprice">₹20<span class="per">/day</span></div>
+            <div class="cseller">
+              <div class="sav">VT</div>
+              <div>
+                <div class="sname">Varun Tyagi</div>
+                <div class="sbranch">EEE · 3rd Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.8</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('Casio FX-991EX Calculator','🧮 Tools','₹20/day','Scientific calculator for exams. Deposit ₹200 refundable. Daily/weekly.','🧮','VT','Varun Tyagi','EEE · 3rd Year · BH-6')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc" data-cat="clothing">
+          <div class="cimg" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7)">🧥<div class="overlay"></div>
+            <span class="cbadge bn">Like New</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">🧥 Clothing</div>
+            <div class="ctitle">NIT KKR Official Lab Coat (L)</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> BH-2</span><span><i
+                  class="fa-solid fa-clock"></i> 6h ago</span><span>
+                <div class="adot g"></div> Available
+              </span></div>
+            <div class="cprice">₹200 <del>₹450</del></div>
+            <div class="cseller">
+              <div class="sav">SK</div>
+              <div>
+                <div class="sname">Sakshi Kaur</div>
+                <div class="sbranch">Chemistry · 2nd Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.6</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('NIT KKR Lab Coat','🧥 Clothing','₹200','Official lab coat Size L. Used once for practicals. Dry-cleaned.','🧥','SK','Sakshi Kaur','Chemistry · 2nd Year · BH-2')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc" data-cat="electronics">
+          <div class="cimg" style="background:linear-gradient(135deg,#fdf4ff,#f3e8ff)">🎧<div class="overlay"></div>
+            <span class="cbadge bu">Used</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">💻 Electronics</div>
+            <div class="ctitle">Sony WH-1000XM3 Headphones</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> KC Hall</span><span><i
+                  class="fa-solid fa-clock"></i> 1d ago</span><span>
+                <div class="adot g"></div> Available
+              </span></div>
+            <div class="cprice">₹6,500 <del>₹15,000</del></div>
+            <div class="cseller">
+              <div class="sav">DG</div>
+              <div>
+                <div class="sname">Dev Gupta</div>
+                <div class="sbranch">CSE · Final Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.9</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('Sony WH-1000XM3','💻 Electronics','₹6,500','Noise-cancelling headphones. Original box & cable. Excellent condition.','🎧','DG','Dev Gupta','CSE · Final Year · KC Hall')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc" data-cat="books">
+          <div class="cimg" style="background:linear-gradient(135deg,#fff7ed,#fed7aa)">📖<div class="overlay"></div>
+            <span class="cbadge bu">Used</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">📚 Books</div>
+            <div class="ctitle">Data Structures — CLRS (Cormen)</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> BH-1</span><span><i
+                  class="fa-solid fa-clock"></i> 3d ago</span><span>
+                <div class="adot y"></div> 1 copy
+              </span></div>
+            <div class="cprice">₹650 <del>₹1,200</del></div>
+            <div class="cseller">
+              <div class="sav">KP</div>
+              <div>
+                <div class="sname">Krishna Pandey</div>
+                <div class="sbranch">CSE · 4th Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.7</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('CLRS — Cormen 4th Ed.','📚 Books','₹650','Intro to Algorithms. Some highlighting Ch 1-3. Great for placements.','📖','KP','Krishna Pandey','CSE · 4th Year · BH-1')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pc" data-cat="hostel">
+          <div class="cimg" style="background:linear-gradient(135deg,#f0f9ff,#bae6fd)">💡<div class="overlay"></div>
+            <span class="cbadge bn">New</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">🛏 Hostel Essentials</div>
+            <div class="ctitle">Wipro LED Study Lamp</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> Saraswati</span><span><i
+                  class="fa-solid fa-clock"></i> 4h ago</span><span>
+                <div class="adot g"></div> Available
+              </span></div>
+            <div class="cprice">₹450 <del>₹900</del></div>
+            <div class="cseller">
+              <div class="sav">MR</div>
+              <div>
+                <div class="sname">Mansi Rao</div>
+                <div class="sbranch">Physics · 1st Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.5</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('Wipro LED Study Lamp','🛏 Hostel','₹450','Brand new, unopened box. USB + switch power. Adjustable neck.','💡','MR','Mansi Rao','Physics · 1st Year · Saraswati')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="pc" data-cat="electronics">
+          <div class="cimg" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0)">📷<div class="overlay"></div>
+            <span class="cbadge bu">Used</span><button class="cwish" onclick="tw(this)"><i
+                class="fa-regular fa-heart"></i></button>
+          </div>
+          <div class="cbody">
+            <div class="ccat">💻 Electronics</div>
+            <div class="ctitle">Canon EOS 1300D DSLR Camera</div>
+            <div class="cmeta"><span><i class="fa-solid fa-location-dot"></i> BH-3</span><span><i
+                  class="fa-solid fa-clock"></i> 5d ago</span><span>
+                <div class="adot r"></div> Reserved
+              </span></div>
+            <div class="cprice">₹12,000 <del>₹22,000</del></div>
+            <div class="cseller">
+              <div class="sav">AP</div>
+              <div>
+                <div class="sname">Aryan Pandey</div>
+                <div class="sbranch">EEE · 3rd Year</div>
+              </div>
+              <div class="srating"><i class="fa-solid fa-star"></i>4.8</div>
+            </div>
+            <div class="cact">
+              <button class="btn btn-outline btn-sm"
+                onclick="openM('Canon EOS 1300D DSLR','💻 Electronics','₹12,000','18-55mm kit lens. Shutter count 4200. Bag + 2 batteries + 32GB card.','📷','AP','Aryan Pandey','EEE · 3rd Year · BH-3')"><i
+                  class="fa-solid fa-eye"></i> View</button>
+              <a href="chat.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-comments"></i> Chat</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /pgrid -->
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="pbtn" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="pbtn active">1</button>
+        <button class="pbtn" onclick="goPage(this)">2</button>
+        <button class="pbtn" onclick="goPage(this)">3</button>
+        <span class="pdots">…</span>
+        <button class="pbtn" onclick="goPage(this)">24</button>
+        <button class="pbtn" onclick="goPage(this)"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+
+    </main>
+    <!-- FOOTER (consistent with browse.html) -->
+    <footer
+      style="background:var(--pri-deep); color:rgba(255,255,255,.6); padding:40px 24px; margin-top:40px; border-top:1px solid var(--border)">
+      <div
+        style="max-width:1400px; margin:0 auto; display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:32px; text-align:left">
+        <div>
+          <h4 style="color:#fff; margin-bottom:12px; font-family:'Syne',sans-serif">NIT KKR Marketplace</h4>
+          <p style="font-size:.82rem; line-height:1.6">The exclusive student-to-student trading platform for NIT
+            Kurukshetra. Built by students, for students.</p>
+        </div>
+        <div>
+          <h4 style="color:#fff; margin-bottom:12px; font-family:'Syne',sans-serif">Quick Links</h4>
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:.82rem">
+            <a href="index.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+              onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Home</a>
+            <a href="browse.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+              onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Browse
+              Items</a>
+            <a href="auth.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+              onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Login / Sign
+              Up</a>
+            <a href="dashboard.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+              onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Dashboard</a>
+            <a href="chat.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+              onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Messages</a>
+          </div>
+        </div>
+        <div>
+          <h4 style="color:#fff; margin-bottom:12px; font-family:'Syne',sans-serif">Contact</h4>
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:.82rem">
+            <span><i class="fa-solid fa-envelope" style="margin-right:8px"></i> marketplacenit@gmail.com</span>
+            <span><i class="fa-solid fa-location-dot" style="margin-right:8px"></i> NIT Kurukshetra, HR</span>
+          </div>
+        </div>
+      </div>
+      <div
+        style="max-width:1400px; margin:24px auto 0; padding-top:24px; border-top:1px solid rgba(255,255,255,.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px">
+        <span style="font-size:.82rem">© 2026 NIT KKR Marketplace</span>
+        <div style="display:flex; gap:20px; font-size:.82rem">
+          <a href="#" style="color:rgba(255,255,255,.6)">Privacy Policy</a>
+          <a href="#" style="color:rgba(255,255,255,.6)">Terms of Service</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- QUICK VIEW MODAL -->
+  <div class="modal-overlay" id="mo" onclick="closeMO(event)">
+    <div class="modal-box">
+      <div class="mimg" id="mimg">📦
+        <button class="mclose" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="mbody">
+        <div class="mcat" id="mcat">Category</div>
+        <div class="mtitle" id="mtitle">Title</div>
+        <div class="mprice" id="mprice">₹0</div>
+        <p class="mdesc" id="mdesc">Description</p>
+        <div class="mtags">
+          <span class="mtag">✅ Verified Seller</span>
+          <span class="mtag">📍 Campus Only</span>
+          <span class="mtag">💸 UPI / Cash</span>
+          <span class="mtag">🔄 Negotiable</span>
+        </div>
+        <div class="msrow">
+          <div class="msav" id="msav">XX</div>
+          <div class="msinfo">
+            <div class="msn" id="msn">Seller</div>
+            <div class="msmeta" id="msmeta">Branch</div>
+          </div>
+          <div style="margin-left:auto;text-align:right">
+            <div style="color:var(--acc);font-weight:700;font-size:.82rem"><i class="fa-solid fa-star"></i> 4.9</div>
+            <div style="font-size:.7rem;color:var(--text-3)">24 sales</div>
+          </div>
+        </div>
+        <div class="macts">
+          <a href="chat.html" class="btn btn-primary"><i class="fa-solid fa-comments"></i> Chat Seller</a>
+          <button class="btn btn-outline" onclick="closeModal()"><i class="fa-solid fa-share-nodes"></i> Share</button>
+          <button class="btn btn-ghost" style="padding:9px 13px" onclick="twModal()">
+            <i class="fa-regular fa-heart" id="mwi"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLL TOP -->
+  <button class="stbtn" id="stb" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <script>
+    /* Dark mode */
+    const html = document.documentElement;
+    let dark = localStorage.getItem('theme') === 'dark';
+    const tt = document.getElementById('themeToggle'), ti = document.getElementById('themeIcon');
+    function applyTheme() { html.setAttribute('data-theme', dark ? 'dark' : 'light'); ti.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'; localStorage.setItem('theme', dark ? 'dark' : 'light') }
+    applyTheme();
+    tt.addEventListener('click', () => { dark = !dark; applyTheme() });
+
+    /* Sidebar */
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('mo') }
+
+    /* Category filter */
+    function filterCat(el, cat) {
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      document.querySelectorAll('.pc').forEach(c => {
+        c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+      });
+      updCount();
+    }
+
+    /* Search */
+    function doSearch() {
+      const q = document.getElementById('mainSearch').value.toLowerCase();
+      document.querySelectorAll('.pc').forEach(c => {
+        const t = c.querySelector('.ctitle').textContent.toLowerCase();
+        c.style.display(!q || t.includes(q)) ? '' : 'none';
+      });
+      updCount();
+    }
+
+    function updCount() {
+      const v = [...document.querySelectorAll('.pc')].filter(c => c.style.display !== 'none').length;
+      document.getElementById('resCount').innerHTML = `Showing <strong>${v}</strong> of <strong>2,440</strong>`;
+    }
+
+    /* Filter group toggle */
+    function tg(el) { el.classList.toggle('c'); el.nextElementSibling.classList.toggle('h') }
+
+    /* Clear filters */
+    function clearFilters() {
+      document.querySelectorAll('.fg input[type="checkbox"]').forEach(cb => cb.checked = false);
+      document.querySelectorAll('.pc').forEach(c => c.style.display = '');
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      document.querySelector('.cat-pill').classList.add('active');
+      updCount();
+    }
+
+    /* Price slider */
+    function updSlider(el) {
+      const v = parseInt(el.value);
+      document.getElementById('sval').textContent = '₹' + v.toLocaleString('en-IN');
+      const pct = (v / 50000) * 100;
+      el.style.background = `linear-gradient(90deg,var(--pri) ${pct}%,var(--border) ${pct}%)`;
+    }
+
+    /* Sort */
+    function toggleSort() { document.getElementById('sw').classList.toggle('open') }
+    function setSort(el, lbl) {
+      document.querySelectorAll('.sort-opt').forEach(o => o.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('sortLbl').textContent = lbl;
+      document.getElementById('sw').classList.remove('open');
+    }
+
+    /* View */
+    function setView(v) {
+      const g = document.getElementById('pgrid');
+      document.getElementById('gvBtn').classList.toggle('active', v === 'g');
+      document.getElementById('lvBtn').classList.toggle('active', v === 'l');
+      g.classList.toggle('lv', v === 'l');
+    }
+
+    /* Wishlist */
+    function tw(btn) {
+      btn.classList.toggle('active');
+      btn.querySelector('i').className = btn.classList.contains('active') ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+    }
+
+    /* Pagination */
+    function goPage(btn) {
+      document.querySelectorAll('.pbtn').forEach(b => b.classList.remove('active'));
+      if (!btn.querySelector('i')) btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Modal */
+    function openM(title, cat, price, desc, emoji, av, sname, smeta) {
+      document.getElementById('mtitle').textContent = title;
+      document.getElementById('mcat').textContent = cat;
+      document.getElementById('mprice').textContent = price;
+      document.getElementById('mdesc').textContent = desc;
+      const mimg = document.getElementById('mimg');
+      mimg.firstChild.textContent = emoji;
+      document.getElementById('msav').textContent = av;
+      document.getElementById('msn').textContent = sname;
+      document.getElementById('msmeta').textContent = smeta;
+      document.getElementById('mo').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMO(e) { if (e.target === document.getElementById('mo')) closeModal() }
+    function closeModal() { document.getElementById('mo').classList.remove('open'); document.body.style.overflow = '' }
+    function twModal() { const i = document.getElementById('mwi'); i.className = i.className.includes('regular') ? 'fa-solid fa-heart' : 'fa-regular fa-heart' }
+
+    /* Scroll top */
+    const stb = document.getElementById('stb');
+    window.addEventListener('scroll', () => stb.classList.toggle('vis', window.scrollY > 400));
+
+    // Profile Dropdown
+    function toggleProf() {
+      document.getElementById('dropdownMenu').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.profile-dropdown')) {
+        const pd = document.getElementById('dropdownMenu');
+        if (pd) pd.classList.remove('open');
+      }
+    });
+
+  </script>
+</body>
+
+</html>
