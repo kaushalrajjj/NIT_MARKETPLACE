@@ -336,7 +336,13 @@
       border: 2px solid var(--surface);
     }
 
-    .profile-av {
+    /* Profile Dropdown Updated */
+    .profile-dropdown {
+      position: relative;
+      z-index: 1000;
+    }
+
+    .profile-avatar {
       width: 38px;
       height: 38px;
       border-radius: 10px;
@@ -349,6 +355,87 @@
       font-size: .88rem;
       cursor: pointer;
       border: 2px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .profile-avatar:hover {
+      border-color: var(--pri);
+      transform: translateY(-1px);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 220px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-lg);
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      animation: ddSlide .25s ease forwards;
+      text-align: left;
+    }
+
+    @keyframes ddSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .dropdown-menu.open {
+      display: flex;
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text-2);
+      transition: all var(--transition);
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--pri-light);
+      color: var(--pri);
+    }
+
+    .dropdown-menu i {
+      width: 20px;
+      text-align: center;
+      font-size: .95rem;
+      color: var(--pri);
+    }
+
+    .dropdown-menu hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 6px 0;
+    }
+
+    .dropdown-menu a.danger {
+      color: var(--acc-red);
+    }
+
+    .dropdown-menu a.danger:hover {
+      background: #fef2f2;
+    }
+
+    .dropdown-menu a.danger i {
+      color: var(--acc-red);
     }
 
     /* ============================================================
@@ -1583,7 +1670,20 @@
       <div class="nav-right">
         <button class="theme-btn" id="themeBtn"><i class="fa-solid fa-moon" id="themeIco"></i></button>
         <button class="icon-btn"><i class="fa-solid fa-bell"></i><span class="badge">3</span></button>
-        <div class="profile-av">RK</div>
+        <div class="profile-dropdown">
+          <div class="profile-avatar" title="Profile" onclick="toggleProf()">RK</div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="dashboard.html"><i class="fa-solid fa-plus-circle"></i> Sell an Item</a>
+            <a href="chat.html"><i class="fa-solid fa-comments"></i> Messages <span
+                style="margin-left:auto;background:var(--acc-red);color:#fff;border-radius:99px;padding:1px 7px;font-size:.67rem">2</span></a>
+            <a href="#"><i class="fa-solid fa-heart"></i> Wishlist</a>
+            <a href="#"><i class="fa-solid fa-star"></i> My Ratings</a>
+            <hr>
+            <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="auth.html" class="danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+          </div>
+        </div>
         <a href="index.html" class="btn btn-ghost btn-sm" style="padding:8px 14px">
           <i class="fa-solid fa-house"></i> Home
         </a>
@@ -2218,13 +2318,42 @@
   <!-- FOOTER (slim) -->
   <footer style="background:var(--pri-deep); color:rgba(255,255,255,.6); padding:24px; margin-top:40px">
     <div
-      style="max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px">
-      <span style="font-size:.82rem">© 2024 NIT KKR Marketplace · Built by students for students</span>
+      style="max-width:1400px; margin:0 auto; display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:32px; text-align:left">
+      <div>
+        <h4 style="color:#fff; margin-bottom:12px; font-family:'Syne',sans-serif">NIT KKR Marketplace</h4>
+        <p style="font-size:.82rem; line-height:1.6">The exclusive student-to-student trading platform for NIT
+          Kurukshetra. Built by students, for students.</p>
+      </div>
+      <div>
+        <h4 style="color:#fff; margin-bottom:12px; font-family:'Syne',sans-serif">Quick Links</h4>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:.82rem">
+          <a href="index.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Home</a>
+          <a href="browse.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Browse Items</a>
+          <a href="auth.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Login / Sign
+            Up</a>
+          <a href="dashboard.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Dashboard</a>
+          <a href="chat.html" style="color:rgba(255,255,255,.6); transition:color .2s"
+            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Messages</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:#fff; margin-bottom:12px; font-family:'Syne',sans-serif">Contact</h4>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:.82rem">
+          <span><i class="fa-solid fa-envelope" style="margin-right:8px"></i> marketplacenit@gmail.com</span>
+          <span><i class="fa-solid fa-location-dot" style="margin-right:8px"></i> NIT Kurukshetra, HR</span>
+        </div>
+      </div>
+    </div>
+    <div
+      style="max-width:1400px; margin:24px auto 0; padding-top:24px; border-top:1px solid rgba(255,255,255,.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px">
+      <span style="font-size:.82rem">© 2026 NIT KKR Marketplace</span>
       <div style="display:flex; gap:20px; font-size:.82rem">
-        <a href="index.html" style="color:rgba(255,255,255,.6); transition:color .2s"
-          onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Home</a>
-        <a href="#" style="color:rgba(255,255,255,.6)">Privacy</a>
-        <a href="#" style="color:rgba(255,255,255,.6)">Terms</a>
+        <a href="#" style="color:rgba(255,255,255,.6)">Privacy Policy</a>
+        <a href="#" style="color:rgba(255,255,255,.6)">Terms of Service</a>
       </div>
     </div>
   </footer>
@@ -2411,6 +2540,18 @@
       event.target.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    // Profile Dropdown
+    function toggleProf() {
+      document.getElementById('dropdownMenu').classList.toggle('open');
+    }
+
+    // Close dropdown on outside click
+    window.addEventListener('click', (e) => {
+      if (!e.target.closest('.profile-dropdown')) {
+        const dropdown = document.getElementById('dropdownMenu');
+        if (dropdown) dropdown.classList.remove('open');
+      }
+    });
   </script>
 </body>
 
