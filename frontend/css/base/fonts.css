@@ -1,0 +1,131 @@
+/* ============================================================
+   FONTS — served locally from frontend/assets/fonts/
+   No internet required. Path base: ../../assets/fonts/
+   Font Awesome still uses CDN (icon SVG paths are complex to self-host).
+============================================================ */
+
+/* ── Figtree (body / UI text) ── */
+@font-face {
+   font-family: 'Figtree';
+   src: url('../../assets/fonts/Figtree/static/Figtree-Light.ttf') format('truetype');
+   font-weight: 300;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Figtree';
+   src: url('../../assets/fonts/Figtree/static/Figtree-Regular.ttf') format('truetype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Figtree';
+   src: url('../../assets/fonts/Figtree/static/Figtree-Medium.ttf') format('truetype');
+   font-weight: 500;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Figtree';
+   src: url('../../assets/fonts/Figtree/static/Figtree-SemiBold.ttf') format('truetype');
+   font-weight: 600;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Figtree';
+   src: url('../../assets/fonts/Figtree/static/Figtree-Bold.ttf') format('truetype');
+   font-weight: 700;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Figtree';
+   src: url('../../assets/fonts/Figtree/static/Figtree-Italic.ttf') format('truetype');
+   font-weight: 400;
+   font-style: italic;
+   font-display: swap;
+}
+
+/* ── Syne (headings / display) ── */
+@font-face {
+   font-family: 'Syne';
+   src: url('../../assets/fonts/Syne/static/Syne-Regular.ttf') format('truetype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Syne';
+   src: url('../../assets/fonts/Syne/static/Syne-Medium.ttf') format('truetype');
+   font-weight: 500;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Syne';
+   src: url('../../assets/fonts/Syne/static/Syne-SemiBold.ttf') format('truetype');
+   font-weight: 600;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Syne';
+   src: url('../../assets/fonts/Syne/static/Syne-Bold.ttf') format('truetype');
+   font-weight: 700;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Syne';
+   src: url('../../assets/fonts/Syne/static/Syne-ExtraBold.ttf') format('truetype');
+   font-weight: 800;
+   font-style: normal;
+   font-display: swap;
+}
+
+/* ── Lora (serif headings — index page only) ── */
+@font-face {
+   font-family: 'Lora';
+   src: url('../../assets/fonts/Lora/static/Lora-Regular.ttf') format('truetype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Lora';
+   src: url('../../assets/fonts/Lora/static/Lora-Italic.ttf') format('truetype');
+   font-weight: 400;
+   font-style: italic;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Lora';
+   src: url('../../assets/fonts/Lora/static/Lora-SemiBold.ttf') format('truetype');
+   font-weight: 600;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Lora';
+   src: url('../../assets/fonts/Lora/static/Lora-Bold.ttf') format('truetype');
+   font-weight: 700;
+   font-style: normal;
+   font-display: swap;
+}
+
+/* ── Font Awesome (icons) — CDN ── */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');

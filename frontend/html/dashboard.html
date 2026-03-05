@@ -5,145 +5,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Browse Items — NIT KKR Marketplace</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@300;400;500;600&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/product-card.css" />
+    <link rel="stylesheet" href="../css/components/modal.css" />
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/pages/dashboard.css" />
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-logo">
-                <div class="nav-logo-icon">N</div>
-                <div class="nav-logo-text">
-                    <div class="l1">KKR Market</div>
-                    <div class="l2">NIT Kurukshetra</div>
-                </div>
-            </a>
-            <div class="nav-search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="mainSearch" placeholder="Search books, electronics, cycles…"
-                    oninput="doSearch()" />
-            </div>
-            <ul class="nav-links-mini">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="browse.html" class="active">Browse</a></li>
-                <li><a href="index.html#hiw">How It Works</a></li>
-            </ul>
-            <div class="nav-right">
-                <button class="icon-btn" id="themeToggle"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
-                <button class="icon-btn"><i class="fa-solid fa-heart"></i><span class="badge">5</span></button>
-                <button class="icon-btn"><i class="fa-solid fa-bell"></i><span class="badge">3</span></button>
-                <div class="profile-dropdown">
-                    <div class="profile-avatar" title="Profile" onclick="toggleProf()">RK</div>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-                        <a href="dashboard.html"><i class="fa-solid fa-plus-circle"></i> Sell an Item</a>
-                        <a href="chat.html"><i class="fa-solid fa-comments"></i> Messages <span
-                                style="margin-left:auto;background:var(--acc-red);color:#fff;border-radius:99px;padding:1px 7px;font-size:.67rem">2</span></a>
-                        <a href="#"><i class="fa-solid fa-heart"></i> Wishlist</a>
-                        <a href="#"><i class="fa-solid fa-star"></i> My Ratings</a>
-                        <hr>
-                        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
-                        <a href="auth.html" class="danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                    </div>
-                </div>
-                <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-            </div>
-        </div>
-    </header>
+    <!-- NAVBAR & SIDEBAR -->
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
 
     <!-- PAGE HEADER -->
     <div class="page-hdr">
-        <div class="inner">
-            <div class="breadcrumb">
-                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-                <i class="fa-solid fa-chevron-right"></i>
-                <span class="cur">Browse Marketplace</span>
+        <div class="inner" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div class="breadcrumb">
+                    <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span class="cur">My Dashboard</span>
+                </div>
+                <h1>My Dashboard</h1>
+                <p>Track your selling activity and manage your listings.</p>
             </div>
-            <h1>Explore Marketplace</h1>
-            <p>Find what you need from fellow students at NIT Kurukshetra.</p>
-            <div class="cat-pills">
-                <div class="cat-pill active" onclick="filterCat(this, 'all')">All Items</div>
-                <div class="cat-pill" onclick="filterCat(this, 'books')">📚 Books</div>
-                <div class="cat-pill" onclick="filterCat(this, 'gadgets')">💻 Electronics</div>
-                <div class="cat-pill" onclick="filterCat(this, 'cycles')">🚲 Cycles</div>
-                <div class="cat-pill" onclick="filterCat(this, 'hostel')">📦 Hostel Gear</div>
-                <div class="cat-pill" onclick="filterCat(this, 'notes')">📝 Notes & PYQs</div>
-            </div>
+            <a href="/sell" class="btn btn-blue btn-lg"
+                style="background: var(--pri); font-weight: 700; text-decoration: none; padding: 15px 30px; border-radius: 12px; color: #fff;">
+                <i class="fa-solid fa-plus-circle"></i> Sell an Item
+            </a>
         </div>
     </div>
 
     <main class="browse-layout">
-        <aside class="sidebar" id="sidebar">
-            <div class="filter-hdr">
-                <span class="filter-title">Filters</span>
-                <span class="filter-clear" onclick="clearFilters()">Clear all</span>
-            </div>
-
-            <div class="fg">
-                <div class="fg-title" onclick="tg(this)">Categories <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="fg-body">
-                    <label class="fc"><input type="checkbox" checked /><span class="cb"></span><span>All</span><span
-                            class="cnt">2.4k</span></label>
-                    <label class="fc"><input type="checkbox" /><span class="cb"></span><span>Books</span><span
-                            class="cnt">412</span></label>
-                    <label class="fc"><input type="checkbox" /><span class="cb"></span><span>Electronics</span><span
-                            class="cnt">185</span></label>
-                    <label class="fc"><input type="checkbox" /><span class="cb"></span><span>Cycles</span><span
-                            class="cnt">42</span></label>
-                </div>
-            </div>
-
-            <div class="fg">
-                <div class="fg-title" onclick="tg(this)">Price Range <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="fg-body">
-                    <div class="price-inputs">
-                        <div class="pi"><span>₹</span><input type="number" value="0" /></div>
-                        <div class="pi"><span>₹</span><input type="number" value="50000" /></div>
-                    </div>
-                    <input type="range" class="rslider" min="0" max="50000" value="25000" oninput="updSlider(this)" />
-                    <div
-                        style="display:flex;justify-content:space-between;margin-top:6px;font-size:.7rem;color:var(--text-3)">
-                        <span>Min</span>
-                        <span id="sval" style="color:var(--pri);font-weight:700">₹25,000</span>
-                        <span>Max</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="fg">
-                <div class="fg-title" onclick="tg(this)">Condition <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="fg-body">
-                    <label class="fc"><input type="checkbox" checked /><span class="cb"></span><span>New</span></label>
-                    <label class="fc"><input type="checkbox" checked /><span class="cb"></span><span>Like
-                            New</span></label>
-                    <label class="fc"><input type="checkbox" /><span class="cb"></span><span>Used</span></label>
-                </div>
-            </div>
-
-            <hr class="hdiv" />
-
-            <div class="fg">
-                <div class="fg-title" onclick="tg(this)">Seller Rating <i class="fa-solid fa-chevron-down"></i></div>
-                <div class="fg-body">
-                    <div class="rrow">
-                        <div class="stars-r">★★★★☆</div><span>& up</span>
-                    </div>
-                    <div class="rrow">
-                        <div class="stars-r">★★★☆☆</div><span>& up</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
+        <!-- Sidebar removed from dashboard -->
 
         <div class="main-content">
             <div class="browse-toolbar">
-                <div class="results-count" id="resCount">Showing <strong>48</strong> of <strong>2,440</strong></div>
+                <div class="results-count" id="resCount">Your Listings</div>
                 <div class="toolbar-right">
                     <div class="sort-wrap" id="sw">
                         <button class="sort-btn" onclick="toggleSort()">Sort: <span id="sortLbl">Newest First</span> <i
@@ -164,243 +71,13 @@
             </div>
 
             <div class="pgrid" id="pgrid">
-                <!-- ITEM 1 -->
-                <div class="pc" data-cat="books"
-                    onclick="openM('Engineering Mathematics (B.S. Grewal)', 'Books', '₹450', 'Latest edition, barely used. No markings inside.', '📚', 'AK', 'Amit Kumar', 'CSE, 3rd Year')">
-                    <div class="pimg">📚
-                        <span class="pcond u">Used</span>
-                        <button class="pwish" onclick="event.stopPropagation(); tw(this)"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="pbody">
-                        <div class="pcat">Books</div>
-                        <div class="ctitle">Engineering Mathematics (B.S. Grewal) - 44th Edition</div>
-                        <div class="pmeta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-4</span>
-                            <span><i class="fa-solid fa-clock"></i> 2h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="pprice">₹450</div>
-                            <div class="pold">₹950</div>
-                        </div>
-                        <div class="pfoot">
-                            <div class="pseller">
-                                <div class="psimg">AK</div>
-                                <div class="psn">Amit K.</div>
-                            </div>
-                            <div class="prating"><i class="fa-solid fa-star"></i> 4.8</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ITEM 2 -->
-                <div class="pc" data-cat="gadgets"
-                    onclick="openM('Mi Powerbank (20,000 mAh)', 'Electronics', '₹900', 'Original Mi powerbank, fast charging supports. 6 months old.', '⚡', 'RK', 'Rahul K.', 'ECE, 2nd Year')">
-                    <div class="pimg" style="background:#eef1ff">⚡
-                        <span class="pcond n">Like New</span>
-                        <button class="pwish active" onclick="event.stopPropagation(); tw(this)"><i
-                                class="fa-solid fa-heart"></i></button>
-                    </div>
-                    <div class="pbody">
-                        <div class="pcat">Electronics</div>
-                        <div class="ctitle">Mi Powerbank 3i — 20000mAh (Sandstone Black)</div>
-                        <div class="pmeta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-2</span>
-                            <span><i class="fa-solid fa-clock"></i> 5h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="pprice">₹900</div>
-                            <div class="pold">₹1,800</div>
-                        </div>
-                        <div class="pfoot">
-                            <div class="pseller">
-                                <div class="psimg">RK</div>
-                                <div class="psn">Rahul K.</div>
-                            </div>
-                            <div class="prating"><i class="fa-solid fa-star"></i> 4.9</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ITEM 3 -->
-                <div class="pc" data-cat="cycles"
-                    onclick="openM('Hercules Street Cycle', 'Cycles', '₹2,500', 'Good condition, brakes working fine. 1 year old.', '🚲', 'NS', 'Nitin S.', 'ME, 4rd Year')">
-                    <div class="pimg" style="background:#fffcf0">🚲
-                        <span class="pcond u">Used</span>
-                        <button class="pwish" onclick="event.stopPropagation(); tw(this)"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="pbody">
-                        <div class="pcat">Cycles</div>
-                        <div class="ctitle">Hercules Roadeo Street Cycle (Black/Blue)</div>
-                        <div class="pmeta">
-                            <span><i class="fa-solid fa-location-dot"></i> Hostel Gate</span>
-                            <span><i class="fa-solid fa-clock"></i> 8h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="pprice">₹2,500</div>
-                            <div class="pold">₹5,200</div>
-                        </div>
-                        <div class="pfoot">
-                            <div class="pseller">
-                                <div class="psimg">NS</div>
-                                <div class="psn">Nitin S.</div>
-                            </div>
-                            <div class="prating"><i class="fa-solid fa-star"></i> 4.7</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ITEM 4 -->
-                <div class="pc" data-cat="hostel"
-                    onclick="openM('Sleepwell Mattress', 'Hostel Gear', '₹700', 'Clean and comfortable mattress. Selling because moving out.', '🛏', 'PS', 'Priya S.', 'KC Hall')">
-                    <div class="pimg" style="background:#f0fffa">🛏
-                        <span class="pcond u">Used</span>
-                        <button class="pwish" onclick="event.stopPropagation(); tw(this)"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="pbody">
-                        <div class="pcat">Hostel Gear</div>
-                        <div class="ctitle">Sleepwell Single Bed Mattress (6x3)</div>
-                        <div class="pmeta">
-                            <span><i class="fa-solid fa-location-dot"></i> KC Hall</span>
-                            <span><i class="fa-solid fa-clock"></i> 1d ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="pprice">₹700</div>
-                            <div class="pold">₹2,500</div>
-                        </div>
-                        <div class="pfoot">
-                            <div class="pseller">
-                                <div class="psimg" style="background:#fdf2f2;color:#e53935">PS</div>
-                                <div class="psn">Priya S.</div>
-                            </div>
-                            <div class="prating"><i class="fa-solid fa-star"></i> 4.9</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ITEM 5 -->
-                <div class="pc" data-cat="gadgets"
-                    onclick="openM('HP Wireless Mouse', 'Electronics', '₹350', 'Working condition, 2.4GHz wireless connection.', '🖱', 'VM', 'Varun M.', 'IT, 2nd Year')">
-                    <div class="pimg">🖱
-                        <span class="pcond u">Used</span>
-                        <button class="pwish" onclick="event.stopPropagation(); tw(this)"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="pbody">
-                        <div class="pcat">Electronics</div>
-                        <div class="ctitle">HP Z3700 Wireless Optical Mouse</div>
-                        <div class="pmeta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-5</span>
-                            <span><i class="fa-solid fa-clock"></i> 2d ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="pprice">₹350</div>
-                            <div class="pold">₹800</div>
-                        </div>
-                        <div class="pfoot">
-                            <div class="pseller">
-                                <div class="psimg">VM</div>
-                                <div class="psn">Varun M.</div>
-                            </div>
-                            <div class="prating"><i class="fa-solid fa-star"></i> 4.6</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ITEM 6 -->
-                <div class="pc" data-cat="gadgets"
-                    onclick="openM('Canon EOS 1500D', 'Electronics', '₹200/day', 'DSLR camera for rent. SD card included.', '📷', 'AS', 'Ananya S.', 'B.Tech')">
-                    <div class="pimg" style="background:#fff2fe">📷
-                        <span class="pcond r">Rent</span>
-                        <button class="pwish" onclick="event.stopPropagation(); tw(this)"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="pbody">
-                        <div class="pcat">Rentals</div>
-                        <div class="ctitle">Canon DSLR Camera — EOS 1500D with 18-55mm</div>
-                        <div class="pmeta">
-                            <span><i class="fa-solid fa-location-dot"></i> Meera Bh.</span>
-                            <span><i class="fa-solid fa-clock"></i> 3h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="pprice">₹200/day</div>
-                        </div>
-                        <div class="pfoot">
-                            <div class="pseller">
-                                <div class="psimg" style="background:#fff2f2;color:#e53935">AS</div>
-                                <div class="psn">Ananya S.</div>
-                            </div>
-                            <div class="prating"><i class="fa-solid fa-star"></i> 5.0</div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Products will be loaded dynamically -->
             </div>
-
-            <div class="pagin">
-                <button class="pbtn" disabled><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="pbtn active" onclick="goPage(this)">1</button>
-                <button class="pbtn" onclick="goPage(this)">2</button>
-                <button class="pbtn" onclick="goPage(this)">3</button>
-                <button class="pbtn" onclick="goPage(this)">4</button>
-                <span style="color:var(--text-3);font-size:.7rem">...</span>
-                <button class="pbtn" onclick="goPage(this)">12</button>
-                <button class="pbtn" onclick="goPage(this)"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
+        </div>
         </div>
     </main>
 
-    <footer class="foot">
-        <div class="inner">
-            <div>
-                <div class="f-title">NIT KKR Market</div>
-                <p class="f-txt">Official student-led marketplace for NIT Kurukshetra. Buy and sell with trust.</p>
-                <div style="display:flex;gap:12px">
-                    <a href="#" class="icon-btn" style="border-radius:50%"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="icon-btn" style="border-radius:50%"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="icon-btn" style="border-radius:50%"><i class="fa-brands fa-x-twitter"></i></a>
-                </div>
-            </div>
-            <div>
-                <div class="f-title">Quick Links</div>
-                <div class="f-links">
-                    <a href="index.html">Home</a>
-                    <a href="browse.html">Browse Items</a>
-                    <a href="dashboard.html">Sell Item</a>
-                    <a href="chat.html">Messages</a>
-                </div>
-            </div>
-            <div>
-                <div class="f-title">Categories</div>
-                <div class="f-links">
-                    <a href="#">Books & Notes</a>
-                    <a href="#">Electronics</a>
-                    <a href="#">Cycles</a>
-                    <a href="#">Hostel Essentials</a>
-                </div>
-            </div>
-            <div>
-                <div class="f-title">Contact Support</div>
-                <div class="f-links">
-                    <a href="mailto:support@nitkkrmarket.com"><i class="fa-solid fa-envelope"
-                            style="margin-right:7px"></i>
-                        nitkkrmarket@gmail.com</a>
-                    <a href="#"><i class="fa-solid fa-location-dot" style="margin-right:7px"></i> NIT KKR, Haryana</a>
-                    <a href="tel:+919876543210"><i class="fa-solid fa-phone" style="margin-right:7px"></i> +91 999 888
-                        7766</a>
-                </div>
-            </div>
-        </div>
-        <div class="f-copy">
-            <span>© 2026 NIT KKR Marketplace. All Rights Reserved.</span>
-            <div style="display:flex;gap:20px">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Safety Tips</a>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-root"></div>
 
     <!-- QUICK VIEW MODAL -->
     <div class="modal-overlay" id="mo" onclick="closeMO(event)">
@@ -427,12 +104,14 @@
                     </div>
                     <div style="margin-left:auto;text-align:right">
                         <div style="color:var(--acc);font-weight:700;font-size:.82rem"><i class="fa-solid fa-star"></i>
-                            4.9</div>
-                        <div style="font-size:.7rem;color:var(--text-3)">24 sales</div>
+                            ${p.seller?.rating || 'New'}</div>
+                        <div style="font-size:.7rem;color:var(--text-3)">${p.seller?.reviewCount || 0} reviews</div>
                     </div>
                 </div>
                 <div class="macts">
-                    <a href="chat.html" class="btn btn-primary"><i class="fa-solid fa-comments"></i> Chat Seller</a>
+                    <div id="modalContactActions" style="display:flex; gap:10px; flex:1">
+                        <!-- Contact buttons will be injected here -->
+                    </div>
                     <button class="btn btn-outline" onclick="closeModal()"><i class="fa-solid fa-share-nodes"></i>
                         Share</button>
                     <button class="btn btn-ghost" style="padding:9px 13px" onclick="twModal()">
@@ -448,7 +127,8 @@
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
-    <script src="../js/dashboard.js"></script>
+    <script type="module" src="../js/pages/dashboard.js"></script>
+
 </body>
 
 </html>

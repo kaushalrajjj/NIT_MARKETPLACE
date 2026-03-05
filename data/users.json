@@ -1,0 +1,38 @@
+[
+    {
+        "_id": "65e1a2b3c4d5e6f7a8b9c0d1",
+        "name": "Akshit Goyal",
+        "email": "akshitgoyal0000@gmail.com",
+        "password": "$2b$10$jvpJ1x876nzNEkJTe/6Cyuhldr16FFWGAiRUuGBzVP4qDwkrX3jBu",
+        "phone": "+91 9876543210",
+        "whatsapp": "919876543210",
+        "role": "admin",
+        "rating": 4.9,
+        "reviewCount": 24,
+        "createdAt": "2026-03-02T15:00:00.000Z"
+    },
+    {
+        "_id": "65e1a2b3c4d5e6f7a8b9c0d3",
+        "name": "Student Alpha",
+        "email": "student1@nitkkr.ac.in",
+        "password": "$2b$10$jvpJ1x876nzNEkJTe/6Cyuhldr16FFWGAiRUuGBzVP4qDwkrX3jBu",
+        "phone": "+91 8888844444",
+        "whatsapp": "918888844444",
+        "role": "student",
+        "rating": 4.5,
+        "reviewCount": 12,
+        "createdAt": "2026-03-02T15:00:00.000Z"
+    },
+    {
+        "_id": "65e1a2b3c4d5e6f7a8b9c0d4",
+        "name": "Student Beta",
+        "email": "student2@nitkkr.ac.in",
+        "password": "$2b$10$jvpJ1x876nzNEkJTe/6Cyuhldr16FFWGAiRUuGBzVP4qDwkrX3jBu",
+        "phone": "+91 7777733333",
+        "whatsapp": "917777733333",
+        "role": "student",
+        "rating": 4.0,
+        "reviewCount": 3,
+        "createdAt": "2026-03-02T15:00:00.000Z"
+    }
+]

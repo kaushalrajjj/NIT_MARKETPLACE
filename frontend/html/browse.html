@@ -5,15 +5,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Browse Items — NIT KKR Marketplace</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="../css/browse.css" />
+    <link <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/product-card.css" />
+    <link rel="stylesheet" href="../css/components/modal.css" />
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/pages/browse.css" />
 </head>
 
 <body>
 
+    <!-- NAVBAR & SIDEBAR -->
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
     <!-- QUICK VIEW MODAL -->
     <div class="modal-overlay" id="qvModal">
         <div class="modal">
@@ -24,28 +35,13 @@
             <div class="modal-body">
                 <div class="modal-img" id="qvEmoji">📚</div>
                 <div class="modal-details">
-                    <div class="modal-price" id="qvPrice">₹350</div>
+                    <div class="modal-price" id="qvPrice"></div>
                     <div id="qvInfoRows">
-                        <div class="modal-info-row"><span class="key">Category</span><span class="val">Books</span>
-                        </div>
-                        <div class="modal-info-row"><span class="key">Condition</span><span class="val">Used –
-                                Good</span></div>
-                        <div class="modal-info-row"><span class="key">Location</span><span class="val">BH-4
-                                Hostel</span></div>
-                        <div class="modal-info-row"><span class="key">Seller</span><span class="val">Amit Kumar
-                                (CSE-3)</span></div>
-                        <div class="modal-info-row"><span class="key">Posted</span><span class="val">2 hours ago</span>
-                        </div>
-                        <div class="modal-info-row"><span class="key">Rating</span><span class="val">⭐ 4.8 (12
-                                reviews)</span></div>
+                        <!-- Populated dynamically via JS -->
                     </div>
-                    <div class="modal-desc" id="qvDesc">Barely used Engineering Mathematics Vol. I & II. Notes inside.
-                        Perfect for
-                        2nd year students. Selling because I'm done with the subject.</div>
-                    <div class="modal-actions">
-                        <a href="chat.html" class="btn btn-primary"><i class="fa-solid fa-comments"></i> Chat Seller</a>
-                        <button class="btn btn-outline" onclick="closeModal()"><i class="fa-regular fa-heart"></i>
-                            Wishlist</button>
+                    <div class="modal-desc" id="qvDesc"></div>
+                    <div class="modal-actions" id="modalContactActions">
+                        <!-- Contact buttons will be injected here -->
                     </div>
                 </div>
             </div>
@@ -61,78 +57,23 @@
         </div>
         <div id="drawerFilters" style="padding:0"></div>
         <div style="padding:20px; border-top:1px solid var(--border); display:flex; gap:12px">
-            <button class="btn btn-primary" style="flex:1" onclick="closeFilterDrawer()">Apply Filters</button>
-            <button class="btn btn-ghost" onclick="resetFilters()">Reset</button>
+            <button class="btn btn-primary" style="flex:1" onclick="closeFilterDrawer(); applyFilters()">Apply
+                Filters</button>
+            <button class="btn btn-ghost" onclick="resetFilters(); closeFilterDrawer()">Reset</button>
         </div>
     </div>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="inner">
-            <a href="index.html" class="nav-logo">
-                <div class="nav-logo-icon">N</div>
-                <div class="nav-logo-text">
-                    <div class="l1">NIT KKR Market</div>
-                    <div class="l2">By NITians, For NITians</div>
-                </div>
-            </a>
-
-            <div class="nav-search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search books, cycles, gadgets..." id="mainSearch"
-                    oninput="handleSearch(this.value)">
-                <select class="search-cat">
-                    <option>All</option>
-                    <option>Books</option>
-                    <option>Electronics</option>
-                    <option>Cycles</option>
-                </select>
-            </div>
-
-            <div class="nav-right">
-                <button class="theme-btn" id="themeBtn" title="Toggle Dark/Light Mode">
-                    <i class="fa-solid fa-moon" id="themeIco"></i>
-                </button>
-                <button class="icon-btn" title="Messages">
-                    <i class="fa-solid fa-comment-dots"></i>
-                    <span class="badge">2</span>
-                </button>
-                <div class="profile-dropdown">
-                    <div class="profile-avatar" title="Profile" onclick="toggleProf()">RK</div>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-                        <a href="dashboard.html"><i class="fa-solid fa-plus-circle"></i> Sell an Item</a>
-                        <a href="chat.html"><i class="fa-solid fa-comments"></i> Messages <span
-                                style="margin-left:auto;background:var(--acc-red);color:#fff;border-radius:99px;padding:1px 7px;font-size:.67rem">2</span></a>
-                        <a href="#"><i class="fa-solid fa-heart"></i> Wishlist</a>
-                        <a href="#"><i class="fa-solid fa-star"></i> My Ratings</a>
-                        <hr>
-                        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
-                        <a href="auth.html" class="danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
 
     <!-- PAGE HEADER -->
     <header class="page-header">
         <div class="ph-inner">
             <div class="breadcrumb">
-                <a href="index.html">Home</a> <i class="fa-solid fa-chevron-right"></i> <span>Browse Items</span>
+                <a href="/">Home</a> <i class="fa-solid fa-chevron-right"></i> <span>Browse Items</span>
             </div>
             <h1 class="ph-title">Browse Marketplace</h1>
             <p class="ph-sub">Explore thousands of verified listings from your campus community.</p>
 
-            <div class="ph-tabs">
-                <button class="ph-tab active" onclick="setPhTab(this, 'all')">All Items</button>
-                <button class="ph-tab" onclick="setPhTab(this, 'books')">Books & Notes</button>
-                <button class="ph-tab" onclick="setPhTab(this, 'electronics')">Electronics</button>
-                <button class="ph-tab" onclick="setPhTab(this, 'cycles')">Cycles & Transport</button>
-                <button class="ph-tab" onclick="setPhTab(this, 'hostel')">Hostel Essentials</button>
-                <button class="ph-tab" onclick="setPhTab(this, 'tools')">Lab & Academic</button>
-                <button class="ph-tab" onclick="setPhTab(this, 'rent')">Rentals</button>
-            </div>
+
         </div>
     </header>
 
@@ -148,31 +89,34 @@
                 <div class="filter-section">
                     <div class="filter-section-title" onclick="toggleSection(this)">Category <i
                             class="fa-solid fa-chevron-down"></i></div>
-                    <div class="cat-filter-list">
+                    <div class="cat-filter-list" id="sidebarCatList">
                         <label class="cat-filter-item active" onclick="setCat(this, 'all')">
                             <span class="cat-filter-icon">🏠</span>
                             <span class="cat-filter-name">All Categories</span>
-                            <span class="cat-filter-count">840</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'books')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Books')">
                             <span class="cat-filter-icon">📚</span>
                             <span class="cat-filter-name">Books & Notes</span>
-                            <span class="cat-filter-count">215</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'electronics')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Electronics')">
                             <span class="cat-filter-icon">🔌</span>
                             <span class="cat-filter-name">Electronics</span>
-                            <span class="cat-filter-count">108</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'cycles')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Cycles')">
                             <span class="cat-filter-icon">🚲</span>
                             <span class="cat-filter-name">Cycles & Gear</span>
-                            <span class="cat-filter-count">42</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'hostel')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Hostel')">
                             <span class="cat-filter-icon">📦</span>
-                            <span class="cat-filter-name">Hostel Stuff</span>
-                            <span class="cat-filter-count">156</span>
+                            <span class="cat-filter-name">Hostel Essentials</span>
+                        </label>
+                        <label class="cat-filter-item" onclick="setCat(this, 'Tools')">
+                            <span class="cat-filter-icon">🛠️</span>
+                            <span class="cat-filter-name">Lab & Academic</span>
+                        </label>
+                        <label class="cat-filter-item" onclick="setCat(this, 'Other')">
+                            <span class="cat-filter-icon">✨</span>
+                            <span class="cat-filter-name">Other</span>
                         </label>
                     </div>
                 </div>
@@ -183,18 +127,11 @@
                             class="fa-solid fa-chevron-down"></i></div>
                     <div class="price-body">
                         <div class="price-inputs">
-                            <div class="price-input-wrap"><span>₹</span><input type="number" id="priceMin" value="0">
+                            <div class="price-input-wrap"><span>₹</span><input type="number" id="priceMin"
+                                    placeholder="Min" value="">
                             </div>
                             <div class="price-input-wrap"><span>₹</span><input type="number" id="priceMax"
-                                    value="50000"></div>
-                        </div>
-                        <input type="range" class="range-slider" id="priceRange" min="0" max="50000" step="500"
-                            value="30000" oninput="updatePriceRange(this.value)">
-                        <div
-                            style="display:flex; justify-content:space-between; margin-top:8px; font-size:.78rem; color:var(--text-3)">
-                            <span>Min</span>
-                            <span id="priceRangeLabel" style="font-weight:700; color:var(--pri)">₹30,000</span>
-                            <span>Max</span>
+                                    placeholder="Max" value=""></div>
                         </div>
                     </div>
                 </div>
@@ -204,14 +141,17 @@
                     <div class="filter-section-title" onclick="toggleSection(this)">Condition <i
                             class="fa-solid fa-chevron-down"></i></div>
                     <div class="check-list">
-                        <label class="check-item"><input type="checkbox" checked><span class="check-box"></span><span
-                                class="lbl">Brand New</span><span class="lbl-count">42</span></label>
-                        <label class="check-item"><input type="checkbox" checked><span class="check-box"></span><span
-                                class="lbl">Lightly Used</span><span class="lbl-count">180</span></label>
-                        <label class="check-item"><input type="checkbox" checked><span class="check-box"></span><span
-                                class="lbl">Used</span><span class="lbl-count">320</span></label>
-                        <label class="check-item"><input type="checkbox"><span class="check-box"></span><span
-                                class="lbl">Damaged/For Parts</span><span class="lbl-count">14</span></label>
+                        <label class="check-item"><input type="checkbox" name="condition" value="Brand New"
+                                checked><span class="check-box"></span><span class="lbl">Brand New</span></label>
+                        <label class="check-item"><input type="checkbox" name="condition" value="Like New" checked><span
+                                class="check-box"></span><span class="lbl">Like New</span></label>
+                        <label class="check-item"><input type="checkbox" name="condition" value="Lightly Used"
+                                checked><span class="check-box"></span><span class="lbl">Lightly Used</span></label>
+                        <label class="check-item"><input type="checkbox" name="condition" value="Used" checked><span
+                                class="check-box"></span><span class="lbl">Used</span></label>
+                        <label class="check-item"><input type="checkbox" name="condition"
+                                value="Damaged/For Parts"><span class="check-box"></span><span class="lbl">Damaged/For
+                                Parts</span></label>
                     </div>
                 </div>
 
@@ -219,7 +159,7 @@
                 <div class="filter-section">
                     <div class="filter-section-title" onclick="toggleSection(this)">Hostel/Location <i
                             class="fa-solid fa-chevron-down"></i></div>
-                    <select class="hostel-select">
+                    <select class="hostel-select" id="locationFilter">
                         <option>All Locations</option>
                         <option>BH-1 (Chakravarty)</option>
                         <option>BH-2 (Vishwakarma)</option>
@@ -239,14 +179,22 @@
                 <div class="filter-section">
                     <div class="filter-section-title" onclick="toggleSection(this)">Seller Rating <i
                             class="fa-solid fa-chevron-down"></i></div>
-                    <div class="rating-filter">
-                        <div class="rating-item">
-                            <span class="stars">★★★★☆</span><span class="lbl">4 stars & up</span>
-                        </div>
-                        <div class="rating-item">
-                            <span class="stars">★★★☆☆</span><span class="lbl">3 stars & up</span>
-                        </div>
+                    <div class="check-list">
+                        <label class="check-item"><input type="radio" name="minRating" value="4"><span class="check-box"
+                                style="border-radius:50%"></span><span class="lbl">4 stars & up</span></label>
+                        <label class="check-item"><input type="radio" name="minRating" value="3"><span class="check-box"
+                                style="border-radius:50%"></span><span class="lbl">3 stars & up</span></label>
+                        <label class="check-item"><input type="radio" name="minRating" value="0" checked><span
+                                class="check-box" style="border-radius:50%"></span><span class="lbl">Any
+                                Rating</span></label>
                     </div>
+                </div>
+                <!-- Apply Button -->
+                <div class="filter-section" style="border-bottom:none; padding-top:10px">
+                    <button class="btn btn-primary" style="width:100%; justify-content:center; padding:12px"
+                        onclick="applyFilters()">
+                        <i class="fa-solid fa-filter"></i> Apply Filters
+                    </button>
                 </div>
             </div>
         </aside>
@@ -275,208 +223,12 @@
 
             <!-- Active Filter Chips -->
             <div class="active-filters" id="activeFilters">
-                <span class="filter-chip">All Categories <i class="fa-solid fa-xmark"></i></span>
-                <span class="filter-chip">₹0 – ₹30,000 <i class="fa-solid fa-xmark"></i></span>
-                <span class="filter-chip">New & Used <i class="fa-solid fa-xmark"></i></span>
-                <button class="filter-reset" style="margin-left:8px">Clear all</button>
+                <!-- Filters will be injected here -->
             </div>
 
             <!-- Grid -->
             <div class="products-grid" id="productsGrid">
-
-                <!-- Skeleton (demo) -->
-                <!-- <div class="product-card">
-          <div class="p-img skeleton"></div>
-          <div class="p-body">
-            <div class="skeleton" style="height:12px; width:40%; margin-bottom:8px"></div>
-            <div class="skeleton" style="height:18px; width:90%; margin-bottom:8px"></div>
-            <div class="skeleton" style="height:18px; width:70%; margin-bottom:12px"></div>
-            <div class="skeleton" style="height:24px; width:40%"></div>
-          </div>
-        </div> -->
-
-                <!-- Product 1 -->
-                <div class="product-card"
-                    onclick="openModal('Engineering Mathematics Vol. I & II', '📚', '₹350', 'BH-4 Hostel', 'Used – Good', 'Barely used math books for first year. Both volumes included. No markings.')">
-                    <div class="p-img">📚
-                        <span class="p-badge used">Used</span>
-                        <button class="p-wishlist" onclick="event.stopPropagation()"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="p-body">
-                        <div class="p-cat">Books & Notes</div>
-                        <div class="p-title">Engineering Mathematics Vol. I & II (B.S. Grewal)</div>
-                        <div class="p-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-4</span>
-                            <span><i class="fa-solid fa-clock"></i> 2h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="p-price">₹350</div>
-                            <div class="p-old-price">₹800</div>
-                        </div>
-                        <div class="p-footer">
-                            <div class="p-seller">
-                                <div class="p-seller-img">AK</div>
-                                <div class="p-seller-name">Amit Kumar</div>
-                            </div>
-                            <div class="p-rating"><i class="fa-solid fa-star"></i> 4.8</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 2 -->
-                <div class="product-card"
-                    onclick="openModal('Casio Scientific Calculator', '🧮', '₹20/day', 'BH-2 Hostel', 'Like New', 'Casio FX-991EX for rent. Battery full. Accurate and fast.')">
-                    <div class="p-img" style="background:var(--pri-light)">🧮
-                        <span class="p-badge rent">Rental</span>
-                        <button class="p-wishlist active" onclick="event.stopPropagation()"><i
-                                class="fa-solid fa-heart"></i></button>
-                    </div>
-                    <div class="p-body">
-                        <div class="p-cat">Academic Tools</div>
-                        <div class="p-title">Casio FX-991EX Scientific Calculator</div>
-                        <div class="p-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-2</span>
-                            <span><i class="fa-solid fa-clock"></i> 5h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="p-price">₹20/day</div>
-                        </div>
-                        <div class="p-footer">
-                            <div class="p-seller">
-                                <div class="p-seller-img">RS</div>
-                                <div class="p-seller-name">Rohan S.</div>
-                            </div>
-                            <div class="p-rating"><i class="fa-solid fa-star"></i> 4.9</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="product-card"
-                    onclick="openModal('Hero Cycle L-Series', '🚲', '₹2,500', 'KV Hall Area', 'Lightly Used', 'Good condition cycle, brakes working fine. 6 months old.')">
-                    <div class="p-img" style="background:#fffcf0">🚲
-                        <span class="p-badge used">Used</span>
-                        <button class="p-wishlist" onclick="event.stopPropagation()"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="p-body">
-                        <div class="p-cat">Cycles</div>
-                        <div class="p-title">Hero Street Cycle — Blue/Black</div>
-                        <div class="p-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> KV Hall</span>
-                            <span><i class="fa-solid fa-clock"></i> 8h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="p-price">₹2,500</div>
-                            <div class="p-old-price">₹5,000</div>
-                        </div>
-                        <div class="p-footer">
-                            <div class="p-seller">
-                                <div class="p-seller-img">NS</div>
-                                <div class="p-seller-name">Naman S.</div>
-                            </div>
-                            <div class="p-rating"><i class="fa-solid fa-star"></i> 4.7</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="product-card"
-                    onclick="openModal('Dell Wireless Mouse', '🖱', '₹400', 'BH-5 Hostel', 'Brand New', 'Unopened Dell wireless mouse. 1 year warranty.')">
-                    <div class="p-img" style="background:#f0eeff">🖱
-                        <span class="p-badge new">New</span>
-                        <button class="p-wishlist" onclick="event.stopPropagation()"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="p-body">
-                        <div class="p-cat">Electronics</div>
-                        <div class="p-title">Dell WM118 Wireless Optical Mouse</div>
-                        <div class="p-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-5</span>
-                            <span><i class="fa-solid fa-clock"></i> 1d ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="p-price">₹400</div>
-                        </div>
-                        <div class="p-footer">
-                            <div class="p-seller">
-                                <div class="p-seller-img">VT</div>
-                                <div class="p-seller-name">Varun T.</div>
-                            </div>
-                            <div class="p-rating"><i class="fa-solid fa-star"></i> 4.6</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Row 2 -->
-                <div class="product-card"
-                    onclick="openModal('Lab Coat (L Size)', '🧥', '₹200', 'BH-2 Hostel', 'Used', 'Standard lab coat, washed and ironed.')">
-                    <div class="p-img" style="background:#f2fff2">🧥
-                        <span class="p-badge used">Used</span>
-                        <button class="p-wishlist" onclick="event.stopPropagation()"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="p-body">
-                        <div class="p-cat">Clothing</div>
-                        <div class="p-title">White Lab Coat - Cotton (Size L)</div>
-                        <div class="p-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-2</span>
-                            <span><i class="fa-solid fa-clock"></i> 10h ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="p-price">₹200</div>
-                        </div>
-                        <div class="p-footer">
-                            <div class="p-seller">
-                                <div class="p-seller-img">JD</div>
-                                <div class="p-seller-name">John Doe</div>
-                            </div>
-                            <div class="p-rating"><i class="fa-solid fa-star"></i> 4.5</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-card"
-                    onclick="openModal('Mattress 6x3', '🛏', '₹800', 'Meera Bhawan', 'Used', 'Comfortable mattress, no stains. One year used.')">
-                    <div class="p-img" style="background:#fff0f0">🛏
-                        <span class="p-badge used">Used</span>
-                        <button class="p-wishlist" onclick="event.stopPropagation()"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="p-body">
-                        <div class="p-cat">Hostel Stuff</div>
-                        <div class="p-title">Single Bed Mattress (High Density)</div>
-                        <div class="p-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Meera Bh.</span>
-                            <span><i class="fa-solid fa-clock"></i> 1d ago</span>
-                        </div>
-                        <div class="p-price-row">
-                            <div class="p-price">₹800</div>
-                            <div class="p-old-price">₹2,200</div>
-                        </div>
-                        <div class="p-footer">
-                            <div class="p-seller">
-                                <div class="p-seller-img">SM</div>
-                                <div class="p-seller-name">Sneha M.</div>
-                            </div>
-                            <div class="p-rating"><i class="fa-solid fa-star"></i> 4.8</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <button class="page-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="page-btn active" onclick="gotoPage(1)">1</button>
-                <button class="page-btn" onclick="gotoPage(2)">2</button>
-                <button class="page-btn" onclick="gotoPage(3)">3</button>
-                <button class="page-btn" onclick="gotoPage(4)">4</button>
-                <span style="color:var(--text-3); font-size:.8rem; margin:0 4px">...</span>
-                <button class="page-btn" onclick="gotoPage(10)">10</button>
-                <button class="page-btn" onclick="gotoPage(2)"><i class="fa-solid fa-chevron-right"></i></button>
+                <!-- Products will be loaded dynamically -->
             </div>
         </section>
     </main>
@@ -487,53 +239,10 @@
     </button>
 
     <!-- FOOTER -->
-    <footer style="background:var(--pri-deep); color:#fff; padding:60px 0 24px; border-top:1px solid var(--border)">
-        <div
-            style="max-width:1400px; margin:0 auto; padding:0 24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:40px">
-            <div>
-                <h4 style="color:#fff; margin-bottom:18px; font-family:'Syne',sans-serif">Marketplace</h4>
-                <p style="font-size:.85rem; color:rgba(255,255,255,.6); line-height:1.7">The exclusive
-                    student-to-student trading platform for NIT Kurukshetra. Buy, sell, and rent safely.</p>
-            </div>
-            <div>
-                <h4 style="color:#fff; margin-bottom:18px; font-family:'Syne',sans-serif">Quick Links</h4>
-                <div style="display:flex; flex-direction:column; gap:10px; font-size:.85rem">
-                    <a href="index.html" style="color:rgba(255,255,255,.6); transition:color .2s"
-                        onmouseover="this.style.color='#fff'"
-                        onmouseout="this.style.color='rgba(255,255,255,.6)'">Home</a>
-                    <a href="browse.html" style="color:rgba(255,255,255,.6); transition:color .2s"
-                        onmouseover="this.style.color='#fff'"
-                        onmouseout="this.style.color='rgba(255,255,255,.6)'">Browse Items</a>
-                    <a href="auth.html" style="color:rgba(255,255,255,.6); transition:color .2s"
-                        onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.6)'">Login
-                        / Sign Up</a>
-                    <a href="dashboard.html" style="color:rgba(255,255,255,.6); transition:color .2s"
-                        onmouseover="this.style.color='#fff'"
-                        onmouseout="this.style.color='rgba(255,255,255,.6)'">Dashboard</a>
-                    <a href="chat.html" style="color:rgba(255,255,255,.6); transition:color .2s"
-                        onmouseover="this.style.color='#fff'"
-                        onmouseout="this.style.color='rgba(255,255,255,.6)'">Messages</a>
-                </div>
-            </div>
-            <div>
-                <h4 style="color:#fff; margin-bottom:12px; font-family:'Syne',sans-serif">Contact</h4>
-                <div style="display:flex; flex-direction:column; gap:8px; font-size:.82rem">
-                    <span><i class="fa-solid fa-envelope" style="margin-right:8px"></i> marketplacenit@gmail.com</span>
-                    <span><i class="fa-solid fa-location-dot" style="margin-right:8px"></i> NIT Kurukshetra, HR</span>
-                </div>
-            </div>
-        </div>
-        <div
-            style="max-width:1400px; margin:24px auto 0; padding-top:24px; border-top:1px solid rgba(255,255,255,.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px">
-            <span style="font-size:.82rem">© 2026 NIT KKR Marketplace</span>
-            <div style="display:flex; gap:20px; font-size:.82rem">
-                <a href="#" style="color:rgba(255,255,255,.6)">Privacy Policy</a>
-                <a href="#" style="color:rgba(255,255,255,.6)">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-root"></div>
 
-    <script src="../js/browse.js"></script>
+    <script type="module" src="../js/pages/browse.js"></script>
+
 </body>
 
 </html>

@@ -5,77 +5,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NIT KKR Market — Buy, Sell & Connect</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="../css/index.css" />
+    <link <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/pages/index.css" />
 </head>
 
 <body>
 
-    <!-- Mobile Nav -->
-    <nav class="mob-nav" id="mobNav">
-        <button class="mob-close" onclick="closeMob()"><i class="fa-solid fa-xmark"></i></button>
-        <a href="index.html"><i class="fa-solid fa-house" style="width:16px"></i> Home</a>
-        <a href="browse.html"><i class="fa-solid fa-magnifying-glass" style="width:16px"></i> Browse Items</a>
-        <a href="#categories"><i class="fa-solid fa-grid-2" style="width:16px"></i> Categories</a>
-        <a href="#hiw"><i class="fa-solid fa-circle-info" style="width:16px"></i> How It Works</a>
-        <a href="#about"><i class="fa-solid fa-users" style="width:16px"></i> About</a>
-        <a href="#contact"><i class="fa-solid fa-envelope" style="width:16px"></i> Contact</a>
-        <div style="margin-top:14px; display:flex; gap:9px; padding:0 4px">
-            <a href="auth.html" class="btn btn-outline" style="flex:1; justify-content:center">Login</a>
-            <a href="auth.html" class="btn btn-blue" style="flex:1; justify-content:center">Sign Up</a>
-        </div>
-    </nav>
-
-    <!-- Navbar -->
-    <header class="nav" id="nav">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <div class="logo-mark">N</div>
-                <div>
-                    <div class="logo-name">KKR Market</div>
-                    <div class="logo-sub">By NITians, For NITians</div>
-                </div>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="browse.html">Browse</a></li>
-                <li><a href="#categories">Categories</a></li>
-                <li><a href="#hiw">How It Works</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search books, electronics…" />
-            </div>
-            <div class="nav-actions">
-                <button class="icon-btn" title="Notifications">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="badge">3</span>
-                </button>
-                <div class="profile-dropdown">
-                    <div class="profile-avatar" title="Profile" onclick="toggleProf()">RK</div>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-                        <a href="dashboard.html"><i class="fa-solid fa-plus-circle"></i> Sell an Item</a>
-                        <a href="chat.html"><i class="fa-solid fa-comments"></i> Messages <span
-                                style="margin-left:auto;background:var(--red);color:#fff;border-radius:99px;padding:1px 7px;font-size:.67rem">2</span></a>
-                        <a href="#"><i class="fa-solid fa-heart"></i> Wishlist</a>
-                        <a href="#"><i class="fa-solid fa-star"></i> My Ratings</a>
-                        <hr>
-                        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
-                        <a href="auth.html" class="danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                    </div>
-                </div>
-                <button class="ham" onclick="openMob()">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-        </div>
-    </header>
+    <!-- NAVBAR & SIDEBAR -->
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
 
     <!-- Hero -->
     <section class="hero">
@@ -96,26 +43,26 @@
                     Everything in one trusted place — just for NIT KKR students.
                 </p>
                 <div class="hero-btns">
-                    <a href="browse.html" class="btn btn-yellow btn-lg">
+                    <a href="/browse" class="btn btn-yellow btn-lg">
                         <i class="fa-solid fa-magnifying-glass"></i> See what's new
                     </a>
-                    <a href="auth.html" class="btn btn-ghost btn-lg">
+                    <a href="/sell" class="btn btn-ghost btn-lg">
                         <i class="fa-solid fa-tag"></i> Post an Ad (Free!)
                     </a>
                 </div>
                 <div class="hero-nums">
                     <div class="hero-num">
-                        <div class="n">2.4K+</div>
+                        <div class="n" id="stat-listings">0</div>
                         <div class="l">Active Listings</div>
                     </div>
                     <div class="num-divider"></div>
                     <div class="hero-num">
-                        <div class="n">1.8K</div>
-                        <div class="l">Students</div>
+                        <div class="n" id="stat-students">0</div>
+                        <div class="l">Verified Students</div>
                     </div>
                     <div class="num-divider"></div>
                     <div class="hero-num">
-                        <div class="n">98%</div>
+                        <div class="n" id="stat-traders">0</div>
                         <div class="l">Happy Traders</div>
                     </div>
                 </div>
@@ -135,32 +82,16 @@
                 </div>
                 <div class="hc">
                     <div class="hc-emoji">🚲</div>
-                    <div class="hc-t">Cycle Rentals</div>
-                    <div class="hc-s">Daily or monthly</div>
-                    <div class="hc-tag">₹30/day</div>
+                    <div class="hc-t">Cycles & Gear</div>
+                    <div class="hc-s">Buy or sell cycles</div>
+                    <div class="hc-tag">Best Prices</div>
                 </div>
             </div>
         </div>
         <div class="scroll-hint"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
     </section>
 
-    <!-- Marquee -->
-    <div class="strip">
-        <div class="strip-track">
-            <div class="strip-item"><i class="fa-solid fa-shield-check"></i> Verified NIT Students Only</div>
-            <div class="strip-item"><i class="fa-solid fa-bolt"></i> Campus-speed Meetups</div>
-            <div class="strip-item"><i class="fa-solid fa-comments"></i> Built-in Chat</div>
-            <div class="strip-item"><i class="fa-solid fa-tag"></i> Zero Commission</div>
-            <div class="strip-item"><i class="fa-solid fa-lock"></i> UPI or Cash — Your Choice</div>
-            <div class="strip-item"><i class="fa-solid fa-star"></i> 98% Satisfaction</div>
-            <div class="strip-item"><i class="fa-solid fa-shield-check"></i> Verified NIT Students Only</div>
-            <div class="strip-item"><i class="fa-solid fa-bolt"></i> Campus-speed Meetups</div>
-            <div class="strip-item"><i class="fa-solid fa-comments"></i> Built-in Chat</div>
-            <div class="strip-item"><i class="fa-solid fa-tag"></i> Zero Commission</div>
-            <div class="strip-item"><i class="fa-solid fa-lock"></i> UPI or Cash — Your Choice</div>
-            <div class="strip-item"><i class="fa-solid fa-star"></i> 98% Satisfaction</div>
-        </div>
-    </div>
+
 
     <!-- Categories -->
     <section class="section" id="categories" style="background: var(--white);">
@@ -171,37 +102,37 @@
                 <p class="sec-sub">Everything from Exam Essentials to Hostel Hacks.</p>
             </div>
             <div class="cats-grid rv">
-                <a href="browse.html?cat=books" class="cat hot">
+                <a href="/browse" class="cat hot">
                     <span class="cat-icon">📚</span>
                     <span class="cat-name">Exam Essentials</span>
                     <span class="cat-n">420+ items</span>
                 </a>
-                <a href="browse.html?cat=electronics" class="cat">
+                <a href="/browse" class="cat">
                     <span class="cat-icon">🔌</span>
                     <span class="cat-name">Gadgets & Gear</span>
                     <span class="cat-n">310+ items</span>
                 </a>
-                <a href="browse.html?cat=hostel" class="cat">
+                <a href="/browse" class="cat">
                     <span class="cat-icon">📦</span>
                     <span class="cat-name">Hostel Hacks</span>
                     <span class="cat-n">250+ items</span>
                 </a>
-                <a href="browse.html?cat=clothing" class="cat">
+                <a href="/browse" class="cat">
                     <span class="cat-icon">👕</span>
                     <span class="cat-name">Fest Outfits</span>
                     <span class="cat-n">180+ items</span>
                 </a>
-                <a href="browse.html?cat=cycles" class="cat">
+                <a href="/browse" class="cat">
                     <span class="cat-icon">🚲</span>
                     <span class="cat-name">M-Gate Runs</span>
                     <span class="cat-n">45+ items</span>
                 </a>
-                <a href="browse.html?cat=tools" class="cat">
+                <a href="/browse" class="cat">
                     <span class="cat-icon">📏</span>
                     <span class="cat-name">Lab Tools</span>
                     <span class="cat-n">130+ items</span>
                 </a>
-                <a href="browse.html?cat=misc" class="cat">
+                <a href="/browse" class="cat">
                     <span class="cat-icon">🎭</span>
                     <span class="cat-name">Random Stuff</span>
                     <span class="cat-n">200+ items</span>
@@ -210,172 +141,7 @@
         </div>
     </section>
 
-    <!-- Featured Listings -->
-    <section class="section" id="listings">
-        <div class="container">
-            <div class="list-head rv">
-                <div>
-                    <div class="chip"><i class="fa-solid fa-fire"></i> Hot Right Now</div>
-                    <h2 class="sec-h">Featured Listings</h2>
-                </div>
-                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
-                    <div class="tabs">
-                        <button class="tab on" onclick="setTab(this)">All</button>
-                        <button class="tab" onclick="setTab(this)">For Sale</button>
-                        <button class="tab" onclick="setTab(this)">Rentals</button>
-                    </div>
-                    <a href="browse.html" class="btn btn-outline" style="padding:7px 16px; font-size:.78rem">View All <i
-                            class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div>
-            <div class="cards rv">
 
-                <!-- Card 1 -->
-                <div class="card">
-                    <div class="card-img">📚<span class="cond cond-used">Used</span><button class="wish-btn"><i
-                                class="fa-regular fa-heart"></i></button></div>
-                    <div class="card-body">
-                        <div class="card-title">Engineering Mathematics Vol. I & II</div>
-                        <div class="card-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-4 Hostel</span>
-                            <span><i class="fa-solid fa-clock"></i> 2h ago</span>
-                        </div>
-                        <div class="card-price">₹350 <del>₹800</del></div>
-                        <div class="card-seller">
-                            <div class="s-av">AK</div>
-                            <div>
-                                <div class="s-name">Amit Kumar</div>
-                                <div class="s-branch">CSE, 3rd Year</div>
-                            </div>
-                            <div class="s-rating"><i class="fa-solid fa-star"></i> 4.8</div>
-                        </div>
-                        <div class="card-btns">
-                            <a href="#" class="btn btn-outline">Details</a>
-                            <a href="chat.html" class="btn btn-blue"><i class="fa-solid fa-comments"></i> Chat</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="card">
-                    <div class="card-img" style="background:linear-gradient(135deg,#e8f4ff,#c2dcff)">💻<span
-                            class="cond cond-used">Used</span><button class="wish-btn on"><i
-                                class="fa-solid fa-heart"></i></button>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">HP Pavilion 15 Laptop (i5, 8GB)</div>
-                        <div class="card-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Kalpana Chawla Hall</span>
-                            <span><i class="fa-solid fa-clock"></i> 5h ago</span>
-                        </div>
-                        <div class="card-price">₹28,000 <del>₹42,000</del></div>
-                        <div class="card-seller">
-                            <div class="s-av">PS</div>
-                            <div>
-                                <div class="s-name">Priya Sharma</div>
-                                <div class="s-branch">ECE, 4th Year</div>
-                            </div>
-                            <div class="s-rating"><i class="fa-solid fa-star"></i> 4.9</div>
-                        </div>
-                        <div class="card-btns">
-                            <a href="#" class="btn btn-outline">Details</a>
-                            <a href="chat.html" class="btn btn-blue"><i class="fa-solid fa-comments"></i> Chat</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="card">
-                    <div class="card-img" style="background:linear-gradient(135deg,#e8fff5,#c2f0e0)">🚲<span
-                            class="cond cond-rent">Rental</span><button class="wish-btn"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Hero Cycle — Daily/Monthly Rental</div>
-                        <div class="card-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> Main Gate Area</span>
-                            <span><i class="fa-solid fa-clock"></i> 1 day ago</span>
-                        </div>
-                        <div class="card-price">₹30/day <del>₹50/day</del></div>
-                        <div class="card-seller">
-                            <div class="s-av">RV</div>
-                            <div>
-                                <div class="s-name">Rahul Verma</div>
-                                <div class="s-branch">ME, 2nd Year</div>
-                            </div>
-                            <div class="s-rating"><i class="fa-solid fa-star"></i> 4.7</div>
-                        </div>
-                        <div class="card-btns">
-                            <a href="#" class="btn btn-outline">Details</a>
-                            <a href="chat.html" class="btn btn-blue"><i class="fa-solid fa-comments"></i> Chat</a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Card 5 -->
-                <div class="card">
-                    <div class="card-img" style="background:linear-gradient(135deg,#f0eeff,#ddd6ff)">🧥<span
-                            class="cond cond-new">Like New</span><button class="wish-btn"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">NIT KKR Lab Coat (L Size)</div>
-                        <div class="card-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-2 Hostel</span>
-                            <span><i class="fa-solid fa-clock"></i> 6h ago</span>
-                        </div>
-                        <div class="card-price">₹200 <del>₹450</del></div>
-                        <div class="card-seller">
-                            <div class="s-av">SM</div>
-                            <div>
-                                <div class="s-name">Sakshi Mehra</div>
-                                <div class="s-branch">Chemistry, 2nd Year</div>
-                            </div>
-                            <div class="s-rating"><i class="fa-solid fa-star"></i> 4.6</div>
-                        </div>
-                        <div class="card-btns">
-                            <a href="#" class="btn btn-outline">Details</a>
-                            <a href="chat.html" class="btn btn-blue"><i class="fa-solid fa-comments"></i> Chat</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="card">
-                    <div class="card-img" style="background:linear-gradient(135deg,#fff0f0,#ffd6d6)">🧮<span
-                            class="cond cond-rent">Rental</span><button class="wish-btn"><i
-                                class="fa-regular fa-heart"></i></button>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title">Casio FX-991EX Calculator</div>
-                        <div class="card-meta">
-                            <span><i class="fa-solid fa-location-dot"></i> BH-6 Hostel</span>
-                            <span><i class="fa-solid fa-clock"></i> 8h ago</span>
-                        </div>
-                        <div class="card-price">₹20/day <del>₹50/day</del></div>
-                        <div class="card-seller">
-                            <div class="s-av">VT</div>
-                            <div>
-                                <div class="s-name">Varun Tyagi</div>
-                                <div class="s-branch">EEE, 3rd Year</div>
-                            </div>
-                            <div class="s-rating"><i class="fa-solid fa-star"></i> 4.8</div>
-                        </div>
-                        <div class="card-btns">
-                            <a href="#" class="btn btn-outline">Details</a>
-                            <a href="chat.html" class="btn btn-blue"><i class="fa-solid fa-comments"></i> Chat</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div style="text-align:center; margin-top:36px" class="rv">
-                <a href="browse.html" class="btn btn-blue btn-lg"><i class="fa-solid fa-grid-2"></i> See All
-                    Listings</a>
-            </div>
-        </div>
-    </section>
 
     <!-- How It Works -->
     <section class="section hiw-bg" id="hiw">
@@ -389,8 +155,8 @@
                 <div class="step">
                     <div class="step-num">01</div>
                     <div class="step-icon">📧</div>
-                    <div class="step-t">Sign Up</div>
-                    <div class="step-d">Use your @nitkkr.ac.in email. Verify with OTP. Done.</div>
+                    <div class="step-t">Login</div>
+                    <div class="step-d">Access with your whitelisted college credentials.</div>
                 </div>
                 <div class="step">
                     <div class="step-num">02</div>
@@ -401,8 +167,8 @@
                 <div class="step">
                     <div class="step-num">03</div>
                     <div class="step-icon">💬</div>
-                    <div class="step-t">Chat Directly</div>
-                    <div class="step-d">Negotiate safely with built-in real-time messaging.</div>
+                    <div class="step-t">Contact Seller</div>
+                    <div class="step-d">Get direct phone and WhatsApp links for the seller.</div>
                 </div>
                 <div class="step">
                     <div class="step-num">04</div>
@@ -436,7 +202,7 @@
                             <div class="tf-ic"><i class="fa-solid fa-envelope-circle-check"></i></div>
                             <div>
                                 <div class="tf-t">NITians Only</div>
-                                <div class="tf-d">Only @nitkkr.ac.in emails can register. No outsiders, ever.</div>
+                                <div class="tf-d">Only verified college accounts can access. No outsiders, ever.</div>
                             </div>
                         </div>
                         <div class="tf">
@@ -464,105 +230,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="trust-box rv">
-                    <div class="trust-box-title">🏆 Trusted by the Community</div>
-                    <div class="trust-nums">
-                        <div class="tn-box">
-                            <div class="tn-n">1.8<span>K</span></div>
-                            <div class="tn-l">Verified Students</div>
-                        </div>
-                        <div class="tn-box">
-                            <div class="tn-n">2.4<span>K</span></div>
-                            <div class="tn-l">Active Listings</div>
-                        </div>
-                        <div class="tn-box">
-                            <div class="tn-n"><span>₹</span>12L</div>
-                            <div class="tn-l">Value Traded</div>
-                        </div>
-                        <div class="tn-box">
-                            <div class="tn-n">0</div>
-                            <div class="tn-l">Fraud Cases</div>
-                        </div>
-                    </div>
-                    <div class="verified-pill"><i class="fa-solid fa-circle-check"></i> 100% NIT Kurukshetra Verified
-                    </div>
-                </div>
+
             </div>
         </div>
     </section>
 
-
-    <!-- Testimonials -->
-    <section class="section" id="testimonials" style="background:var(--blue-soft)">
-        <div class="container">
-            <div class="center rv">
-                <div class="chip"><i class="fa-solid fa-star"></i> Real Students, Real Stories</div>
-                <h2 class="sec-h">What your batchmates say</h2>
-            </div>
-            <div class="testi-grid rv">
-                <div class="testi">
-                    <div class="testi-q">"</div>
-                    <div class="testi-stars">★★★★★</div>
-                    <p class="testi-txt">Sold my old semester books in 2 hours. Met at the library, got paid via UPI. No
-                        more
-                        clutter in my room!</p>
-                    <div class="testi-who">
-                        <div class="t-av">AK</div>
-                        <div>
-                            <div class="t-name">Arjun Kapoor</div>
-                            <div class="t-role">CSE 4th Year · Seller</div>
-                        </div>
-                        <div class="t-ok"><i class="fa-solid fa-circle-check"></i> Verified</div>
-                    </div>
-                </div>
-                <div class="testi">
-                    <div class="testi-q">"</div>
-                    <div class="testi-stars">★★★★★</div>
-                    <p class="testi-txt">Found a laptop under ₹30k from a senior. Saved ₹15k compared to buying new.
-                        Absolute
-                        lifesaver.</p>
-                    <div class="testi-who">
-                        <div class="t-av">PM</div>
-                        <div>
-                            <div class="t-name">Pooja Mishra</div>
-                            <div class="t-role">ECE 2nd Year · Buyer</div>
-                        </div>
-                        <div class="t-ok"><i class="fa-solid fa-circle-check"></i> Verified</div>
-                    </div>
-                </div>
-                <div class="testi">
-                    <div class="testi-q">"</div>
-                    <div class="testi-stars">★★★★★</div>
-                    <p class="testi-txt">Listed my old first-year textbooks and they were gone in 2 hours. So much
-                        better than
-                        sketchy WhatsApp groups!</p>
-                    <div class="testi-who">
-                        <div class="t-av">RS</div>
-                        <div>
-                            <div class="t-name">Rohan Singh</div>
-                            <div class="t-role">CSE 3rd Year · Service Provider</div>
-                        </div>
-                        <div class="t-ok"><i class="fa-solid fa-circle-check"></i> Verified</div>
-                    </div>
-                </div>
-                <div class="testi">
-                    <div class="testi-q">"</div>
-                    <div class="testi-stars">★★★★★</div>
-                    <p class="testi-txt">Got all my hostel essentials — mattress, lamp, bucket — from graduates. Spent
-                        just ₹800
-                        total. Recommend to every fresher!</p>
-                    <div class="testi-who">
-                        <div class="t-av">SK</div>
-                        <div>
-                            <div class="t-name">Suresh Kumar</div>
-                            <div class="t-role">Mech 1st Year · Buyer</div>
-                        </div>
-                        <div class="t-ok"><i class="fa-solid fa-circle-check"></i> Verified</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- About -->
     <section class="section" id="about" style="background:var(--white)">
@@ -617,11 +289,11 @@
                 <i class="fa-solid fa-rocket"></i> Ready?
             </div>
             <h2>Clear your room.<br>Fill your wallet.</h2>
-            <p>Join 1,800+ NIT students already trading. Sign up free in under a minute.</p>
+            <p>Join 1,800+ NIT students already trading. Access your campus marketplace now.</p>
             <div class="cta-btns">
-                <a href="auth.html" class="btn btn-yellow btn-lg"><i class="fa-solid fa-user-plus"></i> Create Free
-                    Account</a>
-                <a href="browse.html" class="btn btn-ghost btn-lg"><i class="fa-solid fa-magnifying-glass"></i> Browse
+                <a href="/auth" class="btn btn-yellow btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Login
+                    Now</a>
+                <a href="/browse" class="btn btn-ghost btn-lg"><i class="fa-solid fa-magnifying-glass"></i> Browse
                     First</a>
             </div>
             <p class="cta-note">🔒 Only @nitkkr.ac.in emails · No fees · No commission</p>
@@ -683,63 +355,10 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="foot-grid">
-                <div class="foot-brand">
-                    <div class="fb-logo">
-                        <div class="fb-mark">N</div>
-                        <div class="fb-n">NIT KKR Marketplace</div>
-                    </div>
-                    <p>The exclusive buy-sell-rent platform for NIT Kurukshetra students. Trade safely within the campus
-                        community.</p>
-                    <div class="socials">
-                        <a href="#" class="sl"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="sl"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="#" class="sl"><i class="fa-brands fa-x-twitter"></i></a>
-                        <a href="#" class="sl"><i class="fa-brands fa-discord"></i></a>
-                        <a href="#" class="sl"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-                <div class="foot-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="browse.html">Browse Items</a></li>
-                        <li><a href="auth.html">Login / Sign Up</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="chat.html">Messages</a></li>
-                    </ul>
-                </div>
-                <div class="foot-col">
-                    <h4>Categories</h4>
-                    <ul>
-                        <li><a href="browse.html?cat=books">📚 Books</a></li>
-                        <li><a href="browse.html?cat=electronics">💻 Electronics</a></li>
-                        <li><a href="browse.html?cat=hostel">🛏 Hostel Stuff</a></li>
-                        <li><a href="browse.html?cat=cycles">🚲 Cycles</a></li>
-                    </ul>
-                </div>
-                <div class="foot-col">
-                    <h4>Contact</h4>
-                    <div class="ci"><i class="fa-solid fa-envelope"></i> marketplacenit@gmail.com</div>
-                    <div class="ci"><i class="fa-solid fa-location-dot"></i> NIT Kurukshetra, HR – 136119</div>
-                    <div class="ci"><i class="fa-solid fa-clock"></i> Mon – Fri, 9AM – 6PM</div>
-                </div>
-            </div>
-            <div class="foot-bottom">
-                <p>© 2026 NIT KKR Marketplace. Built with ❤️ by a fellow NITian for the campus.</p>
-                <div class="foot-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms</a>
-                    <a href="#">Sitemap</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-root"></div>
 
-    <script src="../js/index.js"></script>
+    <script type="module" src="../js/pages/index.js"></script>
+
 </body>
 
 </html>

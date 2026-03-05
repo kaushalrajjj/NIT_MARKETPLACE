@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist — NIT KKR Marketplace</title>
+    <meta name="description" content="Your saved items on NIT KKR Marketplace." />
+    <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/product-card.css" />
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/pages/wishlist.css" />
+</head>
+
+<body>
+
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
+
+    <div class="page-hdr">
+        <div class="inner">
+            <div class="breadcrumb">
+                <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span>Wishlist</span>
+            </div>
+            <h1><i class="fa-solid fa-heart" style="margin-right:10px;color:#f87171"></i>My Wishlist</h1>
+            <p>Items you've saved — buy them before they're gone!</p>
+        </div>
+    </div>
+
+    <div class="layout">
+        <div class="toolbar">
+            <div class="count-label"><strong id="wCount">0</strong> saved items</div>
+            <button class="clear-btn" onclick="clearWishlist()"><i class="fa-solid fa-trash-can"></i> Clear All</button>
+        </div>
+        <div class="wgrid" id="wgrid">
+            <!-- filled by wishlist.js -->
+        </div>
+    </div>
+
+    <div id="footer-root"></div>
+
+    <script type="module" src="../js/pages/wishlist.js"></script>
+</body>
+
+</html>

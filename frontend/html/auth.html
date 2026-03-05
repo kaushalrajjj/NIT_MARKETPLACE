@@ -5,19 +5,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login / Sign Up — NIT KKR Marketplace</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@300;400;500;600&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <!-- Page -->
     <link rel="stylesheet" href="../css/auth.css" />
 </head>
 
 <body>
 
     <div class="auth-page">
-
         <!-- ══════════════════ LEFT PANEL ══════════════════ -->
-        <div class="auth-left">
+        <div class="auth-left
+">
             <div class="blob blob-1"></div>
             <div class="blob blob-2"></div>
             <div class="blob blob-3"></div>
@@ -42,10 +46,10 @@
                         Quick Links <i class="fa-solid fa-chevron-down" style="margin-left:8px;font-size:.7rem"></i>
                     </div>
                     <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-                        <a href="browse.html"><i class="fa-solid fa-magnifying-glass"></i> Browse Items</a>
-                        <a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-                        <a href="chat.html"><i class="fa-solid fa-comments"></i> Messages</a>
+                        <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+                        <a href="/browse"><i class="fa-solid fa-magnifying-glass"></i> Browse Items</a>
+                        <a href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                        <a href="/chat"><i class="fa-solid fa-comments"></i> Messages</a>
                     </div>
                 </div>
 
@@ -102,7 +106,7 @@
 
         <!-- ══════════════════ RIGHT PANEL ══════════════════ -->
         <div class="auth-right">
-            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+            <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
             <button class="theme-toggle" onclick="toggleTheme()"><i class="fa-solid fa-moon"
                     id="themeIcon"></i></button>
 
@@ -115,8 +119,7 @@
                 </div>
 
                 <div class="auth-tabs">
-                    <button class="auth-tab active" onclick="switchTab('login')">Login</button>
-                    <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+                    <button class="auth-tab active" style="width:100%">Login Only</button>
                 </div>
 
                 <form onsubmit="handleLogin(event)">
@@ -158,24 +161,8 @@
                     </button>
                 </form>
 
-                <div class="auth-divider"><span>or continue with</span></div>
 
-                <button class="google-btn" onclick="handleGoogle()">
-                    <svg width="18" height="18" viewBox="0 0 24 24">
-                        <path fill="#4285F4"
-                            d="M23.745 12.27c0-.79-.07-1.54-.19-2.27h-11.3v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />
-                        <path fill="#34A853"
-                            d="M12.255 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96h-3.98v3.09C3.515 21.3 7.565 24 12.255 24z" />
-                        <path fill="#FBBC05"
-                            d="M5.525 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62h-3.98a11.86 11.86 0 0 0 0 10.76l3.98-3.09z" />
-                        <path fill="#EA4335"
-                            d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.69 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z" />
-                    </svg>
-                    Sign in with Google
-                </button>
-
-                <div class="auth-switch">Don't have an account? <a onclick="switchTab('signup')">Create one free</a>
-                </div>
+                <div class="auth-switch">Contact Admin if you don't have access credentials.</div>
 
                 <!-- Visible Copyright Added -->
                 <div
@@ -391,7 +378,8 @@
         </div>
     </div>
 
-    <script src="../js/auth.js"></script>
+    <script type="module" src="../js/pages/auth.js"></script>
+
 </body>
 
 </html>

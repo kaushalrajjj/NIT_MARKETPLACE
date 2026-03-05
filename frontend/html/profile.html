@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile — NIT KKR Marketplace</title>
+    <meta name="description" content="View and edit your NIT KKR Marketplace profile." />
+    <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/pages/profile.css" />
+</head>
+
+<body>
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
+
+    <div class="page-hdr">
+        <div class="inner">
+            <div class="breadcrumb">
+                <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+                <i class="fa-solid fa-chevron-right"></i>
+                <span>My Profile</span>
+            </div>
+            <h1>My Profile</h1>
+            <p>Manage your account details and view your activity.</p>
+        </div>
+    </div>
+
+    <div class="profile-layout">
+
+        <!-- LEFT: Avatar + stats -->
+        <div class="card av-card">
+            <div class="av-circle" id="avCircle">?</div>
+            <div class="av-name" id="avName">—</div>
+            <div class="av-role" id="avRole">NIT KKR Student</div>
+            <div class="av-stat-row">
+                <div class="av-stat"><strong id="statListings">0</strong><span>Listings</span></div>
+                <div class="av-stat"><strong id="statSold">0</strong><span>Sold</span></div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Form + activity -->
+        <div style="display:flex;flex-direction:column;gap:20px">
+
+            <div class="card">
+                <div class="section-title"><i class="fa-solid fa-user-pen"
+                        style="color:var(--pri);margin-right:8px"></i>Personal Info</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="fldName" placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="fldEmail" placeholder="you@nitkkr.ac.in" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Branch</label>
+                        <select id="fldBranch">
+                            <option value="">Select branch</option>
+                            <option>CSE</option>
+                            <option>ECE</option>
+                            <option>ME</option>
+                            <option>CE</option>
+                            <option>EE</option>
+                            <option>IT</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Year</label>
+                        <select id="fldYear">
+                            <option value="">Select year</option>
+                            <option>1st Year</option>
+                            <option>2nd Year</option>
+                            <option>3rd Year</option>
+                            <option>4th Year</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-full">
+                        <label>Phone (for buyers to contact)</label>
+                        <input type="tel" id="fldPhone" placeholder="+91 XXXXX XXXXX">
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> Save
+                    Changes</button>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><i class="fa-solid fa-clock-rotate-left"
+                        style="color:var(--pri);margin-right:8px"></i>Recent Activity</div>
+                <div class="activity-list" id="activityList">
+                    <div class="activity-item">
+                        <div class="act-icon"><i class="fa-solid fa-tag"></i></div>
+                        <div>
+                            <div class="act-text">No recent activity yet.</div>
+                            <div class="act-time">Start by posting a listing!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="footer-root"></div>
+
+    <script type="module" src="../js/pages/profile.js"></script>
+</body>
+
+</html>
