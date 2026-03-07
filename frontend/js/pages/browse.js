@@ -1,8 +1,10 @@
 import { fetchProducts as fetchProductsApi } from '../api/productApi.js';
 import { getUserInfo } from '../api/authApi.js';
-import { getEmoji, applyTheme, toggleTheme } from '../utils/helpers.js';
+import { getEmoji } from '../utils/helpers.js';
 import { renderProductCard } from '../../components/productCard.js';
 import { initNavigation } from '../utils/navigation-utils.js';
+import { toggleWishlist, isWishlisted } from '../utils/wishlist-utils.js';
+import { PageHeader } from '../../components/PageHeader.js';
 
 let allProducts = [];
 let currentPage = 1;
@@ -11,11 +13,6 @@ let totalItems = 0;
 let searchQuery = '';
 const userInfo = getUserInfo();
 
-// Theme Initialization
-const isDark = localStorage.getItem('theme') === 'dark';
-applyTheme(isDark);
-
-window.toggleTheme = toggleTheme;
 
 // Fetch and Render Products
 async function fetchProducts(queryParams = '') {
@@ -55,6 +52,44 @@ function renderProducts(products) {
     }
 
     grid.innerHTML = products.map(p => renderProductCard(p, true)).join('');
+}
+
+// ── Wishlist toggle (called from product cards) ────────────────────────────────
+window.toggleWish = (productId, btn) => {
+    const product = allProducts.find(p => p._id === productId);
+    if (!product) return;
+
+    const added = toggleWishlist(product);
+    const icon = btn.querySelector('i');
+
+    if (added) {
+        icon.textContent = '❤️';
+        btn.classList.add('active');
+        btn.title = 'Remove from wishlist';
+        btn.classList.add('wish-pop');
+        showWishToast('Added to wishlist ❤️');
+    } else {
+        icon.textContent = '♡';
+        btn.classList.remove('active');
+        btn.title = 'Save to wishlist';
+        showWishToast('Removed from wishlist');
+    }
+
+    setTimeout(() => btn.classList.remove('wish-pop'), 400);
+};
+
+function showWishToast(msg) {
+    let toast = document.getElementById('wishToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'wishToast';
+        toast.className = 'wish-toast';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2200);
 }
 
 // Global Filtering Functions for legacy HTML onclick
@@ -155,22 +190,22 @@ function renderActiveFilters() {
 
     let html = '';
     if (selectedCategory !== 'all') {
-        html += `<span class="filter-chip">${selectedCategory} <i class="fa-solid fa-xmark" onclick="setCat(null, 'all')"></i></span>`;
+        html += `<span class="filter-chip">${selectedCategory} <span style="cursor:pointer" onclick="setCat(null, 'all')">✕</span></span>`;
     }
 
     const min = document.getElementById('priceMin').value;
     const max = document.getElementById('priceMax').value;
     if (min || max) {
-        html += `<span class="filter-chip">₹${min || '0'} - ₹${max || 'Any'} <i class="fa-solid fa-xmark" onclick="resetPrice()"></i></span>`;
+        html += `<span class="filter-chip">₹${min || '0'} - ₹${max || 'Any'} <span style="cursor:pointer" onclick="resetPrice()">✕</span></span>`;
     }
 
     const minRating = document.querySelector('input[name="minRating"]:checked')?.value || '0';
     if (minRating !== '0') {
-        html += `<span class="filter-chip">${minRating}+ Stars <i class="fa-solid fa-xmark" onclick="resetRating()"></i></span>`;
+        html += `<span class="filter-chip">${minRating}+ Stars <span style="cursor:pointer" onclick="resetRating()">✕</span></span>`;
     }
 
     if (searchQuery) {
-        html += `<span class="filter-chip">Search: ${searchQuery} <i class="fa-solid fa-xmark" onclick="clearSearch()"></i></span>`;
+        html += `<span class="filter-chip">Search: ${searchQuery} <span style="cursor:pointer" onclick="clearSearch()">✕</span></span>`;
     }
 
     if (html) {
@@ -237,18 +272,18 @@ window.openModal = (id) => {
 
             const contactInfoBox = `
                 <div class="contact-details-box" id="qvContactInfoBox">
-                    <h4><i class="fa-solid fa-address-card"></i> Seller Contact Details</h4>
-                    <div class="contact-item"><i class="fa-solid fa-phone"></i><span>${p.seller.phone || 'N/A'}</span></div>
-                    <div class="contact-item"><i class="fa-solid fa-envelope"></i><span>${p.seller.email || 'N/A'}</span></div>
+                    <h4>🪪 Seller Contact Details</h4>
+                    <div class="contact-item">📞<span>${p.seller.phone || 'N/A'}</span></div>
+                    <div class="contact-item">✉️<span>${p.seller.email || 'N/A'}</span></div>
                 </div>
             `;
 
             contactActions.insertAdjacentHTML('beforebegin', contactInfoBox);
 
             contactActions.innerHTML = `
-                <a href="tel:${p.seller.phone}" class="btn btn-primary"><i class="fa-solid fa-phone"></i> Call</a>
-                <a href="${waLink}" target="_blank" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                <a href="mailto:${p.seller.email}" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> Email</a>
+                <a href="tel:${p.seller.phone}" class="btn btn-primary">📞 Call</a>
+                <a href="${waLink}" target="_blank" class="btn btn-whatsapp">💬 WhatsApp</a>
+                <a href="mailto:${p.seller.email}" class="btn btn-outline">✉️ Email</a>
             `;
         } else {
             contactActions.innerHTML = `<div class="empty-state">Seller info unavailable</div>`;
@@ -324,6 +359,18 @@ window.toggleSection = (el) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
+    
+    // Inject Page Header
+    const hdrContainer = document.getElementById('page-header-root');
+    if (hdrContainer) {
+        hdrContainer.innerHTML = PageHeader({
+            title: 'Browse Marketplace',
+            description: 'Explore thousands of verified listings from your campus community.',
+            breadcrumbText: 'Browse Items',
+            showAction: false
+        });
+    }
+
     const params = new URLSearchParams(window.location.search);
     searchQuery = params.get('search') || '';
     if (searchQuery) {
@@ -339,5 +386,26 @@ window.addEventListener('click', (e) => {
         const d = document.getElementById('dropdownMenu');
         if (d) d.classList.remove('open');
     }
+    if (!e.target.closest('.filters-dropdown-container')) {
+        const pop = document.getElementById('filtersPopover');
+        if (pop) pop.classList.remove('open');
+        const btn = document.querySelector('.filters-btn');
+        if (btn) btn.classList.remove('active');
+    }
     if (e.target === document.getElementById('qvModal')) window.closeModal();
 });
+
+window.toggleFilterDropdown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const pop = document.getElementById('filtersPopover');
+    const btn = document.querySelector('.filters-btn');
+    if (pop) {
+        pop.classList.toggle('open');
+        if (pop.classList.contains('open')) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    }
+};

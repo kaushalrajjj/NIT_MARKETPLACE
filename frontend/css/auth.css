@@ -21,21 +21,7 @@
     --tr: .22s cubic-bezier(.4, 0, .2, 1);
 }
 
-[data-theme="dark"] {
-    --pri: #4D79FF;
-    --pri-dark: #3360DD;
-    --pri-deep: #1A2E6B;
-    --pri-light: #0F172A;
-    --pri-mid: #1C2E5A;
-    --text: #E8EEFF;
-    --text-2: #9AAAC8;
-    --text-3: #4C637A;
-    --bg: #070D1B;
-    --surface: #0D1528;
-    --border: #192840;
-    --shadow: 0 8px 32px rgba(0, 0, 0, .5);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, .6);
-}
+
 
 *,
 *::before,
@@ -464,30 +450,7 @@ button {
     overflow: hidden;
 }
 
-/* Theme toggle */
-.theme-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
-    border: 1.5px solid var(--border);
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-2);
-    font-size: .88rem;
-    cursor: pointer;
-    transition: all var(--tr);
-}
 
-.theme-toggle:hover {
-    border-color: var(--pri);
-    color: var(--pri);
-    background: var(--pri-light)
-}
 
 /* Back link */
 .back-link {

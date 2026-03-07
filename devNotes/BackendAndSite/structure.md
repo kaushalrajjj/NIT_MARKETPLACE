@@ -19,7 +19,7 @@ NIT_MARKETPLACE/
 │   ├── assets/                 # Static media (Images, Fonts, Icons)
 │   ├── components/             # Dynamic HTML builders (Navbar, Sidebar)
 │   ├── css/                    # Styles (Base, Components, Pages)
-│   ├── html/                   # Page structures
+│   ├── pages/                   # Page structures
 │   └── js/                     # Frontend logic (API, Pages, Utils)
 ├── data/                       # Database storage (.json files)
 ├── devNotes/                   # Developer documentation
@@ -52,7 +52,7 @@ The backend handles the server logic, authentication, and data management.
 
 The frontend is served as a static site but uses modular JavaScript to feel dynamic.
 
-### `frontend/html/`
+### `frontend/pages/`
 Each file represents a unique page in the application:
 *   `index.html`: **Landing Page** — Hero section and value proposition.
 *   `auth.html`: **Authentication** — Combined login/signup interface.

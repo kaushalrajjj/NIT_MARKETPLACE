@@ -3,51 +3,6 @@
    Extends base + component styles.
 ============================================================ */
 
-/* ── PAGE HEADER ── */
-.page-hdr {
-    background: linear-gradient(135deg, var(--pri-deep, #071A5E), var(--pri-dark, #0B2E99));
-    padding: 40px 0 36px;
-}
-
-.page-hdr .inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-}
-
-.breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: .77rem;
-    color: rgba(255, 255, 255, .5);
-    margin-bottom: 10px;
-}
-
-.breadcrumb a {
-    color: rgba(255, 255, 255, .5);
-}
-
-.breadcrumb a:hover {
-    color: #fff;
-}
-
-.breadcrumb i {
-    font-size: .6rem;
-}
-
-.page-hdr h1 {
-    font-weight: 800;
-    font-size: 1.9rem;
-    color: #fff;
-    margin-bottom: 4px;
-}
-
-.page-hdr p {
-    color: rgba(255, 255, 255, .6);
-    font-size: .88rem;
-}
-
 /* ── LAYOUT ── */
 .layout {
     max-width: 1200px;

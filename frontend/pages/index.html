@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NIT KKR Market — Buy, Sell & Connect</title>
-    <link <link rel="stylesheet" href="../css/base/fonts.css" />
+    <link rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
     <link rel="stylesheet" href="../css/base/variables.css" />
     <link rel="stylesheet" href="../css/base/reset.css" />
@@ -20,9 +20,14 @@
 
 <body>
 
-    <!-- NAVBAR & SIDEBAR -->
-    <div id="navbar-root"></div>
-    <div id="sidebar-root"></div>
+    <header>
+        <div id="navbar-root"></div>
+    </header>
+    <aside>
+        <div id="sidebar-root"></div>
+    </aside>
+
+    <main>
 
     <!-- Hero -->
     <section class="hero">
@@ -31,64 +36,47 @@
         <div class="container hero-inner">
             <div>
                 <div class="hero-eyebrow">
-                    <div class="dot"></div>
-                    Only for the NIT KKR Fam
+                    Only for the NIT KKR Students
                 </div>
                 <h1>
-                    Skip the M-Gate hassle.<br>
-                    Buy & Sell <em>right here.</em>
+                    Skip the M-Gate hassle. Buy & Sell <em>right here.</em>
                 </h1>
                 <p class="hero-desc">
-                    Grab old textbooks, sell your cycle before placement, or find someone to design your project.
+                    Grab old textbooks or sell your cycle before placement
                     Everything in one trusted place — just for NIT KKR students.
                 </p>
                 <div class="hero-btns">
                     <a href="/browse" class="btn btn-yellow btn-lg">
-                        <i class="fa-solid fa-magnifying-glass"></i> See what's new
+                        🔍 See what's new
                     </a>
-                    <a href="/sell" class="btn btn-ghost btn-lg">
-                        <i class="fa-solid fa-tag"></i> Post an Ad (Free!)
+                    <a href="/dashboard" class="btn btn-ghost btn-lg">
+                        🏷️ Sell an item 
                     </a>
-                </div>
-                <div class="hero-nums">
-                    <div class="hero-num">
-                        <div class="n" id="stat-listings">0</div>
-                        <div class="l">Active Listings</div>
-                    </div>
-                    <div class="num-divider"></div>
-                    <div class="hero-num">
-                        <div class="n" id="stat-students">0</div>
-                        <div class="l">Verified Students</div>
-                    </div>
-                    <div class="num-divider"></div>
-                    <div class="hero-num">
-                        <div class="n" id="stat-traders">0</div>
-                        <div class="l">Happy Traders</div>
-                    </div>
                 </div>
             </div>
             <div class="hero-cards">
                 <div class="hc">
                     <div class="hc-emoji">📚</div>
                     <div class="hc-t">Textbooks</div>
-                    <div class="hc-s">Semester 3–8 books</div>
-                    <div class="hc-tag">₹50 – ₹800</div>
+                    <div class="hc-s">Semester `1–8 books</div>
                 </div>
                 <div class="hc">
                     <div class="hc-emoji">💻</div>
                     <div class="hc-t">Laptops & Gadgets</div>
                     <div class="hc-s">Verified sellers only</div>
-                    <div class="hc-tag">Best Deals</div>
                 </div>
                 <div class="hc">
                     <div class="hc-emoji">🚲</div>
+                    <div class="hc-t">Cycles</div>
+                    <div class="hc-s">Buy or sell cycles</div>
+                </div>
+                 <div class="hc">
+                    <div class="hc-emoji">🚲</div>
                     <div class="hc-t">Cycles & Gear</div>
                     <div class="hc-s">Buy or sell cycles</div>
-                    <div class="hc-tag">Best Prices</div>
                 </div>
             </div>
         </div>
-        <div class="scroll-hint"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></div>
     </section>
 
 
@@ -97,7 +85,7 @@
     <section class="section" id="categories" style="background: var(--white);">
         <div class="container">
             <div class="rv">
-                <div class="chip"><i class="fa-solid fa-grid-2"></i> Campus Basics</div>
+                <div class="chip">🗂️ Campus Basics</div>
                 <h2 class="sec-h">What do you need today?</h2>
                 <p class="sec-sub">Everything from Exam Essentials to Hostel Hacks.</p>
             </div>
@@ -105,37 +93,30 @@
                 <a href="/browse" class="cat hot">
                     <span class="cat-icon">📚</span>
                     <span class="cat-name">Exam Essentials</span>
-                    <span class="cat-n">420+ items</span>
                 </a>
                 <a href="/browse" class="cat">
                     <span class="cat-icon">🔌</span>
                     <span class="cat-name">Gadgets & Gear</span>
-                    <span class="cat-n">310+ items</span>
                 </a>
                 <a href="/browse" class="cat">
                     <span class="cat-icon">📦</span>
                     <span class="cat-name">Hostel Hacks</span>
-                    <span class="cat-n">250+ items</span>
                 </a>
                 <a href="/browse" class="cat">
                     <span class="cat-icon">👕</span>
                     <span class="cat-name">Fest Outfits</span>
-                    <span class="cat-n">180+ items</span>
                 </a>
                 <a href="/browse" class="cat">
                     <span class="cat-icon">🚲</span>
                     <span class="cat-name">M-Gate Runs</span>
-                    <span class="cat-n">45+ items</span>
                 </a>
                 <a href="/browse" class="cat">
                     <span class="cat-icon">📏</span>
                     <span class="cat-name">Lab Tools</span>
-                    <span class="cat-n">130+ items</span>
                 </a>
                 <a href="/browse" class="cat">
                     <span class="cat-icon">🎭</span>
                     <span class="cat-name">Random Stuff</span>
-                    <span class="cat-n">200+ items</span>
                 </a>
             </div>
         </div>
@@ -147,7 +128,7 @@
     <section class="section hiw-bg" id="hiw">
         <div class="container">
             <div class="center rv">
-                <div class="chip"><i class="fa-solid fa-circle-info"></i> How It Works</div>
+                <div class="chip">ℹ️ How It Works</div>
                 <h2 class="sec-h">Simple as 1-2-3 (mostly)</h2>
                 <p class="sec-sub" style="margin:0 auto 36px">No chaos, no sketchy WhatsApp groups. Just this.</p>
             </div>
@@ -192,21 +173,19 @@
         <div class="container">
             <div class="trust-wrap">
                 <div class="rv">
-                    <div class="chip"><i class="fa-solid fa-shield-halved"></i> Safety First</div>
-                    <h2 class="sec-h">You're safe here.<br>We made sure of it.</h2>
-                    <p class="sec-sub">Every feature is designed to keep transactions within the campus community —
-                        verified,
-                        transparent, and scam-free.</p>
+                    <div class="chip">🛡️ Safety First</div>
+                    <h2 class="sec-h">You're safe here.We made sure of it.</h2>
+                    <p class="sec-sub">Every feature is designed to keep transactions within the campus community — verified, transparent, and scam-free.</p>
                     <div class="trust-feats">
                         <div class="tf">
-                            <div class="tf-ic"><i class="fa-solid fa-envelope-circle-check"></i></div>
+                            <div class="tf-ic">📩</div>
                             <div>
                                 <div class="tf-t">NITians Only</div>
                                 <div class="tf-d">Only verified college accounts can access. No outsiders, ever.</div>
                             </div>
                         </div>
                         <div class="tf">
-                            <div class="tf-ic"><i class="fa-solid fa-id-card"></i></div>
+                            <div class="tf-ic">🪪</div>
                             <div>
                                 <div class="tf-t">Verified Student Profiles</div>
                                 <div class="tf-d">Every account is tied to a real student roll number and department.
@@ -214,18 +193,11 @@
                             </div>
                         </div>
                         <div class="tf">
-                            <div class="tf-ic"><i class="fa-solid fa-map-location-dot"></i></div>
+                            <div class="tf-ic">📍</div>
                             <div>
                                 <div class="tf-t">Inside Campus</div>
                                 <div class="tf-d">All trades happen within NIT KKR. Meet at the library or your favorite
                                     canteen.</div>
-                            </div>
-                        </div>
-                        <div class="tf">
-                            <div class="tf-ic"><i class="fa-solid fa-flag"></i></div>
-                            <div>
-                                <div class="tf-t">Report & Block</div>
-                                <div class="tf-d">See something off? Report it. Our team reviews within 24 hours.</div>
                             </div>
                         </div>
                     </div>
@@ -241,7 +213,7 @@
         <div class="container">
             <div class="about-grid">
                 <div class="rv">
-                    <div class="chip"><i class="fa-solid fa-users"></i> About Us</div>
+                    <div class="chip">👥 About Us</div>
                     <h2 class="sec-h">Built by students,<br>just like you</h2>
                     <p class="sec-sub">We were tired of the chaos in WhatsApp groups and lost money on overpriced items.
                         So we
@@ -250,8 +222,7 @@
                         a fresher
                         furnishing your hostel room or a final-year student clearing out before placements — this is for
                         you.</p>
-                    <a href="mailto:marketplacenit@gmail.com" class="btn btn-blue"><i class="fa-solid fa-envelope"></i>
-                        Get in
+                    <a href="mailto:marketplacenit@gmail.com" class="btn btn-blue">✉️ Get in
                         Touch</a>
                 </div>
                 <div class="about-boxes rv">
@@ -286,14 +257,14 @@
         <div class="container cta-inner">
             <div class="chip"
                 style="background:rgba(245,158,11,.2);color:#fcd34d;border:1px solid rgba(245,158,11,.3);margin:0 auto 14px;display:inline-flex">
-                <i class="fa-solid fa-rocket"></i> Ready?
+                🚀 Ready?
             </div>
             <h2>Clear your room.<br>Fill your wallet.</h2>
             <p>Join 1,800+ NIT students already trading. Access your campus marketplace now.</p>
             <div class="cta-btns">
-                <a href="/auth" class="btn btn-yellow btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Login
+                <a href="/auth" class="btn btn-yellow btn-lg">🚪 Login
                     Now</a>
-                <a href="/browse" class="btn btn-ghost btn-lg"><i class="fa-solid fa-magnifying-glass"></i> Browse
+                <a href="/browse" class="btn btn-ghost btn-lg">🔍 Browse
                     First</a>
             </div>
             <p class="cta-note">🔒 Only @nitkkr.ac.in emails · No fees · No commission</p>
@@ -305,17 +276,17 @@
         <div class="container">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start">
                 <div class="rv">
-                    <div class="chip"><i class="fa-solid fa-envelope"></i> Contact</div>
+                    <div class="chip">✉️ Contact</div>
                     <h2 class="sec-h">Say hello 👋</h2>
                     <p class="sec-sub">Got a question, suggestion, or something to report? We're fellow students — we
                         respond
                         fast.</p>
                     <div style="display:flex; flex-direction:column; gap:12px">
-                        <div class="ci"><i class="fa-solid fa-envelope"></i><span>marketplacenit@gmail.com</span></div>
-                        <div class="ci"><i class="fa-solid fa-location-dot"></i><span>NIT Kurukshetra, Haryana –
+                        <div class="ci">✉️ <span>marketplacenit@gmail.com</span></div>
+                        <div class="ci">📍 <span>NIT Kurukshetra, Haryana –
                                 136119</span></div>
-                        <div class="ci"><i class="fa-brands fa-instagram"></i><span>@nitkkr.market</span></div>
-                        <div class="ci"><i class="fa-brands fa-linkedin"></i><span>/nitkkr-marketplace</span></div>
+                        <div class="ci">📸 <span>@nitkkr.market</span></div>
+                        <div class="ci">🔗 <span>/nitkkr-marketplace</span></div>
                     </div>
                 </div>
                 <div class="rv">
@@ -347,7 +318,7 @@
                                 onblur="this.style.borderColor='var(--border)'"></textarea>
                         </div>
                         <button type="submit" class="btn btn-blue" style="align-self:flex-start">
-                            <i class="fa-solid fa-paper-plane"></i> Send Message
+                            ✈️ Send Message
                         </button>
                     </form>
                 </div>
@@ -355,7 +326,11 @@
         </div>
     </section>
 
-    <div id="footer-root"></div>
+    </main>
+
+    <footer>
+        <div id="footer-root"></div>
+    </footer>
 
     <script type="module" src="../js/pages/index.js"></script>
 

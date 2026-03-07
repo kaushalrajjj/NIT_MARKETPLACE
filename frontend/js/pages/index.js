@@ -1,5 +1,3 @@
-import { fetchLatestProducts, fetchPublicStats } from '../api/productApi.js';
-import { animateValue } from '../utils/helpers.js';
 import { initNavigation } from '../utils/navigation-utils.js';
 
 // Setup Global Functions (needed for inline onclick in legacy HTML)
@@ -7,10 +5,6 @@ window.handleSearch = (val) => {
     if (val.trim()) {
         window.location.href = `/browse?search=${encodeURIComponent(val)}`;
     }
-};
-window.setTab = (el) => {
-    document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-    el.classList.add('on');
 };
 
 // Scroll reveal
@@ -35,10 +29,10 @@ function initScrollReveal() {
 window.handleForm = (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button[type="submit"]');
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Sent!';
+    btn.innerHTML = '✔ Sent!';
     btn.style.background = '#059669';
     setTimeout(() => {
-        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
+        btn.innerHTML = '✈️ Send Message';
         btn.style.background = '';
     }, 3000);
 };
@@ -51,20 +45,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-
-async function loadStats() {
-    try {
-        const stats = await fetchPublicStats();
-        animateValue("stat-listings", 0, stats.totalListings, 1500);
-        animateValue("stat-students", 0, stats.totalStudents, 1500);
-        animateValue("stat-traders", 0, stats.happyTraders, 1500);
-    } catch (error) {
-        console.error('Error loading stats:', error);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initScrollReveal();
-    loadStats();
 });

@@ -25,15 +25,4 @@ export function animateValue(id, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
-export function applyTheme(dark) {
-    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-    const icon = document.getElementById('themeIcon') || document.getElementById('themeIco');
-    if (icon) icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
-}
 
-export function toggleTheme() {
-    let dark = localStorage.getItem('theme') === 'dark';
-    dark = !dark;
-    applyTheme(dark);
-}

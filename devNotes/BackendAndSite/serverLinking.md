@@ -19,7 +19,7 @@ graph TD
 
     F -->|Match: /dashboard| G[res.sendFile]
 
-    G -->|Final Destination| H[frontend/html/dashboard.html]
+    G -->|Final Destination| H[frontend/pages/dashboard.html]
 ```
 
 ---
@@ -63,7 +63,7 @@ When a page needs data (like fetching products), it calls the API. Here is how t
 
 | **app.js** | `routes/*.js` | To delegate API requests to specific route files. |
 
-| **app.js** | `frontend/html/*.html` | To serve the actual web pages to the user. |
+| **app.js** | `frontend/pages/*.html` | To serve the actual web pages to the user. |
 
 | **routes/*.js** | `handlers/*.js` | To connect a URL (e.g., `/login`) to a logic function. |
 
@@ -78,4 +78,4 @@ When a page needs data (like fetching products), it calls the API. Here is how t
 - **Routing Hub**: `backend/app.js`
 - **Logic Center**: `backend/handlers/`
 - **Data Source**: `data/`
-- **Display Layer**: `frontend/html/`
+- **Display Layer**: `frontend/pages/`

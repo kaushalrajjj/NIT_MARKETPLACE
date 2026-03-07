@@ -2,12 +2,30 @@ import { fetchMyProducts, markAsSold, deleteProduct } from '../api/productApi.js
 import { getUserInfo, logout } from '../api/authApi.js';
 import { getEmoji } from '../utils/helpers.js';
 import { initNavigation } from '../utils/navigation-utils.js';
+import { getWishlist, removeFromWishlist } from '../utils/wishlist-utils.js';
+import { PageHeader } from '../../components/PageHeader.js';
 
 const userInfo = getUserInfo();
 if (!userInfo) window.location.href = '/auth';
 
 let myProducts = [];
 let currentSort = 'Newest First';
+let activeTab = 'listings'; // 'listings' | 'wishlist'
+
+// ─── TAB SWITCHING ─────────────────────────────────────────────────────────────
+
+window.switchTab = (tab) => {
+    activeTab = tab;
+    document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.dash-tab[data-tab="${tab}"]`)?.classList.add('active');
+
+    document.getElementById('listingsSection').style.display = tab === 'listings' ? '' : 'none';
+    document.getElementById('wishlistSection').style.display = tab === 'wishlist' ? '' : 'none';
+
+    if (tab === 'wishlist') renderWishlistTab();
+};
+
+// ─── MY LISTINGS ───────────────────────────────────────────────────────────────
 
 async function refreshProducts() {
     try {
@@ -34,7 +52,7 @@ function applySortAndRender() {
 function renderMyProducts(products) {
     const grid = document.getElementById('pgrid');
     if (!grid) return;
-    document.getElementById('resCount').innerHTML = `You have <strong>${products.length}</strong> listings`;
+    document.getElementById('listingsCount').innerHTML = `You have <strong>${products.length}</strong> listing${products.length !== 1 ? 's' : ''}`;
 
     grid.innerHTML = products.length === 0 ? '<div class="empty-state">No items yet. <a href="/sell">Start selling</a></div>' : products.map(p => `
         <div class="pc">
@@ -45,7 +63,7 @@ function renderMyProducts(products) {
                 <div class="pcat">${p.category}</div>
                 <div class="ctitle">${p.title}</div>
                 <div class="pmeta">
-                    <span><i class="fa-solid fa-clock"></i> ${new Date(p.createdAt).toLocaleDateString()}</span>
+                    <span>🕒 ${new Date(p.createdAt).toLocaleDateString()}</span>
                 </div>
                 <div class="pprice">₹${p.price}</div>
                 <div class="p-actions" style="margin-top:10px; display:flex; gap:10px">
@@ -57,7 +75,68 @@ function renderMyProducts(products) {
     `).join('');
 }
 
-// Global Exports
+// ─── WISHLIST TAB ──────────────────────────────────────────────────────────────
+
+function renderWishlistTab() {
+    const list = getWishlist();
+    const grid = document.getElementById('wgrid');
+    const count = document.getElementById('wishlistCount');
+    if (!grid) return;
+
+    if (count) count.innerHTML = `<strong>${list.length}</strong> saved item${list.length !== 1 ? 's' : ''}`;
+
+    if (list.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1">
+                ❤️
+                <h3>No saved items yet</h3>
+                <p>Browse products and click the ♡ to save them here.</p>
+                <a href="/browse" class="browse-btn">🏪 Browse Items</a>
+            </div>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(p => `
+        <div class="pc" id="wc-${p._id}">
+            <div class="pimg">
+                ${getEmoji(p.category)}
+                <span class="pcond">${p.condition || 'Used'}</span>
+                <button class="premove" title="Remove from saved" onclick="removeWish('${p._id}')">
+                    💔
+                </button>
+            </div>
+            <div class="pbody">
+                <div class="pcat">${p.category || 'General'}</div>
+                <div class="ctitle">${p.title}</div>
+                <div class="pmeta">
+                    <span>📍 ${p.location || 'NIT KKR'}</span>
+                </div>
+                <div class="pprice">₹${p.price?.toLocaleString('en-IN') ?? '—'}</div>
+            </div>
+            <div class="pfoot">
+                <a href="/browse" class="pbtn pbtn-contact" style="text-decoration:none;">
+                    🏪 Browse
+                </a>
+                <button class="pbtn pbtn-view" onclick="removeWish('${p._id}')">
+                    💔
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+window.removeWish = (id) => {
+    removeFromWishlist(id);
+    renderWishlistTab();
+};
+
+// Listen for wishlist changes from browse page
+window.addEventListener('wishlistChanged', () => {
+    if (activeTab === 'wishlist') renderWishlistTab();
+});
+
+// ─── GLOBAL EXPORTS ────────────────────────────────────────────────────────────
+
 window.toggleSort = () => {
     const menu = document.querySelector('.sort-menu');
     if (menu) menu.classList.toggle('open');
@@ -107,12 +186,37 @@ window.deleteProduct = async (id) => {
     } catch (err) { console.error(err); }
 };
 
-window.logout = logout;
 
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
+    
+    // Inject Page Header
+    const hdrContainer = document.getElementById('page-header-root');
+    if (hdrContainer) {
+        hdrContainer.innerHTML = PageHeader({
+            title: 'My Dashboard',
+            description: 'Track your selling activity and manage your listings.',
+            breadcrumbText: 'My Dashboard',
+            actionText: '✚ Sell an Item',
+            actionUrl: '/sell',
+            showAction: true
+        });
+    }
+
     refreshProducts();
+    updateWishBadge();
 });
+
+function updateWishBadge() {
+    const badge = document.getElementById('wishBadge');
+    if (!badge) return;
+    const count = getWishlist().length;
+    badge.textContent = count || '';
+    badge.classList.toggle('visible', count > 0);
+}
+
+window.addEventListener('wishlistChanged', updateWishBadge);
+
 
 window.addEventListener('click', e => {
     if (!e.target.closest('.profile-dropdown')) {

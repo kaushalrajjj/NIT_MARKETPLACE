@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login / Sign Up — NIT KKR Marketplace</title>
-    <link <link rel="stylesheet" href="../css/base/fonts.css" />
+    <link rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
     <link rel="stylesheet" href="../css/base/variables.css" />
     <link rel="stylesheet" href="../css/base/reset.css" />
@@ -43,27 +43,27 @@
 
                 <div class="profile-dropdown">
                     <div class="profile-avatar" title="Quick Links" onclick="toggleProf()">
-                        Quick Links <i class="fa-solid fa-chevron-down" style="margin-left:8px;font-size:.7rem"></i>
+                        Quick Links ∨
                     </div>
                     <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="/"><i class="fa-solid fa-house"></i> Home</a>
-                        <a href="/browse"><i class="fa-solid fa-magnifying-glass"></i> Browse Items</a>
-                        <a href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-                        <a href="/chat"><i class="fa-solid fa-comments"></i> Messages</a>
+                        <a href="/">🏠 Home</a>
+                        <a href="/browse">🔍 Browse Items</a>
+                        <a href="/dashboard">⮕ Dashboard</a>
+                        <a href="/chat">💬 Messages</a>
                     </div>
                 </div>
 
                 <div class="auth-features" style="margin-top:40px">
                     <div class="auth-feat">
-                        <div class="af-icon"><i class="fa-solid fa-shield-check" style="color:#5EF3C5"></i></div>
+                        <div class="af-icon"><span style="color:#5EF3C5">✔</span></div>
                         <div class="af-text"><strong>Verified Users</strong> only with @nitkkr email</div>
                     </div>
                     <div class="auth-feat">
-                        <div class="af-icon"><i class="fa-solid fa-handshake-simple" style="color:#FFCA5C"></i></div>
+                        <div class="af-icon"><span style="color:#FFCA5C">🤝</span></div>
                         <div class="af-text"><strong>Face-to-Face</strong> deals in campus hostels</div>
                     </div>
                     <div class="auth-feat">
-                        <div class="af-icon"><i class="fa-solid fa-indian-rupee-sign" style="color:#93C5FD"></i></div>
+                        <div class="af-icon"><span style="color:#93C5FD">₹</span></div>
                         <div class="af-text"><strong>Zero Commission</strong> — keep 100% profit</div>
                     </div>
                 </div>
@@ -106,9 +106,7 @@
 
         <!-- ══════════════════ RIGHT PANEL ══════════════════ -->
         <div class="auth-right">
-            <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
-            <button class="theme-toggle" onclick="toggleTheme()"><i class="fa-solid fa-moon"
-                    id="themeIcon"></i></button>
+            <a href="/" class="back-link">← Back to Home</a>
 
             <!-- ── LOGIN FORM ── -->
             <div class="auth-card" id="loginCard">
@@ -126,7 +124,7 @@
                     <div class="form-group">
                         <label class="form-label">NIT Email Address</label>
                         <div class="input-wrap">
-                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <span class="input-icon">✉️</span>
                             <input type="email" class="form-input" id="loginEmail" placeholder="yourname@nitkkr.ac.in"
                                 oninput="validateEmail(this,'login')" />
                         </div>
@@ -141,11 +139,10 @@
                                 onclick="showPanel('forgot')">Forgot password?</a>
                         </div>
                         <div class="input-wrap">
-                            <i class="fa-solid fa-lock input-icon"></i>
+                            <span class="input-icon">🔒</span>
                             <input type="password" class="form-input" id="loginPass"
                                 placeholder="Enter your password" />
-                            <button type="button" class="pass-toggle" onclick="togglePass('loginPass',this)"><i
-                                    class="fa-regular fa-eye"></i></button>
+                            <button type="button" class="pass-toggle" onclick="togglePass('loginPass',this)">👁️</button>
                         </div>
                         <div class="field-error" id="loginPassErr">Password must be at least 8 characters</div>
                     </div>
@@ -206,7 +203,7 @@
                         <div class="form-group">
                             <label class="form-label">Full Name <span style="color:var(--acc-red)">*</span></label>
                             <div class="input-wrap">
-                                <i class="fa-solid fa-user input-icon"></i>
+                                <span class="input-icon">👤</span>
                                 <input type="text" class="form-input" id="signupName" placeholder="Your full name"
                                     required />
                             </div>
@@ -215,7 +212,7 @@
                         <div class="form-group">
                             <label class="form-label">NIT Email <span style="color:var(--acc-red)">*</span></label>
                             <div class="input-wrap">
-                                <i class="fa-solid fa-envelope input-icon"></i>
+                                <span class="input-icon">✉️</span>
                                 <input type="email" class="form-input" id="signupEmail"
                                     placeholder="yourname@nitkkr.ac.in" required
                                     oninput="validateEmail(this,'signup')" />
@@ -227,11 +224,10 @@
                             <label class="form-label">Create Password <span
                                     style="color:var(--acc-red)">*</span></label>
                             <div class="input-wrap">
-                                <i class="fa-solid fa-lock input-icon"></i>
+                                <span class="input-icon">🔒</span>
                                 <input type="password" class="form-input" id="signupPass" placeholder="Min 8 characters"
                                     required oninput="checkStrength(this)" />
-                                <button type="button" class="pass-toggle" onclick="togglePass('signupPass',this)"><i
-                                        class="fa-regular fa-eye"></i></button>
+                                <button type="button" class="pass-toggle" onclick="togglePass('signupPass',this)">👁️</button>
                             </div>
                             <div class="pass-strength" id="passStrength">
                                 <div class="ps-seg" id="ps1"></div>
@@ -242,8 +238,7 @@
                             <div class="ps-label" id="psLabel"></div>
                         </div>
 
-                        <button type="submit" class="submit-btn" style="margin-top:10px">Continue <i
-                                class="fa-solid fa-arrow-right"></i></button>
+                        <button type="submit" class="submit-btn" style="margin-top:10px">Continue →</button>
                     </form>
                 </div>
 
@@ -253,7 +248,7 @@
                         <div class="form-group">
                             <label class="form-label">Hostel Name</label>
                             <div class="input-wrap">
-                                <i class="fa-solid fa-hotel input-icon"></i>
+                                <span class="input-icon">🏢</span>
                                 <select class="form-input" style="appearance:none">
                                     <option>Select Hostel</option>
                                     <option>BH-1</option>
@@ -289,13 +284,12 @@
                         <div class="form-group">
                             <label class="form-label">Phone Number (Optional)</label>
                             <div class="input-wrap">
-                                <i class="fa-solid fa-phone input-icon"></i>
+                                <span class="input-icon">📞</span>
                                 <input type="tel" class="form-input" placeholder="+91 XXXX XXXX" />
                             </div>
                         </div>
 
-                        <button type="submit" class="submit-btn" style="margin-top:10px">Setup Profile <i
-                                class="fa-solid fa-arrow-right"></i></button>
+                        <button type="submit" class="submit-btn" style="margin-top:10px">Setup Profile →</button>
                         <button type="button"
                             style="width:100%;background:none;border:none;color:var(--text-3);font-size:.82rem;margin-top:14px;cursor:pointer"
                             onclick="goSignupStep(1)">Go Back</button>
@@ -306,7 +300,7 @@
                 <div id="signupStep3" style="display:none">
                     <div class="otp-target"
                         style="padding:14px;background:var(--pri-light);border-radius:12px;display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text-2);border:1px dashed var(--pri-mid);margin-bottom:20px">
-                        <i class="fa-solid fa-envelope" style="color:var(--pri)"></i>
+                        ✉️
                         <span>OTP sent to <strong>raj.kumar@nitkkr.ac.in</strong></span>
                     </div>
 
@@ -332,7 +326,7 @@
                     </div>
 
                     <div class="success-box" id="otpSuccess">
-                        <i class="fa-solid fa-circle-check"></i>
+                        ✔
                         <h3>Verification Successful</h3>
                         <p>Welcome to NIT KKR Marketplace community!</p>
                     </div>
@@ -356,7 +350,7 @@
                     <div class="form-group" style="margin-bottom:28px">
                         <label class="form-label">NIT Email Address</label>
                         <div class="input-wrap">
-                            <i class="fa-solid fa-envelope input-icon"></i>
+                            <span class="input-icon">✉️</span>
                             <input type="email" class="form-input" id="forgotEmail" placeholder="yourname@nitkkr.ac.in"
                                 required />
                         </div>
@@ -365,12 +359,12 @@
                 </form>
 
                 <div class="success-box" id="resetSuccess">
-                    <i class="fa-solid fa-paper-plane"></i>
+                    ✈️
                     <h3>Reset Link Sent</h3>
                     <p>Check your NIT inbox for instructions to reset your password.</p>
                 </div>
 
-                <div class="auth-switch"><a onclick="showPanel('login')"><i class="fa-solid fa-arrow-left"></i> Back to
+                <div class="auth-switch"><a onclick="showPanel('login')">← Back to
                         Login</a>
                 </div>
             </div>

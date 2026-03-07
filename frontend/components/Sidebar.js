@@ -15,7 +15,7 @@ export function getSidebarHTML() {
 
     const dashLink = userInfo ? `
         <a href="${dashHref}" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
-            <i class="fa-solid fa-gauge-high"></i> Dashboard
+            📊 Dashboard
         </a>
     ` : '';
 
@@ -23,13 +23,13 @@ export function getSidebarHTML() {
         <div class="sb-bottom">
             <button class="sb-link danger" style="width:100%;background:none;border:none;font-family:inherit;cursor:pointer"
                     onclick="window.logout && window.logout()">
-                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+                [⮕Log Out
             </button>
         </div>
     ` : `
         <div class="sb-bottom">
             <a href="/auth" class="sb-link" style="justify-content:center;background:var(--pri);color:#fff;border-radius:12px;text-decoration:none">
-                <i class="fa-solid fa-right-to-bracket"></i> Login
+                [⬅ Login
             </a>
         </div>
     `;
@@ -45,7 +45,7 @@ export function getSidebarHTML() {
                         <div class="sb-logo-icon">N</div>
                     </div>
                     <button class="sb-close" onclick="window.closeSidebar && window.closeSidebar()" title="Close sidebar">
-                        <i class="fa-solid fa-xmark"></i>
+                        <i>✕</i>
                     </button>
                 </div>
 
@@ -62,23 +62,23 @@ export function getSidebarHTML() {
 
             <nav class="sb-nav">
                 <a href="/" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
-                    <i class="fa-solid fa-house"></i> Home
+                    🏠 Home
                 </a>
                 <a href="/browse" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
-                    <i class="fa-solid fa-store"></i> Browse Items
+                    🏪 Browse Items
                 </a>
                 <a href="/sell" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
-                    <i class="fa-solid fa-plus-circle"></i> Sell an Item
+                    ✚ Sell an Item
                 </a>
                 ${dashLink}
                 <a href="/wishlist" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
-                    <i class="fa-solid fa-heart"></i> Wishlist
+                    ❤️ Wishlist
                 </a>
                 <a href="/profile" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
-                    <i class="fa-solid fa-user"></i> My Profile
+                    👤 My Profile
                 </a>
                 <a href="#" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
-                    <i class="fa-solid fa-circle-question"></i> Help Center
+                    ❓ Help Center
                 </a>
                 <div class="sb-spacer"></div>
             </nav>

@@ -1,18 +1,28 @@
 import { getEmoji } from '../js/utils/helpers.js';
+import { isWishlisted } from '../js/utils/wishlist-utils.js';
 
 export function renderProductCard(p, isBrowse = false) {
     if (isBrowse) {
+        const wished = isWishlisted(p._id);
+        // Encode product as a JSON string safe for inline onclick
+        const productJson = JSON.stringify(p).replace(/'/g, "\\'").replace(/"/g, '&quot;');
         return `
-            <div class="product-card" onclick="openModal('${p._id}')">
+            <div class="product-card" id="pc-${p._id}" onclick="openModal('${p._id}')">
                 <div class="p-img">
                     <span class="p-emoji" style="font-size:3rem">${getEmoji(p.category)}</span>
                     <span class="p-badge used">${p.condition}</span>
+                    <button class="p-wish-btn${wished ? ' active' : ''}"
+                            id="wish-${p._id}"
+                            title="${wished ? 'Remove from wishlist' : 'Save to wishlist'}"
+                            onclick="event.stopPropagation(); window.toggleWish('${p._id}', this)">
+                        <i>♡</i>
+                    </button>
                 </div>
                 <div class="p-body">
                     <div class="p-cat">${p.category}</div>
                     <h3 class="p-title">${p.title}</h3>
                     <div class="p-meta">
-                        <span><i class="fa-solid fa-location-dot"></i> ${p.location || 'NIT KKR'}</span>
+                        <span>📍 ${p.location || 'NIT KKR'}</span>
                     </div>
                     <div class="p-price-row">
                         <div class="p-price">₹${p.price.toLocaleString('en-IN')}</div>
@@ -38,7 +48,7 @@ export function renderProductCard(p, isBrowse = false) {
             </div>
             <div class="card-body">
                 <div class="card-meta">
-                    <span><i class="fa-solid fa-location-dot"></i> ${p.location || 'NIT KKR'}</span>
+                    <span>📍 ${p.location || 'NIT KKR'}</span>
                 </div>
                 <h3 class="card-title" style="margin:10px 0; font-size:1.1rem; color:var(--text); font-weight:700">${p.title}</h3>
                 <div class="card-price" style="font-size:1.25rem; color:var(--pri); font-weight:800; margin-bottom:15px">₹${p.price.toLocaleString('en-IN')}</div>

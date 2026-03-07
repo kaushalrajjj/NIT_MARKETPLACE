@@ -6,7 +6,7 @@ This file shows all the dependencies and connections for the **Login & Signup Pa
 
 ```mermaid
 graph TD
-    HTML[frontend/html/auth.html]
+    HTML[frontend/pages/auth.html]
     
     subgraph CSS_FILES [CSS Styling]
         STYLE_BASE[frontend/css/base/fonts.css<br>frontend/css/base/variables.css<br>frontend/css/base/reset.css]

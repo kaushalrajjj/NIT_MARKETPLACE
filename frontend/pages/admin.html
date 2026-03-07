@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Panel — NIT KKR Marketplace</title>
-    <link <link rel="stylesheet" href="../css/base/fonts.css" />
+    <link  rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
     <link rel="stylesheet" href="../css/base/variables.css" />
     <link rel="stylesheet" href="../css/base/reset.css" />
@@ -32,8 +32,12 @@
 
 <body>
     <!-- Navigation Mount Points -->
-    <div id="navbar-root"></div>
-    <div id="sidebar-root"></div>
+    <header>
+        <div id="navbar-root"></div>
+    </header>
+    <aside>
+        <div id="sidebar-root"></div>
+    </aside>
 
     <!-- ── MAIN ── -->
     <main class="main">
@@ -42,28 +46,28 @@
         <div class="panel active" id="panel-dashboard">
             <div class="stats-row">
                 <div class="sc blue">
-                    <div class="sc-icon blue"><i class="fa-solid fa-users"></i></div>
+                    <div class="sc-icon blue">👥</div>
                     <div class="sc-num" id="stat-users">0</div>
                     <div class="sc-label">Total Students</div>
-                    <div class="sc-change up"><i class="fa-solid fa-caret-up"></i> 12%</div>
+                    <div class="sc-change up">▲ 12%</div>
                 </div>
                 <div class="sc green">
-                    <div class="sc-icon green"><i class="fa-solid fa-boxes-stacked"></i></div>
+                    <div class="sc-icon green">📦</div>
                     <div class="sc-num" id="stat-listings">0</div>
                     <div class="sc-label">Live Listings</div>
-                    <div class="sc-change up"><i class="fa-solid fa-caret-up"></i> 5%</div>
+                    <div class="sc-change up">▲ 5%</div>
                 </div>
                 <div class="sc orange">
-                    <div class="sc-icon orange"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    <div class="sc-icon orange">₹</div>
                     <div class="sc-num" id="stat-volume">₹0</div>
                     <div class="sc-label">Total Volume</div>
-                    <div class="sc-change up"><i class="fa-solid fa-caret-up"></i> 22%</div>
+                    <div class="sc-change up">▲ 22%</div>
                 </div>
                 <div class="sc purple">
-                    <div class="sc-icon purple"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="sc-icon purple">⏳</div>
                     <div class="sc-num" id="stat-pending">0</div>
                     <div class="sc-label">Pending Approval</div>
-                    <div class="sc-change"><i class="fa-solid fa-clock"></i> Action Needed</div>
+                    <div class="sc-change">🕒 Action Needed</div>
                 </div>
             </div>
 
@@ -123,7 +127,7 @@
 
     <!-- TOAST -->
     <div id="toast" class="toast">
-        <i class="fa-solid fa-circle-check"></i>
+        <i id="toastIcon">✔</i>
         <span id="toastMsg">Action successful</span>
     </div>
 

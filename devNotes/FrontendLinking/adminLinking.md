@@ -7,7 +7,7 @@ This document visualizes the complete dependency chain for the **Platform Admini
 ```mermaid
 graph TD
     %% Server Layer
-    SERVER[backend/app.js] -->|Routes /admin| HTML[frontend/html/admin.html]
+    SERVER[backend/app.js] -->|Routes /admin| HTML[frontend/pages/admin.html]
 
     %% Frontend Core
     HTML -->|Loads| STYLE_BASE[CSS: base/ fonts.css, variables.css, reset.css]

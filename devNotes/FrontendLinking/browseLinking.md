@@ -6,7 +6,7 @@ This file shows all the dependencies and connections for the **Browse Marketplac
 
 ```mermaid
 graph TD
-    HTML[frontend/html/browse.html]
+    HTML[frontend/pages/browse.html]
     
     subgraph CSS_FILES [CSS Styling]
         STYLE_BASE[frontend/css/base/fonts.css<br>frontend/css/base/variables.css<br>frontend/css/base/reset.css]

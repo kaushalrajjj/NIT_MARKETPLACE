@@ -16,38 +16,35 @@
     <link rel="stylesheet" href="../css/components/sidebar.css" />
     <link rel="stylesheet" href="../css/components/footer.css" />
     <link rel="stylesheet" href="../css/components/product-card.css" />
+    <link rel="stylesheet" href="../css/components/page-header.css" />
     <!-- Page -->
     <link rel="stylesheet" href="../css/pages/wishlist.css" />
 </head>
 
 <body>
 
-    <div id="navbar-root"></div>
-    <div id="sidebar-root"></div>
+    <header>
+        <div id="navbar-root"></div>
+        <div id="page-header-root"></div>
+    </header>
 
-    <div class="page-hdr">
-        <div class="inner">
-            <div class="breadcrumb">
-                <a href="/"><i class="fa-solid fa-house"></i> Home</a>
-                <i class="fa-solid fa-chevron-right"></i>
-                <span>Wishlist</span>
-            </div>
-            <h1><i class="fa-solid fa-heart" style="margin-right:10px;color:#f87171"></i>My Wishlist</h1>
-            <p>Items you've saved — buy them before they're gone!</p>
-        </div>
-    </div>
+    <aside>
+        <div id="sidebar-root"></div>
+    </aside>
 
-    <div class="layout">
+    <main class="layout">
         <div class="toolbar">
             <div class="count-label"><strong id="wCount">0</strong> saved items</div>
-            <button class="clear-btn" onclick="clearWishlist()"><i class="fa-solid fa-trash-can"></i> Clear All</button>
+            <button class="clear-btn" onclick="clearWishlist()">🗑️ Clear All</button>
         </div>
         <div class="wgrid" id="wgrid">
             <!-- filled by wishlist.js -->
         </div>
-    </div>
+    </main>
 
-    <div id="footer-root"></div>
+    <footer>
+        <div id="footer-root"></div>
+    </footer>
 
     <script type="module" src="../js/pages/wishlist.js"></script>
 </body>

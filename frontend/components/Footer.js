@@ -14,11 +14,11 @@ export function getFooterHTML() {
                     </div>
                     <p>The exclusive buy-sell platform for NIT Kurukshetra students. Trade safely within the campus community.</p>
                     <div class="foot-socials">
-                        <a href="#" class="fs-link"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="fs-link"><i class="fa-brands fa-linkedin-in"></i></a>
-                        <a href="#" class="fs-link"><i class="fa-brands fa-x-twitter"></i></a>
-                        <a href="#" class="fs-link"><i class="fa-brands fa-discord"></i></a>
-                        <a href="#" class="fs-link"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="fs-link">📸</a>
+                        <a href="#" class="fs-link">🔗</a>
+                        <a href="#" class="fs-link">𝕏</a>
+                        <a href="#" class="fs-link">👾</a>
+                        <a href="#" class="fs-link">💻</a>
                     </div>
                 </div>
 
@@ -45,9 +45,9 @@ export function getFooterHTML() {
                 <div class="foot-col">
                     <h4>Contact</h4>
                     <div class="foot-contact">
-                        <div class="ci"><i class="fa-solid fa-envelope"></i> marketplacenit@gmail.com</div>
-                        <div class="ci"><i class="fa-solid fa-location-dot"></i> NIT Kurukshetra, HR – 136119</div>
-                        <div class="ci"><i class="fa-solid fa-clock"></i> Mon – Fri, 9AM – 6PM</div>
+                        <div class="ci">✉️ marketplacenit@gmail.com</div>
+                        <div class="ci">📍 NIT Kurukshetra, HR – 136119</div>
+                        <div class="ci">🕒 Mon – Fri, 9AM – 6PM</div>
                     </div>
                 </div>
 

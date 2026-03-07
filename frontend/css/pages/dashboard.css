@@ -6,113 +6,6 @@
      components/product-card.css, components/modal.css
 ============================================================ */
 
-/* ── PAGE HEADER ── */
-.page-hdr {
-    background: linear-gradient(135deg, var(--pri-deep), var(--pri-dark));
-    padding: 36px 0 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.page-hdr::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px);
-    background-size: 30px 30px;
-}
-
-.page-hdr .inner {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 1;
-}
-
-/* Breadcrumb */
-.breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: .77rem;
-    color: rgba(255, 255, 255, .5);
-    margin-bottom: 10px;
-}
-
-.breadcrumb a {
-    color: rgba(255, 255, 255, .5);
-    transition: color var(--tr);
-}
-
-.breadcrumb a:hover {
-    color: #fff;
-}
-
-.breadcrumb i {
-    font-size: .6rem;
-}
-
-.breadcrumb .cur {
-    color: rgba(255, 255, 255, .85);
-}
-
-.page-hdr h1 {
-    font-weight: 800;
-    font-size: 1.95rem;
-    color: #fff;
-    margin-bottom: 5px;
-}
-
-.page-hdr p {
-    color: rgba(255, 255, 255, .62);
-    font-size: .88rem;
-    margin-bottom: 22px;
-}
-
-/* ── Category pills (header tabs) ── */
-.cat-pills {
-    display: flex;
-    gap: 7px;
-    overflow-x: auto;
-    padding-bottom: 18px;
-    scrollbar-width: none;
-}
-
-.cat-pills::-webkit-scrollbar {
-    display: none;
-}
-
-.cat-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(255, 255, 255, .12);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, .18);
-    color: rgba(255, 255, 255, .78);
-    padding: 6px 14px;
-    border-radius: 99px;
-    font-size: .79rem;
-    font-weight: 500;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all var(--tr);
-    flex-shrink: 0;
-}
-
-.cat-pill:hover,
-.cat-pill.active {
-    background: rgba(255, 255, 255, .24);
-    color: #fff;
-    border-color: rgba(255, 255, 255, .4);
-}
-
-.cat-pill.active {
-    background: var(--acc);
-    border-color: var(--acc);
-}
-
 /* ── LAYOUT ── */
 .browse-layout {
     max-width: 1440px;
@@ -255,4 +148,87 @@
     .browse-toolbar {
         gap: 7px;
     }
+}
+
+/* ── DASHBOARD TAB BAR ── */
+.dash-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 22px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+}
+
+.dash-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: var(--text-3);
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -2px;
+    border-radius: 8px 8px 0 0;
+    transition: all .18s;
+    position: relative;
+}
+
+.dash-tab:hover {
+    color: var(--pri);
+    background: var(--pri-light);
+}
+
+.dash-tab.active {
+    color: var(--pri);
+    border-bottom-color: var(--pri);
+    background: var(--pri-light);
+}
+
+/* Wishlist count badge on tab */
+.wish-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 99px;
+    background: var(--acc-red, #f87171);
+    color: #fff;
+    font-size: .65rem;
+    font-weight: 800;
+    padding: 0 5px;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all .2s;
+}
+
+.wish-badge.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* browse-btn used in empty state for wishlist tab */
+.browse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: var(--pri);
+    color: #fff;
+    border-radius: 99px;
+    font-weight: 700;
+    font-size: .88rem;
+    text-decoration: none;
+    transition: all .2s;
+    margin-top: 12px;
+}
+
+.browse-btn:hover {
+    background: var(--pri-dark);
+    transform: translateY(-1px);
 }

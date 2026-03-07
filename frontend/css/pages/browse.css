@@ -3,65 +3,6 @@
    Page-specific only. Shared components live in css/components/.
 ============================================================ */
 
-/* ── PAGE HEADER ── */
-.page-header {
-    background: linear-gradient(135deg, var(--pri-deep), var(--pri-dark));
-    padding: 36px 0 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.page-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px);
-    background-size: 28px 28px;
-}
-
-.ph-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 1;
-}
-
-.breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: .8rem;
-    color: rgba(255, 255, 255, .55);
-    margin-bottom: 14px;
-}
-
-.breadcrumb a {
-    color: rgba(255, 255, 255, .55);
-    transition: color var(--transition);
-}
-
-.breadcrumb a:hover {
-    color: #fff;
-}
-
-.breadcrumb i {
-    font-size: .65rem;
-}
-
-.ph-title {
-    font-weight: 800;
-    font-size: 2rem;
-    color: #fff;
-    margin-bottom: 6px;
-}
-
-.ph-sub {
-    color: rgba(255, 255, 255, .6);
-    font-size: .92rem;
-    margin-bottom: 24px;
-}
-
 /* ── MAIN LAYOUT ── */
 .browse-layout {
     max-width: 1400px;
@@ -75,7 +16,6 @@
 
 /* ── FILTER SIDEBAR ── */
 .filter-sidebar {
-    position: sticky;
     top: calc(var(--nav-h) + 20px);
     background: var(--surface);
     border: 1.5px solid var(--border);
@@ -354,6 +294,107 @@
     border-color: var(--pri);
 }
 
+/* ── Filters Dropdown Button & Popover ── */
+.filters-dropdown-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.filters-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 99px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: .85rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filters-btn:hover, .filters-btn.active {
+    border-color: var(--pri);
+}
+
+.filters-btn .filters-icon {
+    font-size: .8rem;
+    opacity: .7;
+}
+
+.filters-btn .caret {
+    font-size: .9rem;
+    margin-left: 2px;
+}
+
+.filters-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 320px;
+    max-height: 80vh;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+}
+
+.filters-popover.open {
+    display: flex;
+}
+
+.fp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.fp-header h4 {
+    margin: 0;
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.fp-close {
+    cursor: pointer;
+    color: var(--text-3);
+    font-size: .9rem;
+    font-weight: bold;
+}
+
+.fp-close:hover {
+    color: var(--text);
+}
+
+.fp-body {
+    padding: 0;
+    overflow-y: auto;
+    max-height: 50vh;
+}
+
+.fp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    gap: 10px;
+}
+
+.fp-footer .btn {
+    flex: 1;
+    justify-content: center;
+    padding: 10px;
+}
+
 .view-toggle {
     display: flex;
     background: var(--surface);
@@ -473,7 +514,7 @@
 }
 
 /* ── Responsive ── */
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
     .browse-layout {
         grid-template-columns: 1fr;
     }
@@ -485,7 +526,7 @@
     .filter-mobile-btn {
         display: flex;
     }
-}
+} */
 
 @media (max-width: 640px) {
     .ph-title {

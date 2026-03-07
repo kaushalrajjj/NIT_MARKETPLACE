@@ -6,7 +6,7 @@ This file shows all the dependencies and connections for the **User Wishlist Pag
 
 ```mermaid
 graph TD
-    HTML[frontend/html/wishlist.html]
+    HTML[frontend/pages/wishlist.html]
     
     subgraph CSS_FILES [CSS Styling]
         STYLE_BASE[frontend/css/base/fonts.css<br>frontend/css/base/variables.css<br>frontend/css/base/reset.css]

@@ -25,14 +25,14 @@ app.use(express.static(frontendPath));
 
 // Root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(frontendPath, 'html', 'index.html'));
+    res.sendFile(path.join(frontendPath, 'pages', 'index.html'));
 });
 
 // Clean URLs for main pages
 const pages = ['browse', 'sell', 'dashboard', 'admin', 'auth', 'profile', 'wishlist'];
 pages.forEach(page => {
     app.get(`/${page}`, (req, res) => {
-        res.sendFile(path.join(frontendPath, 'html', `${page}.html`));
+        res.sendFile(path.join(frontendPath, 'pages', `${page}.html`));
     });
 });
 

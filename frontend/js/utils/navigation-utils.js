@@ -1,6 +1,7 @@
 import { getNavbarHTML } from '../../components/Navbar.js';
 import { getSidebarHTML } from '../../components/Sidebar.js';
 import { getFooterHTML } from '../../components/Footer.js';
+import { logout } from '../api/authApi.js';
 
 // ─── Sidebar open / close ─────────────────────────────────────────────────────
 
@@ -74,3 +75,4 @@ function setActiveLinks() {
 // ─── Global window exports (for onclick handlers in HTML) ─────────────────────
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
+window.logout = logout;

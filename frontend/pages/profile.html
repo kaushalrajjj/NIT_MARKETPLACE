@@ -20,22 +20,16 @@
 </head>
 
 <body>
-    <div id="navbar-root"></div>
-    <div id="sidebar-root"></div>
+    <header>
+        <div id="navbar-root"></div>
+    </header>
+    <aside>
+        <div id="sidebar-root"></div>
+    </aside>
 
-    <div class="page-hdr">
-        <div class="inner">
-            <div class="breadcrumb">
-                <a href="/"><i class="fa-solid fa-house"></i> Home</a>
-                <i class="fa-solid fa-chevron-right"></i>
-                <span>My Profile</span>
-            </div>
-            <h1>My Profile</h1>
-            <p>Manage your account details and view your activity.</p>
-        </div>
-    </div>
 
-    <div class="profile-layout">
+
+    <main class="profile-layout">
 
         <!-- LEFT: Avatar + stats -->
         <div class="card av-card">
@@ -52,8 +46,7 @@
         <div style="display:flex;flex-direction:column;gap:20px">
 
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-user-pen"
-                        style="color:var(--pri);margin-right:8px"></i>Personal Info</div>
+                <div class="section-title">✏️ Personal Info</div>
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Full Name</label>
@@ -91,16 +84,14 @@
                         <input type="tel" id="fldPhone" placeholder="+91 XXXXX XXXXX">
                     </div>
                 </div>
-                <button class="save-btn" onclick="saveProfile()"><i class="fa-solid fa-floppy-disk"></i> Save
-                    Changes</button>
+                <button class="save-btn" onclick="saveProfile()">💾 Changes</button>
             </div>
 
             <div class="card">
-                <div class="section-title"><i class="fa-solid fa-clock-rotate-left"
-                        style="color:var(--pri);margin-right:8px"></i>Recent Activity</div>
+                <div class="section-title">🕒 Recent Activity</div>
                 <div class="activity-list" id="activityList">
                     <div class="activity-item">
-                        <div class="act-icon"><i class="fa-solid fa-tag"></i></div>
+                        <div class="act-icon">🏷️</div>
                         <div>
                             <div class="act-text">No recent activity yet.</div>
                             <div class="act-time">Start by posting a listing!</div>
@@ -110,9 +101,11 @@
             </div>
 
         </div>
-    </div>
+    </main>
 
-    <div id="footer-root"></div>
+    <footer>
+        <div id="footer-root"></div>
+    </footer>
 
     <script type="module" src="../js/pages/profile.js"></script>
 </body>

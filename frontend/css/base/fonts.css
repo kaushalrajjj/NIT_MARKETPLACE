@@ -127,5 +127,4 @@
    font-display: swap;
 }
 
-/* ── Font Awesome (icons) — CDN ── */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
+/* Font Awesome removed - Using literal symbols & emojis for better performance */

@@ -22,7 +22,7 @@ export function getNavbarHTML() {
                 </a>
 
                 <div class="nav-search-bar">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>🔍</span>
                     <input type="text" id="mainSearch"
                            placeholder="Search books, electronics, cycles..."
                            oninput="window.handleSearch && window.handleSearch(this.value)">
@@ -35,12 +35,6 @@ export function getNavbarHTML() {
                     <li><a href="/profile">Profile</a></li>
                     <li><a href="/wishlist">Wishlist</a></li>
                 </ul>
-
-                <div class="nav-right">
-                    <button class="icon-btn" title="Wishlist">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
 
             </div>
         </header>

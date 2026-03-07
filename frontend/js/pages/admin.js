@@ -5,7 +5,6 @@ import {
     fetchStats
 } from '../api/adminApi.js';
 import { logout, getUserInfo } from '../api/authApi.js';
-import { applyTheme } from '../utils/helpers.js';
 import { initNavigation } from '../utils/navigation-utils.js';
 
 const userInfo = getUserInfo();
@@ -69,7 +68,7 @@ window.showToast = (msg, type = 'success') => {
     if (t) {
         t.className = `toast ${type} show`;
         const icon = t.querySelector('i');
-        if (icon) icon.className = type === 'success' ? 'fa-solid fa-circle-check' : type === 'warn' ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-xmark';
+        if (icon) icon.textContent = type === 'success' ? '✔' : type === 'warn' ? '⚠' : '✖';
         clearTimeout(t._t);
         t._t = setTimeout(() => t.classList.remove('show'), 3200);
     }
@@ -92,7 +91,6 @@ window.toggleSidebar = () => {
     document.getElementById('sidebar').classList.toggle('open');
 };
 
-window.logout = logout;
 
 // Data Loading
 async function loadPending() {
@@ -112,7 +110,7 @@ function renderListingsQueue(listings) {
     queue.innerHTML = listings.length === 0 ? '<div class="empty-state">No pending listings</div>' : listings.map(l => `
         <div class="mod-card" id="${l._id}">
             <div class="mc-head">
-                <div class="mc-icon">📦</div>
+                <div class="mc-icon">🏢</div>
                 <div class="mc-info">
                     <div class="mc-title">${l.title}</div>
                     <div class="mc-meta">₹${l.price} · ${l.category} · By ${l.seller?.name || 'Unknown'}</div>
@@ -121,8 +119,8 @@ function renderListingsQueue(listings) {
             </div>
             <div class="mc-body">${l.description}</div>
             <div class="mc-foot">
-                <button class="btn-approve" onclick="window.handleApprove('${l._id}', true)"><i class="fa-solid fa-check"></i> Approve</button>
-                <button class="btn-reject" onclick="window.handleApprove('${l._id}', false)"><i class="fa-solid fa-xmark"></i> Reject</button>
+                <button class="btn-approve" onclick="window.handleApprove('${l._id}', true)">✔ Approve</button>
+                <button class="btn-reject" onclick="window.handleApprove('${l._id}', false)">✕ Reject</button>
             </div>
         </div>
     `).join('');
@@ -148,8 +146,8 @@ function renderUsersTable(users) {
             <td>${new Date(u.createdAt).toLocaleDateString()}</td>
             <td>
                 <div class="row-actions">
-                    <button class="ra-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                    <button class="ra-btn ra-warn" title="Ban"><i class="fa-solid fa-ban"></i></button>
+                    <button class="ra-btn" title="Edit">✏️</button>
+                    <button class="ra-btn ra-warn" title="Ban">🚫</button>
                 </div>
             </td>
         </tr>
@@ -196,18 +194,9 @@ function animateCounter(el, target) {
     }, 30);
 }
 
-// Theme
-document.getElementById('themeBtn')?.addEventListener('click', () => {
-    let dark = localStorage.getItem('theme') === 'dark';
-    dark = !dark;
-    applyTheme(dark);
-});
 
 window.addEventListener('DOMContentLoaded', () => {
     initNavigation();
-    const dark = localStorage.getItem('theme') === 'dark';
-    applyTheme(dark);
-
     if (userInfo) {
         loadPending();
         loadUsers();

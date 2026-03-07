@@ -6,7 +6,7 @@ This file shows all the dependencies and connections for the **My Profile Page**
 
 ```mermaid
 graph TD
-    HTML[frontend/html/profile.html]
+    HTML[frontend/pages/profile.html]
     
     subgraph CSS_FILES [CSS Styling]
         STYLE_BASE[frontend/css/base/fonts.css<br>frontend/css/base/variables.css<br>frontend/css/base/reset.css]

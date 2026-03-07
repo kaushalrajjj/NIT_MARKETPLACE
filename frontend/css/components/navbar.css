@@ -15,9 +15,7 @@
     transition: background var(--tr);
 }
 
-[data-theme="dark"] .navbar {
-    background: rgba(8, 14, 30, .93);
-}
+
 
 /* ── Inner wrapper ── */
 .nav-inner {
@@ -256,27 +254,7 @@
     transition: all var(--tr);
 }
 
-/* ── Theme toggle button ── */
-.theme-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-2);
-    font-size: .9rem;
-    cursor: pointer;
-    transition: all var(--tr);
-}
 
-.theme-btn:hover {
-    border-color: var(--pri);
-    color: var(--pri);
-    background: var(--pri-light);
-}
 
 /* ── Profile dropdown ── */
 .profile-dropdown {
