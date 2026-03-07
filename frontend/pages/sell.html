@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell an Item — NIT KKR Marketplace</title>
+    <link rel="stylesheet" href="../css/base/fonts.css">
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css">
+    <link rel="stylesheet" href="../css/base/reset.css">
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css">
+    <link rel="stylesheet" href="../css/components/navbar.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/pages/sell.css">
+</head>
+
+<body>
+    <header>
+        <div id="navbar-root"></div>
+    </header>
+    <aside>
+        <div id="sidebar-root"></div>
+    </aside>
+
+    <main class="sell-container">
+        <div class="rv">
+            <h1>List a New Item</h1>
+            <p>Fill in the details below to reach thousands of NIT KKR students.</p>
+        </div>
+
+        <form class="sell-form rv" id="sellForm">
+            <div class="form-grid">
+                <div class="form-group full">
+                    <label>Item Title</label>
+                    <input type="text" id="title" placeholder="e.g. Engineering Mathematics B.S. Grewal" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Books">📚 Books & Notes</option>
+                        <option value="Electronics">💻 Electronics</option>
+                        <option value="Cycles">🚲 Cycles & Gear</option>
+                        <option value="Hostel">📦 Hostel Essentials</option>
+                        <option value="Tools">🛠️ Lab & Academic</option>
+                        <option value="Other">✨ Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" id="price" placeholder="e.g. 500" required>
+                </div>
+                <div class="form-group">
+                    <label>Condition</label>
+                    <select id="condition" required>
+                        <option value="Brand New">Brand New</option>
+                        <option value="Like New">Like New</option>
+                        <option value="Lightly Used">Lightly Used</option>
+                        <option value="Used">Used</option>
+                        <option value="Damaged/For Parts">Damaged/For Parts</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Location (Hostel/Area)</label>
+                    <select id="location" required>
+                        <option value="">Select Location</option>
+                        <option value="BH-1 (Chakravarty)">BH-1 (Chakravarty)</option>
+                        <option value="BH-2 (Vishwakarma)">BH-2 (Vishwakarma)</option>
+                        <option value="BH-3 (Aryabhatta)">BH-3 (Aryabhatta)</option>
+                        <option value="BH-4 (Bhaskara)">BH-4 (Bhaskara)</option>
+                        <option value="BH-5 (Bose)">BH-5 (Bose)</option>
+                        <option value="BH-6">BH-6</option>
+                        <option value="BH-7">BH-7</option>
+                        <option value="BH-8">BH-8</option>
+                        <option value="Kalpana Chawla Hall">Kalpana Chawla Hall</option>
+                        <option value="Meera Bhawan">Meera Bhawan</option>
+                        <option value="Main Gate Area">Main Gate Area</option>
+                    </select>
+                </div>
+                <div class="form-group full">
+                    <label>Description</label>
+                    <textarea id="description" rows="4"
+                        placeholder="Mention any details like edition, age, defects etc." required></textarea>
+                </div>
+                <div class="form-group full">
+                    <label>Item Photo (Emoji for now or Link)</label>
+                    <div class="preview-box">
+                        ☁️
+                        <span>Click to add photo (Coming Soon)</span>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit" id="submitBtn">Publish Listing</button>
+        </form>
+    </main>
+
+    <script type="module" src="../js/pages/sell.js"></script>
+
+</body>
+
+</html>

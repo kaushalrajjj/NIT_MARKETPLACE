@@ -1,0 +1,234 @@
+/* ============================================================
+   DASHBOARD PAGE STYLES
+   Page-specific only. Shared:
+     components/buttons.css, components/navbar.css,
+     components/sidebar.css, components/footer.css,
+     components/product-card.css, components/modal.css
+============================================================ */
+
+/* ── LAYOUT ── */
+.browse-layout {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    align-items: start;
+}
+
+/* ── TOOLBAR ── */
+.browse-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.results-count {
+    font-size: .86rem;
+    color: var(--text-2);
+}
+
+.results-count strong {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Sort dropdown */
+.sort-wrap {
+    position: relative;
+}
+
+.sort-btn {
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 99px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: .82rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all var(--tr);
+}
+
+.sort-btn:hover {
+    border-color: var(--pri);
+    color: var(--pri);
+}
+
+.sort-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 180px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 6px;
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.sort-menu.open {
+    display: flex;
+}
+
+.sort-opt {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: .8rem;
+    font-weight: 500;
+    transition: all var(--tr);
+    cursor: pointer;
+}
+
+.sort-opt:hover {
+    background: var(--pri-light);
+    color: var(--pri);
+}
+
+.sort-opt.active {
+    color: var(--pri);
+    font-weight: 700;
+}
+
+/* View toggle */
+.vt {
+    display: flex;
+    gap: 0;
+    background: var(--bg);
+    padding: 3px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+}
+
+.vbtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-3);
+    font-size: .8rem;
+    cursor: pointer;
+    transition: all var(--tr);
+    border: none;
+    background: transparent;
+}
+
+.vbtn.active {
+    background: var(--pri);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(20, 71, 230, .3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+    .browse-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .browse-toolbar {
+        gap: 7px;
+    }
+}
+
+/* ── DASHBOARD TAB BAR ── */
+.dash-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 22px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+}
+
+.dash-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: var(--text-3);
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -2px;
+    border-radius: 8px 8px 0 0;
+    transition: all .18s;
+    position: relative;
+}
+
+.dash-tab:hover {
+    color: var(--pri);
+    background: var(--pri-light);
+}
+
+.dash-tab.active {
+    color: var(--pri);
+    border-bottom-color: var(--pri);
+    background: var(--pri-light);
+}
+
+/* Wishlist count badge on tab */
+.wish-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 99px;
+    background: var(--acc-red, #f87171);
+    color: #fff;
+    font-size: .65rem;
+    font-weight: 800;
+    padding: 0 5px;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all .2s;
+}
+
+.wish-badge.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* browse-btn used in empty state for wishlist tab */
+.browse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: var(--pri);
+    color: #fff;
+    border-radius: 99px;
+    font-weight: 700;
+    font-size: .88rem;
+    text-decoration: none;
+    transition: all .2s;
+    margin-top: 12px;
+}
+
+.browse-btn:hover {
+    background: var(--pri-dark);
+    transform: translateY(-1px);
+}

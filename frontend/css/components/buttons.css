@@ -1,0 +1,122 @@
+/* ============================================================
+   BUTTON COMPONENT
+   All .btn variants used across the app.
+============================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 99px;
+    font-weight: 600;
+    font-size: .88rem;
+    border: 2px solid transparent;
+    transition: all var(--transition);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* ── Sizes ── */
+.btn-sm {
+    padding: 7px 14px;
+    font-size: .8rem;
+}
+
+.btn-lg {
+    padding: 14px 30px;
+    font-size: .98rem;
+}
+
+/* ── Primary (Blue) ── */
+.btn-primary,
+.btn-blue {
+    background: var(--pri);
+    color: #fff;
+    border-color: var(--pri);
+}
+
+.btn-primary:hover,
+.btn-blue:hover {
+    background: var(--pri-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(20, 71, 230, .3);
+}
+
+/* ── Outline ── */
+.btn-outline {
+    background: transparent;
+    color: var(--pri);
+    border-color: var(--pri);
+}
+
+.btn-outline:hover {
+    background: var(--pri-light);
+    transform: translateY(-1px);
+}
+
+/* ── Ghost ── */
+.btn-ghost {
+    background: var(--surface);
+    color: var(--text-2);
+    border-color: var(--border);
+}
+
+.btn-ghost:hover {
+    border-color: var(--pri);
+    color: var(--pri);
+    background: var(--pri-light);
+}
+
+/* ── Accent / Yellow ── */
+.btn-accent,
+.btn-yellow {
+    background: var(--acc);
+    color: #fff;
+    border-color: var(--acc);
+}
+
+.btn-accent:hover,
+.btn-yellow:hover {
+    background: #d4911a;
+    transform: translateY(-1px);
+}
+
+/* ── Green ── */
+.btn-green {
+    background: var(--acc-green);
+    color: #fff;
+    border-color: var(--acc-green);
+}
+
+.btn-green:hover {
+    background: #0b8f65;
+    transform: translateY(-1px);
+}
+
+/* ── WhatsApp ── */
+.btn-whatsapp {
+    background: #25D366;
+    color: #fff;
+    border-color: #25D366;
+}
+
+.btn-whatsapp:hover {
+    background: #128C7E;
+    border-color: #128C7E;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, .3);
+}
+
+/* ── Ghost (on dark bg) ── */
+.btn-ghost-dark {
+    background: rgba(255, 255, 255, .15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, .35);
+    backdrop-filter: blur(6px);
+}
+
+.btn-ghost-dark:hover {
+    background: rgba(255, 255, 255, .25);
+    transform: translateY(-2px);
+}

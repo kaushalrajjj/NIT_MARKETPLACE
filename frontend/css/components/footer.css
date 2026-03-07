@@ -1,0 +1,181 @@
+/* ============================================================
+   FOOTER COMPONENT
+   Shared site footer across all pages.
+============================================================ */
+
+.site-footer {
+    background: var(--pri-deep, #071A5E);
+    color: rgba(255, 255, 255, 0.75);
+    padding: 60px 0 0;
+    margin-top: 60px;
+}
+
+/* ── Grid layout ── */
+.footer-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+    display: grid;
+    grid-template-columns: 1.8fr repeat(3, 1fr);
+    gap: 48px;
+}
+
+/* ── Brand column ── */
+.foot-brand p {
+    font-size: .87rem;
+    line-height: 1.75;
+    margin: 14px 0 20px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.fb-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fb-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--pri), #7B9FFF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.fb-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+}
+
+/* ── Social links ── */
+.foot-socials {
+    display: flex;
+    gap: 10px;
+}
+
+.fs-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: .88rem;
+    transition: all var(--tr);
+    text-decoration: none;
+}
+
+.fs-link:hover {
+    background: var(--pri);
+    border-color: var(--pri);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ── Link columns ── */
+.foot-col h4 {
+    font-size: .82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #fff;
+    margin-bottom: 18px;
+}
+
+.foot-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.foot-col ul li a,
+.foot-col ul li {
+    font-size: .87rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    transition: color var(--tr);
+}
+
+.foot-col ul li a:hover {
+    color: #fff;
+}
+
+/* ── Contact items ── */
+.foot-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.foot-contact .ci {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .85rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.foot-contact .ci i {
+    color: var(--pri, #4D79FF);
+    width: 16px;
+    flex-shrink: 0;
+}
+
+/* ── Bottom bar ── */
+.foot-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: .8rem;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.foot-links {
+    display: flex;
+    gap: 20px;
+}
+
+.foot-links a {
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+    transition: color var(--tr);
+    font-size: .8rem;
+}
+
+.foot-links a:hover {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+}
+
+@media (max-width: 540px) {
+    .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+}
