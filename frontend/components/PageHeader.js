@@ -1,10 +1,4 @@
-export function PageHeader({
-    title = 'My Dashboard',
-    description = 'Track your selling activity and manage your listings.',
-    breadcrumbText = 'My Dashboard',
-    actionText = '✚ Sell an Item',
-    actionUrl = '/sell',
-    showAction = true
+export function PageHeader({title = 'My Dashboard',description = 'Track your selling activity and manage your listings.',breadcrumbText = 'My Dashboard', actionText = '✚ Sell an Item',actionUrl = '/sell',showAction = true
 } = {}) {
     return `
     <div class="page-hdr">

@@ -9,16 +9,12 @@ export function getFooterHTML() {
 
                 <div class="foot-brand">
                     <div class="fb-logo">
-                        <div class="fb-mark">N</div>
+                        <img src="../assets/siteFavicon.png" class="fb-mark" alt="Logo">
                         <div class="fb-name">NIT KKR Marketplace</div>
                     </div>
                     <p>The exclusive buy-sell platform for NIT Kurukshetra students. Trade safely within the campus community.</p>
                     <div class="foot-socials">
-                        <a href="#" class="fs-link">📸</a>
-                        <a href="#" class="fs-link">🔗</a>
-                        <a href="#" class="fs-link">𝕏</a>
-                        <a href="#" class="fs-link">👾</a>
-                        <a href="#" class="fs-link">💻</a>
+                        <a href="https://www.instagram.com/NIT_KHARIDARI" target="_blank" rel="noopener" class="fs-link" title="@NIT_KHARIDARI on Instagram">📸</a>
                     </div>
                 </div>
 
@@ -45,9 +41,9 @@ export function getFooterHTML() {
                 <div class="foot-col">
                     <h4>Contact</h4>
                     <div class="foot-contact">
-                        <div class="ci">✉️ marketplacenit@gmail.com</div>
-                        <div class="ci">📍 NIT Kurukshetra, HR – 136119</div>
-                        <div class="ci">🕒 Mon – Fri, 9AM – 6PM</div>
+                        <div class="ci"><a href="tel:+916280464346" style="color:inherit;text-decoration:none">📞 +91 6280464346</a></div>
+                        <div class="ci"><a href="tel:+919329833896" style="color:inherit;text-decoration:none">📞 +91 9329833896</a></div>
+                        <div class="ci"><a href="https://www.instagram.com/NIT_KHARIDARI" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">📸 @NIT_KHARIDARI</a></div>
                     </div>
                 </div>
 

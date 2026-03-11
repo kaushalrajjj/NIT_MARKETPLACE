@@ -43,68 +43,6 @@
     gap: 10px;
 }
 
-/* Sort dropdown */
-.sort-wrap {
-    position: relative;
-}
-
-.sort-btn {
-    padding: 8px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 99px;
-    background: var(--surface);
-    color: var(--text);
-    font-size: .82rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: all var(--tr);
-}
-
-.sort-btn:hover {
-    border-color: var(--pri);
-    color: var(--pri);
-}
-
-.sort-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    width: 180px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    padding: 6px;
-    display: none;
-    flex-direction: column;
-    z-index: 100;
-}
-
-.sort-menu.open {
-    display: flex;
-}
-
-.sort-opt {
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: .8rem;
-    font-weight: 500;
-    transition: all var(--tr);
-    cursor: pointer;
-}
-
-.sort-opt:hover {
-    background: var(--pri-light);
-    color: var(--pri);
-}
-
-.sort-opt.active {
-    color: var(--pri);
-    font-weight: 700;
-}
 
 /* View toggle */
 .vt {

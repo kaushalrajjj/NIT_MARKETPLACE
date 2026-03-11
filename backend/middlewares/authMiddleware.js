@@ -1,6 +1,15 @@
 const jwt = require('jsonwebtoken');
 const jsonDb = require('../config/jsonDb');
 
+/**
+ * Resolve a user by ID from either students or admins collection.
+ */
+const resolveUser = (id) => {
+    const user = jsonDb.users.findById(id);
+    if (user) return user;
+    return jsonDb.admins.findById(id);
+};
+
 const protect = async (req, res, next) => {
     let token;
 
@@ -13,7 +22,7 @@ const protect = async (req, res, next) => {
 
             const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123');
 
-            const user = jsonDb.users.findById(decoded.id);
+            const user = resolveUser(decoded.id);
             if (user) {
                 const { password, ...userWithoutPassword } = user;
                 req.user = userWithoutPassword;
@@ -39,4 +48,24 @@ const admin = (req, res, next) => {
     }
 };
 
-module.exports = { protect, admin };
+const optionalAuth = (req, res, next) => {
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+    ) {
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123');
+            const user = resolveUser(decoded.id);
+            if (user) {
+                const { password, ...userWithoutPassword } = user;
+                req.user = userWithoutPassword;
+            }
+        } catch (error) {
+            // Ignore errors for optional auth
+        }
+    }
+    next();
+};
+
+module.exports = { protect, admin, optionalAuth };

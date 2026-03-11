@@ -214,6 +214,7 @@
     justify-content: center;
     font-weight: 700;
     font-size: .62rem;
+    overflow: hidden;
 }
 
 .p-seller-name,
@@ -222,15 +223,14 @@
     font-weight: 600;
 }
 
-.p-rating,
-.prating {
-    font-size: .72rem;
-    font-weight: 700;
-    color: var(--acc);
-    display: flex;
-    align-items: center;
-    gap: 3px;
+.p-seller-roll {
+    font-size: .68rem;
+    font-weight: 400;
+    color: var(--text-3);
+    display: inline;
 }
+
+
 
 /* ── List view variant ── */
 .products-grid.list-view,

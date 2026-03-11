@@ -1,207 +1,101 @@
-import {
-    fetchPendingListings,
-    approveListing,
-    fetchUsers,
-    fetchStats
-} from '../api/adminApi.js';
-import { logout, getUserInfo } from '../api/authApi.js';
-import { initNavigation } from '../utils/navigation-utils.js';
+import { apiService } from '../services/apiService.js';
+import { initToast } from '../../components/Toast.js';
+import { getEmoji } from '../utils/helpers.js';
 
-const userInfo = getUserInfo();
-
-// Redirect if not admin
+const userInfo = apiService.getUserInfo();
 if (!userInfo || userInfo.role !== 'admin') {
-    window.location.href = userInfo ? '/dashboard' : '/auth';
+    window.location.href = '/auth'; // Redirect if not admin
 }
 
-const titles = {
-    dashboard: 'Dashboard',
-    analytics: 'Analytics',
-    listings: 'Listings Queue',
-    reports: 'Reports',
-    spam: 'Spam & Fraud',
-    users: 'User Management',
-    categories: 'Categories',
-    transactions: 'Transactions',
-    settings: 'Settings',
-    logs: 'Activity Logs'
-};
+const TOKEN = userInfo?.token;
+let allProducts = [];
 
-const subs = {
-    dashboard: 'Platform overview & live stats',
-    analytics: 'Detailed metrics & trends',
-    listings: 'Listings pending approval',
-    reports: '8 open user reports',
-    spam: 'AI-powered fraud detection',
-    users: 'Manage all student accounts',
-    categories: 'Manage listing categories',
-    transactions: 'All platform transactions',
-    settings: 'Platform configuration',
-    logs: 'System and admin activity'
-};
-
-// UI Handling
-window.show = (id, linkEl) => {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    const el = document.getElementById('panel-' + id);
-    if (el) el.classList.add('active');
-
-    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
-    if (linkEl) linkEl.classList.add('active');
-
-    const tbTitle = document.getElementById('tbTitle');
-    const tbSub = document.getElementById('tbSub');
-    if (tbTitle) tbTitle.textContent = titles[id] || id;
-    if (tbSub) tbSub.textContent = subs[id] || '';
-
-    const sidebar = document.getElementById('sidebar');
-    if (sidebar) sidebar.classList.remove('open');
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (id === 'analytics' || id === 'dashboard') buildCharts();
-};
-
-window.showToast = (msg, type = 'success') => {
-    const t = document.getElementById('toast');
-    const m = document.getElementById('toastMsg');
-    if (m) m.textContent = msg;
-    if (t) {
-        t.className = `toast ${type} show`;
-        const icon = t.querySelector('i');
-        if (icon) icon.textContent = type === 'success' ? '✔' : type === 'warn' ? '⚠' : '✖';
-        clearTimeout(t._t);
-        t._t = setTimeout(() => t.classList.remove('show'), 3200);
+function getStatusBadge(status) {
+    switch (status) {
+        case 'available':
+            return '<span class="admin-pc-status status-available">Available</span>';
+        case 'sold':
+            return '<span class="admin-pc-status status-sold">Sold</span>';
+        case 'deleted_by_admin':
+            return '<span class="admin-pc-status status-deleted_by_admin">Deleted by Admin</span>';
+        default:
+            return `<span class="admin-pc-status status-available">${status}</span>`;
     }
-};
-
-window.handleApprove = async (id, approve) => {
-    try {
-        const response = await approveListing(id, approve, userInfo.token);
-        if (response.ok) {
-            window.showToast(approve ? 'Listing approved!' : 'Listing rejected');
-            await loadPending();
-        }
-    } catch (error) {
-        console.error('Error approving listing:', error);
-    }
-};
-
-
-window.toggleSidebar = () => {
-    document.getElementById('sidebar').classList.toggle('open');
-};
-
-
-// Data Loading
-async function loadPending() {
-    try {
-        const listings = await fetchPendingListings(userInfo.token);
-        renderListingsQueue(listings);
-    } catch (err) { console.error(err); }
 }
 
-function renderListingsQueue(listings) {
-    const queue = document.getElementById('modQueue');
-    if (!queue) return;
+function renderProducts() {
+    const grid = document.getElementById('adminProductsGrid');
+    const load = document.getElementById('productsLoading');
+    const countBox = document.getElementById('totalProductsCount');
 
-    const tbSub = document.getElementById('tbSub');
-    if (tbSub) tbSub.textContent = `${listings.length} listings pending approval`;
+    countBox.textContent = allProducts.length;
+    
+    if (allProducts.length === 0) {
+        grid.style.display = 'block';
+        grid.innerHTML = '<div class="empty-state">No products found.</div>';
+    } else {
+        grid.style.display = 'grid';
+        grid.innerHTML = allProducts.map(p => {
+            const thumb = p.img 
+                ? `<img src="/product-images/${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;">`
+                : `<span style="font-size:3rem; display:flex; justify-content:center; align-items:center; height:100%;">${getEmoji(p.category)}</span>`;
+            
+            const sellerInfo = p.seller 
+                ? `${p.seller.name} (${p.seller.roll || 'No Roll'}) <br> ${p.seller.email}`
+                : 'Unknown Seller';
+            
+            const isDeleted = p.status === 'deleted_by_admin';
 
-    queue.innerHTML = listings.length === 0 ? '<div class="empty-state">No pending listings</div>' : listings.map(l => `
-        <div class="mod-card" id="${l._id}">
-            <div class="mc-head">
-                <div class="mc-icon">🏢</div>
-                <div class="mc-info">
-                    <div class="mc-title">${l.title}</div>
-                    <div class="mc-meta">₹${l.price} · ${l.category} · By ${l.seller?.name || 'Unknown'}</div>
+            return `
+            <div class="pc" style="${isDeleted ? 'opacity:0.6;' : ''}">
+                <div class="pimg" style="background:#f1f5f9;">${thumb}</div>
+                <div class="pbody">
+                    ${getStatusBadge(p.status)}
+                    <div class="ctitle" style="font-size:1rem;">${p.title}</div>
+                    <div class="pprice">₹${p.price.toLocaleString('en-IN')}</div>
+                    <div class="admin-pc-meta">
+                        <strong>Seller:</strong><br>${sellerInfo}<br><br>
+                        <strong>Posted:</strong> ${new Date(p.createdAt).toLocaleDateString()}
+                    </div>
                 </div>
-                <div class="mc-status">Pending</div>
-            </div>
-            <div class="mc-body">${l.description}</div>
-            <div class="mc-foot">
-                <button class="btn-approve" onclick="window.handleApprove('${l._id}', true)">✔ Approve</button>
-                <button class="btn-reject" onclick="window.handleApprove('${l._id}', false)">✕ Reject</button>
-            </div>
-        </div>
-    `).join('');
-}
-
-async function loadUsers() {
-    try {
-        const users = await fetchUsers(userInfo.token);
-        renderUsersTable(users);
-    } catch (err) { console.error(err); }
-}
-
-function renderUsersTable(users) {
-    const tbody = document.querySelector('#usersTable tbody');
-    if (!tbody) return;
-
-    tbody.innerHTML = users.map(u => `
-        <tr>
-            <td><input type="checkbox"></td>
-            <td class="cell-name">${u.name}</td>
-            <td>${u.email}</td>
-            <td><span class="badge ${u.role === 'admin' ? 'badge-blue' : 'badge-gray'}">${u.role}</span></td>
-            <td>${new Date(u.createdAt).toLocaleDateString()}</td>
-            <td>
-                <div class="row-actions">
-                    <button class="ra-btn" title="Edit">✏️</button>
-                    <button class="ra-btn ra-warn" title="Ban">🚫</button>
+                <div class="p-actions" style="padding:14px; padding-top:0; display:flex; gap:8px">
+                    <button class="btn btn-danger" style="flex:1; font-size:0.8rem;" 
+                            onclick="window.deleteProductAdmin('${p._id}')" ${isDeleted ? 'disabled' : ''}>
+                        ${isDeleted ? 'Already Deleted' : 'Delete Product'}
+                    </button>
                 </div>
-            </td>
-        </tr>
-    `).join('');
-}
-
-async function loadStats() {
-    try {
-        const stats = await fetchStats(userInfo.token);
-        const u = document.getElementById('stat-users');
-        const l = document.getElementById('stat-listings');
-        const v = document.getElementById('stat-volume');
-        const p = document.getElementById('stat-pending');
-
-        if (u) animateCounter(u, stats.totalUsers);
-        if (l) animateCounter(l, stats.liveListings);
-        if (v) v.textContent = `₹${stats.totalVolume.toLocaleString('en-IN')}`;
-        if (p) animateCounter(p, stats.pendingListings);
-    } catch (err) { console.error(err); }
-}
-
-// Charts
-function buildBarChart(chartId, labelsId, data, labels, color) {
-    const chart = document.getElementById(chartId);
-    const lbls = document.getElementById(labelsId);
-    if (!chart) return;
-    const max = Math.max(...data);
-    chart.innerHTML = data.map((v, i) => `<div class="mc-bar" style="height:${(v / max) * 100}%;background:${color};min-height:6px"><div class="mc-tip">${v}</div></div>`).join('');
-    if (lbls) lbls.innerHTML = labels.map(l => `<div class="mc-lbl">${l}</div>`).join('');
-}
-
-function buildCharts() {
-    buildBarChart('regChart', 'regLabels', [12, 18, 8, 24, 14, 19, 32], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 'var(--pri)');
-    buildBarChart('dauChart', 'dauLabels', [180, 240, 190, 310, 280, 350, 420], ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], 'var(--acc-green)');
-}
-
-function animateCounter(el, target) {
-    let cur = 0;
-    const step = Math.ceil(target / 40);
-    const t = setInterval(() => {
-        cur = Math.min(cur + step, target);
-        el.textContent = cur.toLocaleString('en-IN');
-        if (cur >= target) clearInterval(t);
-    }, 30);
-}
-
-
-window.addEventListener('DOMContentLoaded', () => {
-    initNavigation();
-    if (userInfo) {
-        loadPending();
-        loadUsers();
-        loadStats();
-        buildCharts();
-        window.show('dashboard', document.querySelector('.sb-link.active'));
+            </div>`;
+        }).join('');
     }
+    load.style.display = 'none';
+}
+
+async function fetchProducts() {
+    try {
+        allProducts = await apiService.adminGetProducts(TOKEN);
+        renderProducts();
+    } catch (err) {
+        window.showToast?.('Failed to fetch products', 'error');
+        document.getElementById('productsLoading').textContent = 'Error loading products.';
+    }
+}
+
+window.deleteProductAdmin = async (id) => {
+    if (!confirm('Are you sure you want to delete this product? The seller will see it as "Deleted by Admin".')) return;
+    try {
+        await apiService.adminDeleteProduct(id, TOKEN);
+        window.showToast?.('Product deleted successfully', 'success');
+        await fetchProducts(); // Refresh list
+    } catch (err) {
+        window.showToast?.('Failed to delete product', 'error');
+    }
+};
+
+window.logout = () => {
+    apiService.logout();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    initToast();
+    fetchProducts();
 });
