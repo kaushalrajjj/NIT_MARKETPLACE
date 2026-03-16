@@ -4,13 +4,16 @@ import { SortDropdown } from '../../components/SortDropdown.js';
 import { PageHeader } from '../../components/PageHeader.js';
 import { initNavigation } from '../utils/navigation-utils.js';
 import { initToast } from '../../components/Toast.js';
-import { getEmoji } from '../utils/helpers.js';
+import { getEmoji, getOptimizedImageUrl } from '../utils/helpers.js';
+import { ProfileCard } from '../../components/ProfileCard.js';
 
 // ─── LOCAL UI STATE ───────────────────────────────────────────────────────────
 // Just plain variables — no state manager, no pub/sub.
 let products = [];
 let total = 0;
 let wishlistedIds = new Set(); // product IDs the user has wishlisted
+window.selectedSellerId = null;
+window.selectedSellerName = null;
 
 // ─── BUILD FILTERS FROM DOM ───────────────────────────────────────────────────
 function buildFilters() {
@@ -20,7 +23,9 @@ function buildFilters() {
         maxPrice:  document.getElementById('priceMax')?.value || '',
         condition: Array.from(document.querySelectorAll('input[name="condition"]:checked'))
                        .map(cb => cb.value).join(','),
-        search:    window.searchQuery || ''
+        search:    window.searchQuery || '',
+        seller:    window.selectedSellerId || '',
+        sellerName: window.selectedSellerName || ''
     };
 }
 
@@ -47,7 +52,7 @@ async function fetchAndRender() {
 }
 
 function renderGrid() {
-    browseUI.renderProducts({ products, total });
+    browseUI.renderProducts({ products, total, filters: buildFilters() });
     // Sync heart button state from wishlistedIds set
     products.forEach(p => {
         const btn = document.getElementById(`wish-${p._id}`);
@@ -65,6 +70,7 @@ function renderActiveFilters() {
         onRemovePrice:     () => window.resetPrice(),
         onRemoveCondition: () => window.clearCondition(),
         onRemoveSearch:    () => window.clearSearch(),
+        onRemoveSeller:    () => window.clearSeller(),
         onClearAll:        () => window.resetFilters()
     });
 }
@@ -139,6 +145,9 @@ window.toggleWish = async (productId, btn) => {
 
 // ─── QUICK VIEW MODAL ─────────────────────────────────────────────────────────
 window.openModal = (id) => {
+    // Close profile card if open
+    window.closeProfileModal();
+
     const loginWall = document.getElementById('qvLoginWall');
     const content   = document.getElementById('qvContent');
 
@@ -163,9 +172,18 @@ window.openModal = (id) => {
     // Image — real photo or emoji fallback
     const imgWrap = document.getElementById('qvImgWrap');
     if (imgWrap) {
-        imgWrap.innerHTML = p.img
-            ? `<img src="/product-images/${p.img}" alt="${p.title}" style="width:100%;max-height:240px;object-fit:contain;border-radius:10px">`
-            : `<span style="font-size:3.5rem">${getEmoji(p.category)}</span>`;
+        if (p.img) {
+            let src = p.img.startsWith('http') ? p.img : `/product-images/${p.img}`;
+            // Auto-resize for modal view (width: 800)
+            src = getOptimizedImageUrl(src, 800);
+            
+            imgWrap.innerHTML = `<img src="${src}" alt="${p.title}" 
+                                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                                      style="width:100%; max-height:100%; object-fit:contain; border-radius:12px; background:#f9fafb;">
+                                 <span class="fallback-emoji" style="display:none; font-size:4rem; width:100%; height:350px; align-items:center; justify-content:center; background:var(--pri-light); border-radius:12px;">${getEmoji(p.category)}</span>`;
+        } else {
+            imgWrap.innerHTML = `<span style="font-size:3.5rem">${getEmoji(p.category)}</span>`;
+        }
     }
 
     document.getElementById('qvPrice').textContent  = `₹${p.price.toLocaleString('en-IN')}`;
@@ -173,13 +191,13 @@ window.openModal = (id) => {
 
     const infoRows = document.getElementById('qvInfoRows');
     if (infoRows) {
-        const sellerLabel = p.seller?.roll
-            ? `${p.seller.name || 'Anonymous'} (${p.seller.roll})`
+        const sellerLabel = p.seller?.rollNo
+            ? `${p.seller.name || 'Anonymous'} (${p.seller.rollNo})`
             : (p.seller?.name || 'Anonymous');
         infoRows.innerHTML = [
             ['🏷️ Condition', p.condition  || '—'],
             ['📂 Category',  p.category   || '—'],
-            ['👤 Seller',    sellerLabel]
+            ['👤 Seller',    `<span class="seller-trigger" onclick="event.stopPropagation(); window.openProfileModal('${p._id}')">${sellerLabel}</span>`]
         ].map(([label, value]) =>
             `<div class="modal-info-row"><span class="modal-info-label">${label}</span><span>${value}</span></div>`
         ).join('');
@@ -187,11 +205,18 @@ window.openModal = (id) => {
 
     const contactArea = document.getElementById('modalContactActions');
     if (contactArea) {
-        const phone = p.seller?.phone?.replace(/\s/g, '') || '';
-        contactArea.innerHTML = phone
-            ? `<a class="btn btn-blue" href="tel:${phone}">📞 Call Seller</a>
-               <a class="btn btn-outline" href="https://wa.me/${phone.replace(/\D/g,'')}" target="_blank">💬 WhatsApp</a>`
-            : `<p style="color:var(--text-2);font-size:.85rem">No contact info provided.</p>`;
+        const mobile   = p.seller?.mobileNo || '';
+        const whatsapp = p.seller?.whatsappNo || '';
+        
+        let actionsHtml = '';
+        if (mobile) {
+            actionsHtml += `<a class="btn btn-blue" href="tel:${mobile}">📞 Call ${mobile}</a>`;
+        }
+        if (whatsapp) {
+            actionsHtml += `<a class="btn btn-whatsapp" href="https://wa.me/${whatsapp.replace(/\D/g,'')}" target="_blank">💬 WhatsApp</a>`;
+        }
+        
+        contactArea.innerHTML = actionsHtml || `<p style="color:var(--text-3);font-size:.85rem;font-style:italic">No contact info provided.</p>`;
     }
 
     if (loginWall) loginWall.style.display = 'none';
@@ -208,6 +233,52 @@ window.closeModal = () => {
     if (content)   content.style.display   = 'none';
 };
 
+window.openProfileModal = (productId) => {
+    // Close product details if open
+    window.closeModal();
+
+    const p = products.find(x => x._id === productId);
+    if (!p || !p.seller) return;
+
+    const modal = document.getElementById('profileModal');
+    const content = document.getElementById('profileModalContent');
+    if (modal && content) {
+        content.innerHTML = ProfileCard(p.seller);
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+window.closeProfileModal = () => {
+    document.getElementById('profileModal')?.classList.remove('open');
+    // Only restore overflow if product modal is also closed
+    if (!document.getElementById('qvModal')?.classList.contains('open')) {
+        document.body.style.overflow = '';
+    }
+};
+
+window.filterBySeller = (sellerId, sellerName) => {
+    window.selectedSellerId = sellerId;
+    window.selectedSellerName = sellerName;
+    window.closeProfileModal();
+    window.closeModal(); // Close product qv too
+
+    // Clear search for better focus
+    window.searchQuery = '';
+    const s = document.getElementById('navbarSearch');
+    if (s) s.value = '';
+
+    // Scroll to top to show results
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    fetchAndRender();
+};
+
+window.clearSeller = () => {
+    window.selectedSellerId = null;
+    window.selectedSellerName = null;
+    fetchAndRender();
+};
+
 // ─── RESET / CLEAR HELPERS ────────────────────────────────────────────────────
 window.resetFilters = () => {
     window.searchQuery = '';
@@ -215,6 +286,9 @@ window.resetFilters = () => {
     document.getElementById('priceMax') && (document.getElementById('priceMax').value = '');
     document.querySelectorAll('input[name="condition"]').forEach(cb => cb.checked = false);
     window.setCat(null, 'all');
+    window.selectedSellerId = null;
+    window.selectedSellerName = null;
+    fetchAndRender();
 };
 
 window.clearSearch = () => {

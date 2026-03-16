@@ -13,7 +13,8 @@ NIT_MARKETPLACE/
 │   ├── server.js             ← Entry point: starts the HTTP server
 │   ├── app.js                ← App setup: routes, middleware, static files
 │   ├── config/
-│   │   ├── jsonDb.js         ← Database engine (reads/writes JSON files)
+│   │   ├── db.js             ← MongoDB connection setup
+│   │   ├── cloudinary.js     ← Cloudinary configuration
 │   │   └── generateToken.js  ← JWT token creation
 │   ├── routes/               ← URL-to-controller mapping
 │   │   ├── authRoutes.js     ← /api/auth/*
@@ -37,13 +38,8 @@ NIT_MARKETPLACE/
 │       ├── authMiddleware.js  ← JWT token checker
 │       └── errorMiddleware.js ← 404 / global error handler
 │
-├── data/                     ← JSON "database" files
-│   ├── users.json            ← All student accounts
-│   ├── admins.json           ← Admin accounts
-│   ├── products.json         ← All product listings
-│   ├── userActivity.json     ← Wishlists, listings, sold, profile images
-│   ├── profile-images/       ← Uploaded profile pictures (actual files)
-│   └── product-images/       ← Uploaded product pictures (actual files)
+├── data/                     ← (Retired) Local storage was here
+│   └── seed/                 ← Sample data for database hydration
 │
 ├── frontend/                 ← Static HTML/CSS/JS (served by Express)
 │   ├── pages/                ← One HTML file per page
@@ -136,7 +132,7 @@ browse.js runs on the client (browser)
      "email": "...@nitkkr.ac.in",
      "role": "student",
      "token": "eyJ...",
-     "profileImage": "filename.jpg"
+     "profileImage": "https://res.cloudinary.com/..."
    }
    ```
 6. User is redirected to `/` (Home)
@@ -146,32 +142,20 @@ browse.js runs on the client (browser)
 
 ---
 
-## 🗄️ "Database" — How Data Is Stored
+## 🗄️ Database — MongoDB & Mongoose
 
-There is **no real database** (no MongoDB, no SQL). Instead, data is stored in plain JSON files in the `/data/` folder.
+The project uses **MongoDB Atlas** for data persistence. We use **Mongoose** as an ODM (Object Data Modeling) library to define schemas and interact with the database.
 
-`jsonDb.js` provides a simple API:
+### Key Models:
+- **User**: Name, email, password, role, contact info.
+- **Product**: Title, description, price, category, condition, image URL, seller (ref to User).
+- **Activity**: Track user-specific data like wishlists and listing counts.
 
-| Method | What it does |
-|---|---|
-| `find(query)` | Returns all matching records |
-| `findById(id)` | Returns a single record by `_id` |
-| `findOne(query)` | Returns the first matching record |
-| `create(data)` | Adds a new record, auto-generates `_id` and `createdAt` |
-| `update(id, patch)` | Merges patch into the record, updates `updatedAt` |
-| `delete(id)` | Removes the record |
-
-`userActivity.json` is different — it's a **map** (not an array):
-```json
-{
-  "userId123": {
-    "wishlisted": ["productId1", "productId2"],
-    "listed": ["productId3"],
-    "sold": [],
-    "img": "userId123_1234567890.jpg"
-  }
-}
-```
+### Image Storage:
+We use **Cloudinary** for image hosting.
+- No more local `/data/product-images` or `/data/profile-images`.
+- All images are uploaded to Cloudinary, and we store the **secure URL** in the database.
+- Uses `getOptimizedImageUrl` helper on the frontend to request specific sizes/qualities from Cloudinary.
 
 ---
 
@@ -187,15 +171,13 @@ There is **no real database** (no MongoDB, no SQL). Instead, data is stored in p
 | `/api/products/:id` | PATCH | ✅ Required | Edit my listing |
 | `/api/products/:id` | DELETE | ✅ Required | Delete my listing |
 | `/api/products/:id/status` | PUT | ✅ Required | Mark as sold |
-| `/api/products/:id/image` | POST | ✅ Required | Upload product image |
-| `/api/products/:id/image` | DELETE | ✅ Required | Remove product image |
+| `/api/products/:id/image` | POST | ✅ Required | Upload/Replace image on Cloudinary |
 | `/api/products/wishlist` | POST | ✅ Required | Sync wishlist add/remove |
 | `/api/products/stats/public` | GET | ❌ None | Homepage counters |
 | `/api/users/me` | GET | ✅ Required | Get my profile |
 | `/api/users/me` | PUT | ✅ Required | Update contact info |
 | `/api/users/me/password` | PUT | ✅ Required | Change password |
-| `/api/users/me/avatar` | POST | ✅ Required | Upload profile photo |
-| `/api/users/me/avatar` | DELETE | ✅ Required | Remove profile photo |
+| `/api/users/me/avatar` | POST | ✅ Required | Upload avatar to Cloudinary |
 | `/api/users/me/wishlist` | GET | ✅ Required | Get wishlisted products |
 | `/api/users/activity` | GET | ✅ Required | Get all user activity |
 | `/api/admin/*` | GET/PUT | ✅ Admin only | Admin operations |

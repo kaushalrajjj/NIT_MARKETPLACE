@@ -1,26 +1,13 @@
-const path = require('path');
-const fs   = require('fs');
+const { cloudinary, productStorage } = require('../config/cloudinary');
 const multer = require('multer');
-const jsonDb = require('../config/jsonDb');
-
-// ── Storage: /data/product-images ─────────────────────────────────────────────
-const UPLOAD_DIR = path.join(__dirname, '../../data/product-images');
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-
-const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
-        // Filename: productId_timestamp.ext
-        cb(null, `${req.params.id}_${Date.now()}${ext}`);
-    }
-});
+const productRepository = require('../repositories/productRepository');
 
 const upload = multer({
-    storage,
-    limits: { fileSize: 4 * 1024 * 1024 }, // 4 MB
+    storage: productStorage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // increased to 10 MB
     fileFilter: (_req, file, cb) => {
         const allowed = ['.jpg', '.jpeg', '.png', '.webp'];
+        const path = require('path');
         const ext = path.extname(file.originalname).toLowerCase();
         if (allowed.includes(ext)) cb(null, true);
         else cb(new Error('Only image files are allowed (jpg, png, webp)'));
@@ -30,7 +17,6 @@ const upload = multer({
 const productImageController = {
     /**
      * POST /api/products/:id/image — Upload or replace product image.
-     * Only the listing owner can upload.
      */
     uploadImage: [
         upload.single('image'),
@@ -38,25 +24,37 @@ const productImageController = {
             try {
                 if (!req.file) return res.status(400).json({ message: 'No file uploaded.' });
 
+
                 const productId = req.params.id;
-                const product   = jsonDb.products.findById(productId);
+                const product   = await productRepository.findById(productId);
                 if (!product) return res.status(404).json({ message: 'Product not found' });
-                if (product.seller !== req.user._id)
+                
+                if (product.seller.toString() !== req.user._id.toString())
                     return res.status(403).json({ message: 'Unauthorized: not your listing' });
 
-                // Delete old image if one exists
-                if (product.img) {
-                    const oldPath = path.join(UPLOAD_DIR, product.img);
-                    if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+                // Delete old image from Cloudinary if it exists
+                if (product.img && product.img.startsWith('http')) {
+                    // Extract public_id from URL if we were storing URLs
+                    // However, it's safer to store the public_id in the DB.
+                    // For now, let's assume we store the URL.
+                    try {
+                        const urlParts = product.img.split('/');
+                        const fileName = urlParts[urlParts.length - 1].split('.')[0];
+                        const folderName = 'nit_marketplace';
+                        await cloudinary.uploader.destroy(`${folderName}/${fileName}`);
+                    } catch (err) {
+                        console.error('Cloudinary delete error:', err);
+                    }
                 }
 
-                const newFilename = req.file.filename;
-                jsonDb.products.update(productId, { img: newFilename });
+                // Cloudinary stores the URL in req.file.path
+                const newImageUrl = req.file.path;
+                await productRepository.update(productId, { img: newImageUrl });
 
                 res.json({
-                    message: 'Image uploaded.',
-                    img: newFilename,
-                    url: `/product-images/${newFilename}`
+                    message: 'Image uploaded to Cloudinary.',
+                    img: newImageUrl,
+                    url: newImageUrl
                 });
             } catch (err) {
                 res.status(500).json({ message: err.message });
@@ -65,20 +63,29 @@ const productImageController = {
     ],
 
     /**
-     * DELETE /api/products/:id/image — Remove product image (revert to emoji).
+     * DELETE /api/products/:id/image — Remove product image.
      */
     removeImage: async (req, res) => {
         try {
             const productId = req.params.id;
-            const product   = jsonDb.products.findById(productId);
+            const product   = await productRepository.findById(productId);
             if (!product) return res.status(404).json({ message: 'Product not found' });
-            if (product.seller !== req.user._id)
+            
+            if (product.seller.toString() !== req.user._id.toString())
                 return res.status(403).json({ message: 'Unauthorized: not your listing' });
 
             if (product.img) {
-                const imgPath = path.join(UPLOAD_DIR, product.img);
-                if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
-                jsonDb.products.update(productId, { img: null });
+                if (product.img.startsWith('http')) {
+                    try {
+                        const urlParts = product.img.split('/');
+                        const fileName = urlParts[urlParts.length - 1].split('.')[0];
+                        const folderName = 'nit_marketplace/products';
+                        await cloudinary.uploader.destroy(`${folderName}/${fileName}`);
+                    } catch (err) {
+                        console.error('Cloudinary delete error:', err);
+                    }
+                }
+                await productRepository.update(productId, { img: null });
             }
 
             res.json({ message: 'Image removed.' });

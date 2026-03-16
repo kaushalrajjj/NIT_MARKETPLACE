@@ -24,7 +24,8 @@ let wishlistedIds = new Set();
   ```
 
 ### Database Persistence (Backend)
-- Actual changes (e.g., product created, wishlist updated) are sent directly to the Express server using `apiService.js`, which then writes it to `/data/*.json`.
+- Actual changes (e.g., product created, wishlist updated) are sent directly to the Express server using `apiService.js`, which then performs operations on **MongoDB** using Mongoose.
+- Images are handled via the **Cloudinary** service.
 
 ---
 
@@ -37,7 +38,7 @@ Every dynamic action follows the exact same pattern:
    - `buildFilters()` reads the DOM, `fetchAndRender()` is called.
 3. **Data is loaded from Backend.**
    - `apiService.query(payload)` calls `POST /api/products/query`.
-   - The server reads JSON, filters, paginates, and returns an array of products.
+   - The server queries MongoDB, filters, paginates, and returns an array of products.
 4. **Local State is synced.**
    - `products = data.products; total = data.total;`
 5. **UI is dynamically re-rendered.**
@@ -66,7 +67,7 @@ btn.innerHTML = isAdded ? '❤️' : '♡'; // (Looks instant!)
 // 4. Send request to backend asynchronously
 try {
   await apiService.syncWishlist(productId, isAdded, token);
-  // Reaches backend -> updates activityRepository -> completes.
+  // Reaches backend -> updates MongoDB Activity collection -> completes.
 } catch (error) {
   // 5. Rollback on failure (undo the optimistic change)
   isAdded ? wishlistedIds.delete(productId) : wishlistedIds.add(productId);

@@ -14,41 +14,35 @@ The backend follows a standard 3-tier REST architecture:
 2. **Services** (The Brains)
    - Business logic, validation, authorization checks.
    - Example: `productService.js`
-3. **Repositories** (The Database Access)
-   - Talks directly to the database (JSON files).
-   - Example: `productRepository.js`
+3. **Repositories / Models** (The Database Access)
+   - Talks directly to MongoDB using Mongoose Models.
+   - Example: `Product.js` (Schema) and `productRepository.js`
 
 ---
 
-## 📂 The JSON "Database"
+## 🗄️ The Database (MongoDB & Mongoose)
 
-The system doesn't use MongoDB or SQL. It writes straight to JSON files using a custom wrapper in `backend/config/jsonDb.js`.
+The system uses **MongoDB** hosted on Atlas. We use **Mongoose** to define schemas and interact with the data.
 
-**Data files stored in `/data/`**:
-- `users.json`: Registered students.
-- `admins.json`: System administrators.
-- `products.json`: All product listings.
-- `userActivity.json`: User interactions and stats.
+**Key Collections**:
+- **users**: Registered student and admin accounts.
+- **products**: All product listings (approved and pending).
+- **activities**: Map of user actions (wishlists, listed ids, etc).
 
-### `jsonDb.js` Features:
-- **`find(query)`**: Returns all items matching the query.
-- **`findOne(query)`**: Returns the first item matching the query.
-- **`findById(id)`**: Fast lookup by `_id`.
-- **`create(data)`**: Auto-generates `_id` and `createdAt`, saves to JSON.
-- **`update(id, patch)`**: Merges patch, updates `updatedAt`, saves to JSON.
-- **`delete(id)`**: Removes item and saves.
+### Schema Features:
+- **Automatic Timestamps**: All models have `createdAt` and `updatedAt`.
+- **Validation**: Enforces email formats, roll number uniqueness, etc.
+- **Middleware**: Password hashing via `bcrypt` happens automatically on user save.
 
-### The `userActivity.json` Store
-Because activity is heavily accessed by `userId`, it uses a specific map structure:
+### The Activity Model
+Activity is tracked separately to keep the User model lean:
 ```json
 {
-  "userId_123": {
-    "wishlisted": ["prod_abc", "prod_xyz"],
-    "listed": ["prod_abc", "prod_123"],
-    "sold": ["prod_old"],
-    "orderHistory": [],
-    "img": "userId_123_timestamp.jpg"
-  }
+  "user": "ObjectId(user_id)",
+  "wishlisted": ["ObjectId(prod_1)", "ObjectId(prod_2)"],
+  "listed": ["ObjectId(prod_1)"],
+  "sold": [],
+  "profileImage": "https://res.cloudinary.com/..."
 }
 ```
 
@@ -116,13 +110,13 @@ Most endpoints are guarded. The middleware checks the `Authorization: Bearer <to
 
 ---
 
-## 🖼️ File Uploads (`multer`)
+## 🖼️ Cloudinary Integration
 
-Images are uploaded as `multipart/form-data`.
-`multer` intercepts the file in `userController.js` and `productImageController.js`.
-- Saved mapped securely (e.g., `userId_timestamp.jpg`).
-- File size limites (e.g., 2MB for profile, 4MB for products).
-- Automatic old file cleanup when an image is replaced or deleted.
+Images are no longer stored on the server's local disk.
+1. **Upload**: We use `multer` to handle the file stream and the Cloudinary SDK to upload directly.
+2. **Storage**: We store the **secure_url** returned by Cloudinary in the MongoDB document.
+3. **Cleanup**: When a product or profile image is updated/deleted, we call the Cloudinary API to `destroy` the old asset.
+4. **Optimization**: Frontend uses Cloudinary's dynamic URL transformations for resizing (e.g., adding `/w_800/` to the URL).
 
 ---
 

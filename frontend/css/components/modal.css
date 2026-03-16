@@ -24,9 +24,9 @@
 .modal {
     background: var(--surface);
     border-radius: var(--radius);
-    width: 100%;
-    max-width: 800px;
-    max-height: 90vh;
+    width: 95%;
+    max-width: 950px;
+    max-height: 85vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -75,12 +75,16 @@
     padding: 24px;
     overflow-y: auto;
     display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 32px;
+    grid-template-columns: 420px 1fr;
+    gap: 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
 }
 
 .modal-img {
-    height: 320px;
+    height: auto;
+    min-height: 400px;
+    max-height: 600px;
     background: var(--bg);
     border-radius: var(--radius-sm);
     display: flex;

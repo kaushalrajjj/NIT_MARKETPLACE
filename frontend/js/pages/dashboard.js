@@ -14,7 +14,10 @@ const TOKEN = userInfo?.token;
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 // Returns either a real <img> or the category emoji
 function productThumb(p) {
-    if (p.img) return `<img src="/product-images/${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
+    if (p.img) {
+        const src = p.img;
+        return `<img src="${src}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
+    }
     return getEmoji(p.category);
 }
 
@@ -32,11 +35,9 @@ window.switchTab = (tab) => {
     document.getElementById('listingsSection').style.display = tab === 'listings' ? '' : 'none';
     document.getElementById('wishlistSection').style.display = tab === 'wishlist'  ? '' : 'none';
     document.getElementById('soldSection').style.display     = tab === 'sold'      ? '' : 'none';
-    document.getElementById('ordersSection').style.display   = tab === 'orders'    ? '' : 'none';
 
     if (tab === 'wishlist') loadAndRenderWishlist();
     if (tab === 'sold')     renderSoldTab();
-    if (tab === 'orders')   renderOrdersTab();
 };
 
 // ─── MY LISTINGS ─────────────────────────────────────────────────────────────
@@ -135,12 +136,6 @@ function renderSoldTab() {
         `).join('');
 }
 
-// ─── ORDERS TAB ───────────────────────────────────────────────────────────────
-function renderOrdersTab() {
-    const grid = document.getElementById('ogrid');
-    if (!grid) return;
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">📦<h3>Order history coming soon</h3></div>';
-}
 
 // ─── WISHLIST TAB ─────────────────────────────────────────────────────────────
 async function loadAndRenderWishlist() {
@@ -179,7 +174,7 @@ function renderWishlistTab(list) {
             <div class="pbody">
                 <div class="pcat">${p.category || 'General'}</div>
                 <div class="ctitle">${p.title}</div>
-                <div class="pprice">₹${p.price?.toLocaleString('en-IN') ?? '—'}</div>
+                <div class="pprice">₹${p.price?.toLocaleString('en-IN') ?? '-'}</div>
             </div>
             <div class="p-actions" style="padding:14px; padding-top:0; display:flex; gap:10px">
                 <button class="btn btn-blue" onclick="window.location.href='/browse'" style="flex:1; font-size:0.75rem">View Item</button>
@@ -283,6 +278,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Handle ?tab= URL param
     const urlTab    = new URLSearchParams(window.location.search).get('tab');
-    const validTabs = ['listings', 'wishlist', 'sold', 'orders'];
+    const validTabs = ['listings', 'wishlist', 'sold'];
     window.switchTab(validTabs.includes(urlTab) ? urlTab : 'listings');
 });

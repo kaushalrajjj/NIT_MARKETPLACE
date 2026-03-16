@@ -1,10 +1,10 @@
-const jsonDb = require('../config/jsonDb');
+const userRepository = require('../repositories/userRepository');
 const productRepository = require('../repositories/productRepository');
 
 const userService = {
     getPublicStats: async () => {
-        const users = jsonDb.users.find();
-        const products = productRepository.find({ isApproved: true });
+        const users = await userRepository.find();
+        const products = await productRepository.find({ isApproved: true });
         return {
             totalStudents: users.length,
             totalListings: products.length,
@@ -13,11 +13,11 @@ const userService = {
     },
 
     getUserById: async (id) => {
-        return jsonDb.users.findById(id);
+        return await userRepository.findById(id);
     },
 
     updateUserProfile: async (userId, profileData) => {
-        return jsonDb.users.update(userId, profileData);
+        return await userRepository.update(userId, profileData);
     }
 };
 

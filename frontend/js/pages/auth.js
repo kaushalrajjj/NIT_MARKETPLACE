@@ -20,10 +20,10 @@ window.validateEmail = (input, prefix) => {
 
 window.handleLogin = async (e) => {
     if (e) e.preventDefault();
-    const email = document.getElementById('loginEmail');
-    const pass = document.getElementById('loginPass');
+    const email = document.getElementById('loginEmail')?.value.trim();
+    const pass = document.getElementById('loginPass')?.value.trim();
 
-    if (!email?.value || !pass?.value) {
+    if (!email || !pass) {
         window.showToast('Please enter both email and password', 'error');
         return;
     }
@@ -36,7 +36,7 @@ window.handleLogin = async (e) => {
     if (btn) btn.disabled = true;
 
     try {
-        const data = await apiService.login(email.value, pass.value);
+        const data = await apiService.login(email, pass);
         if (data.token) {
             localStorage.setItem('userInfo', JSON.stringify(data));
             window.showToast('Login success', 'success');

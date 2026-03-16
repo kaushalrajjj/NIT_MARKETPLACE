@@ -1,30 +1,16 @@
-const path = require('path');
-const fs = require('fs');
+const { cloudinary, avatarStorage } = require('../config/cloudinary');
 const multer = require('multer');
 const userService = require('../services/userService');
 const productService = require('../services/productService');
 const activityRepository = require('../repositories/activityRepository');
 const bcrypt = require('bcryptjs');
-const jsonDb = require('../config/jsonDb');
-
-// ── Multer setup: store uploaded profile images in /data/profile-images ────────
-const UPLOAD_DIR = path.join(__dirname, '../../data/profile-images');
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-
-const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
-        // Filename: userId + timestamp + extension
-        cb(null, `${req.user._id}_${Date.now()}${ext}`);
-    }
-});
 
 const upload = multer({
-    storage,
-    limits: { fileSize: 2 * 1024 * 1024 }, // 2 MB max
+    storage: avatarStorage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // increased to 5 MB
     fileFilter: (_req, file, cb) => {
         const allowed = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+        const path = require('path');
         const ext = path.extname(file.originalname).toLowerCase();
         if (allowed.includes(ext)) cb(null, true);
         else cb(new Error('Only image files are allowed (jpg, png, webp, gif)'));
@@ -33,13 +19,15 @@ const upload = multer({
 
 const userController = {
     /**
-     * GET /api/users/me — Get current user's profile (non-changeable + changeable fields)
+     * GET /api/users/me — Get current user's profile
      */
     getMe: async (req, res) => {
         try {
             const user = await userService.getUserById(req.user._id);
             if (!user) return res.status(404).json({ message: 'User not found' });
-            const { password, ...safe } = user;
+            
+            const userObj = user.toObject ? user.toObject() : user;
+            const { password, ...safe } = userObj;
             res.json(safe);
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -48,19 +36,19 @@ const userController = {
 
     /**
      * PUT /api/users/me — Update changeable contact fields only
-     * Accepted: phone, whatsapp, secondaryEmail
      */
     updateMe: async (req, res) => {
         try {
-            const { phone, whatsapp, secondaryEmail } = req.body;
+            const { mobileNo, whatsappNo } = req.body;
             const patch = {};
-            if (phone !== undefined)         patch.phone = phone;
-            if (whatsapp !== undefined)       patch.whatsapp = whatsapp;
-            if (secondaryEmail !== undefined) patch.secondaryEmail = secondaryEmail;
+            if (mobileNo !== undefined)   patch.mobileNo = mobileNo;
+            if (whatsappNo !== undefined)  patch.whatsappNo = whatsappNo;
 
             const updated = await userService.updateUserProfile(req.user._id, patch);
             if (!updated) return res.status(404).json({ message: 'User not found' });
-            const { password: _pw, ...safe } = updated;
+            
+            const userObj = updated.toObject ? updated.toObject() : updated;
+            const { password: _pw, ...safe } = userObj;
             res.json(safe);
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -68,8 +56,7 @@ const userController = {
     },
 
     /**
-     * PUT /api/users/me/password — Change password (requires current password)
-     * Body: { currentPassword, newPassword }
+     * PUT /api/users/me/password — Change password
      */
     changePassword: async (req, res) => {
         try {
@@ -77,11 +64,11 @@ const userController = {
             if (!currentPassword || !newPassword) {
                 return res.status(400).json({ message: 'Both current and new password are required.' });
             }
-            if (newPassword.length < 6) {
-                return res.status(400).json({ message: 'New password must be at least 6 characters.' });
+            if (newPassword.length < 12) {
+                return res.status(400).json({ message: 'New password must be at least 12 characters.' });
             }
 
-            const user = jsonDb.users.findById(req.user._id);
+            const user = await userService.getUserById(req.user._id);
             if (!user) return res.status(404).json({ message: 'User not found' });
 
             const isMatch = await bcrypt.compare(currentPassword, user.password);
@@ -89,7 +76,7 @@ const userController = {
                 return res.status(401).json({ message: 'Current password is incorrect.' });
             }
 
-            const salt = await bcrypt.genSalt(10);
+            const salt = await bcrypt.genSalt(12);
             const hashedNew = await bcrypt.hash(newPassword, salt);
             await userService.updateUserProfile(req.user._id, { password: hashedNew });
 
@@ -101,8 +88,6 @@ const userController = {
 
     /**
      * POST /api/users/me/avatar — Upload profile image
-     * Saves file to /data/profile-images/, stores filename in userActivity.img
-     * Deletes old avatar file if it existed.
      */
     uploadAvatar: [
         upload.single('avatar'),
@@ -113,22 +98,28 @@ const userController = {
                 }
 
                 const userId = req.user._id;
-                const newFilename = req.file.filename;
+                const activity = await activityRepository.getOrCreate(userId);
 
-                // Delete previous avatar if any
-                const activity = activityRepository.getOrCreate(userId);
-                if (activity.img) {
-                    const oldPath = path.join(UPLOAD_DIR, activity.img);
-                    if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+                // Delete previous avatar from Cloudinary if it exists
+                if (activity.img && activity.img.startsWith('http')) {
+                    try {
+                        const urlParts = activity.img.split('/');
+                        const fileName = urlParts[urlParts.length - 1].split('.')[0];
+                        const folderName = 'nit_marketplace/avatars';
+                        await cloudinary.uploader.destroy(`${folderName}/${fileName}`);
+                    } catch (err) {
+                        console.error('Cloudinary avatar delete error:', err);
+                    }
                 }
 
-                // Store new filename in userActivity
-                activityRepository.update(userId, { img: newFilename });
+                const newImageUrl = req.file.path;
+                // Store new URL in userActivity
+                await activityRepository.update(userId, { img: newImageUrl });
 
                 res.json({
-                    message: 'Avatar uploaded.',
-                    img: newFilename,
-                    url: `/profile-images/${newFilename}`
+                    message: 'Avatar uploaded to Cloudinary.',
+                    img: newImageUrl,
+                    url: newImageUrl
                 });
             } catch (err) {
                 res.status(500).json({ message: err.message });
@@ -137,16 +128,24 @@ const userController = {
     ],
 
     /**
-     * DELETE /api/users/me/avatar — Remove profile image (revert to initials)
+     * DELETE /api/users/me/avatar — Remove profile image
      */
     removeAvatar: async (req, res) => {
         try {
             const userId = req.user._id;
-            const activity = activityRepository.getOrCreate(userId);
+            const activity = await activityRepository.getOrCreate(userId);
             if (activity.img) {
-                const oldPath = path.join(UPLOAD_DIR, activity.img);
-                if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-                activityRepository.update(userId, { img: null });
+                if (activity.img.startsWith('http')) {
+                    try {
+                        const urlParts = activity.img.split('/');
+                        const fileName = urlParts[urlParts.length - 1].split('.')[0];
+                        const folderName = 'nit_marketplace/avatars';
+                        await cloudinary.uploader.destroy(`${folderName}/${fileName}`);
+                    } catch (err) {
+                        console.error('Cloudinary avatar delete error:', err);
+                    }
+                }
+                await activityRepository.update(userId, { img: null });
             }
             res.json({ message: 'Avatar removed.' });
         } catch (err) {
@@ -159,19 +158,19 @@ const userController = {
      */
     getWishlist: async (req, res) => {
         try {
-            const activity = activityRepository.getOrCreate(req.user._id);
+            const activity = await activityRepository.getOrCreate(req.user._id);
             const wishlistedIds = activity.wishlisted || [];
-            const products = wishlistedIds
-                .map(id => jsonDb.products.findById(id))
-                .filter(Boolean); // exclude any deleted products
-            res.json(products);
+            const products = await Promise.all(
+                wishlistedIds.map(id => productService.getProductById(id))
+            );
+            res.json(products.filter(Boolean));
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
     },
 
     /**
-     * GET /api/users/activity — Get current user's activity (wishlisted, listed, sold, img)
+     * GET /api/users/activity — Get current user's activity
      */
     getActivity: async (req, res) => {
         try {

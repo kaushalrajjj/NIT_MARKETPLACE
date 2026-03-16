@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../css/components/sort-dropdown.css" />
     <link rel="stylesheet" href="../css/components/page-header.css" />
     <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/profile-card.css" />
     <!-- Page -->
     <link rel="stylesheet" href="../css/pages/browse.css" />
 </head>
@@ -39,8 +40,7 @@
                 <div class="modal-title" id="qvTitle">Product Details</div>
                 <button class="modal-close" onclick="closeModal()"><b>✕</b></button>
             </div>
-
-            <!-- ── Login wall (shown to guests) ─────────────────────── -->
+            
             <div id="qvLoginWall" style="display:none; padding:0">
                 <div style="text-align:center; padding: 60px 24px">
                     <div style="font-size:4rem; margin-bottom:20px">🔒</div>
@@ -55,8 +55,6 @@
                 </div>
             </div>
 
-
-            <!-- ── Full content (logged-in users only) ─────────────── -->
             <div id="qvContent" style="display:none">
                 <div class="modal-body">
                     <div class="modal-img" id="qvImgWrap">📚</div>
@@ -68,9 +66,18 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+
+    <!-- PROFILE CARD MODAL -->
+    <div class="modal-overlay" id="profileModal" style="z-index: 1001;">
+        <div class="modal" style="max-width: 500px; padding: 0;">
+            <div id="profileModalContent">
+                <!-- Profile Card injected here -->
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -103,15 +110,15 @@
                             <span class="cat-filter-icon">🔌</span>
                             <span class="cat-filter-name">Electronics</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'Cycles')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Cycle')">
                             <span class="cat-filter-icon">🚲</span>
                             <span class="cat-filter-name">Cycles & Gear</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'Hostel')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Hostel Stuff')">
                             <span class="cat-filter-icon">📦</span>
                             <span class="cat-filter-name">Hostel Essentials</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'Tools')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Academic')">
                             <span class="cat-filter-icon">🛠️</span>
                             <span class="cat-filter-name">Lab & Academic</span>
                         </label>
@@ -130,7 +137,7 @@
         <section class="results-area">
             <!-- Toolbar -->
             <div class="results-toolbar">
-                <div class="results-count">Showing <strong id="resultsCount">48</strong> results for "All Items"</div>
+                <div class="results-count">Showing <strong id="resultsCount">0</strong> results for <span id="resultsLabel">"All Items"</span></div>
                 <div class="toolbar-right">
                     
                     <!-- NEW FILTER DROPDOWN -->
@@ -160,18 +167,17 @@
                                 <div class="filter-section">
                                     <div class="filter-section-title">Condition</div>
                                     <div class="check-list">
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Brand New"><span class="check-box"></span><span class="lbl">Brand New</span></label>
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Like New"><span class="check-box"></span><span class="lbl">Like New</span></label>
+                                        <label class="check-item"><input type="checkbox" name="condition" value="New"><span class="check-box"></span><span class="lbl">New</span></label>
                                         <label class="check-item"><input type="checkbox" name="condition" value="Lightly Used"><span class="check-box"></span><span class="lbl">Lightly Used</span></label>
                                         <label class="check-item"><input type="checkbox" name="condition" value="Used"><span class="check-box"></span><span class="lbl">Used</span></label>
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Damaged/For Parts"><span class="check-box"></span><span class="lbl">Damaged/For Parts</span></label>
+                                        <label class="check-item"><input type="checkbox" name="condition" value="Damaged"><span class="check-box"></span><span class="lbl">Damaged</span></label>
                                     </div>
                                 </div>
                 
                             </div>
                             <div class="fp-footer">
                                 <button class="btn btn-ghost" onclick="resetFilters(); toggleFilterDropdown(event)">Reset</button>
-                                <button class="btn btn-primary" onclick="applyFilters('fetch'); toggleFilterDropdown(event)">Apply Filters</button>
+                                <button class="btn btn-primary" onclick="applyFilters(); toggleFilterDropdown(event)">Apply Filters</button>
                             </div>
                         </div>
                     </div>

@@ -464,3 +464,19 @@
         gap: 6px;
     }
 }
+.seller-trigger {
+    color: var(--pri);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: all var(--transition);
+}
+
+.seller-trigger:hover {
+    color: var(--pri-dark);
+    background: var(--pri-light);
+    border-radius: 4px;
+    padding: 0 4px;
+}

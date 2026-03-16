@@ -3,6 +3,11 @@
  * Structure matches navigation.css classes exactly.
  */
 export function getNavbarHTML() {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    const adminLink = userInfo.role === 'admin' 
+        ? '<li><a href="/admin" style="color:var(--pri);font-weight:700">Admin</a></li>' 
+        : '';
+
     return `
         <header class="navbar" id="nav">
             <div class="nav-inner">
@@ -31,6 +36,7 @@ export function getNavbarHTML() {
                 <ul class="nav-links-mini">
                     <li><a href="/">Home</a></li>
                     <li><a href="/browse">Browse</a></li>
+                    ${adminLink}
                     <li><a href="/dashboard">Dashboard</a></li>
                     <li><a href="/profile">Profile</a></li>
                     <li><a href="#footer-root" onclick="event.preventDefault(); document.getElementById('footer-root')?.scrollIntoView({ behavior: 'smooth' })">Contact</a></li>

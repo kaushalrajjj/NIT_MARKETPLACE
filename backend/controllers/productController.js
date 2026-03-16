@@ -9,7 +9,10 @@ const productController = {
         try {
             if (req.user) {
                 req.body.filters = req.body.filters || {};
-                req.body.filters.excludeSeller = req.user._id;
+                // Only exclude if NOT explicitly filtering for a seller
+                if (!req.body.filters.seller) {
+                    req.body.filters.excludeSeller = req.user._id;
+                }
             }
             const data = await productService.queryProducts(req.body);
             res.json(data);

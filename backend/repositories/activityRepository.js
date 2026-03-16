@@ -1,25 +1,32 @@
-const jsonDb = require('../config/jsonDb');
+const UserActivity = require('../models/UserActivity');
 
-/**
- * Activity Repository — User Activity Data Layer
- * ================================================
- * All reads/writes to userActivity.json go through here.
- * Format: { [userId]: { wishlisted: [], listed: [], sold: [], orderHistory: [] } }
- */
+/** Activity Repository — User Activity Data Layer */
 const activityRepository = {
     /** Get the activity record for a user (auto-creates blank entry if missing). */
-    getOrCreate(userId) {
-        return jsonDb.userActivity.getOrCreate(userId);
+    getOrCreate: async (userId) => {
+        let activity = await UserActivity.findById(userId);
+        if (!activity) {
+            activity = await UserActivity.create({ 
+                _id: userId,
+                wishlisted: [],
+                listed: [],
+                sold: [],
+                img: null
+            });
+        }
+        return activity;
     },
 
     /** Get ALL activity records. */
-    getAll() {
-        return jsonDb.userActivity.getAll();
+    getAll: async () => {
+        return await UserActivity.find({});
     },
 
     /** Ensure every userId in the provided array has an activity entry. */
-    ensureAll(userIds) {
-        jsonDb.userActivity.ensureAll(userIds);
+    ensureAll: async (userIds) => {
+        for (const userId of userIds) {
+            await activityRepository.getOrCreate(userId);
+        }
     },
 
     /**
@@ -27,35 +34,40 @@ const activityRepository = {
      * @param {string} userId
      * @param {Object} patch - e.g. { wishlisted: [...] }
      */
-    update(userId, patch) {
-        return jsonDb.userActivity.update(userId, patch);
+    update: async (userId, patch) => {
+        return await UserActivity.findByIdAndUpdate(userId, patch, { new: true });
     },
 
     /** Add a product to a user's listed array (when they create a listing). */
-    addListed(userId, productId) {
-        const activity = this.getOrCreate(userId);
-        const listed = activity.listed || [];
-        if (!listed.includes(productId)) {
-            this.update(userId, { listed: [...listed, productId] });
-        }
+    addListed: async (userId, productId) => {
+        return await UserActivity.findByIdAndUpdate(
+            userId, 
+            { $addToSet: { listed: productId } }, 
+            { new: true, upsert: true }
+        );
     },
 
     /** Mark a product as sold for the seller. */
-    markSold(userId, productId) {
-        const activity = this.getOrCreate(userId);
-        const sold = activity.sold || [];
-        if (!sold.includes(productId)) {
-            this.update(userId, { sold: [...sold, productId] });
-        }
+    markSold: async (userId, productId) => {
+        return await UserActivity.findByIdAndUpdate(
+            userId, 
+            { $addToSet: { sold: productId } }, 
+            { new: true, upsert: true }
+        );
     },
 
     /**
      * When a product is deleted, remove it from ALL users' wishlisted lists
      * and from the seller's listed array.
      */
-    removeProductEverywhereOnDelete(productId) {
-        jsonDb.userActivity.removeProductFromAll('wishlisted', productId);
-        jsonDb.userActivity.removeProductFromAll('listed', productId);
+    removeProductEverywhereOnDelete: async (productId) => {
+        await UserActivity.updateMany({}, {
+            $pull: {
+                wishlisted: productId,
+                listed: productId,
+                sold: productId
+            }
+        });
     }
 };
 

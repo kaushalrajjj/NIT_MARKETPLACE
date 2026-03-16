@@ -30,8 +30,8 @@ The same page handles both creating and editing — the `?edit=` URL param switc
 | `frontend/components/Toast.js` | Success/error notifications |
 | `frontend/js/services/apiService.js` | `create()`, `updateProduct()` API calls |
 | `frontend/js/utils/navigation-utils.js` | `initNavigation()` |
-| `data/product-images/` | Uploaded photos saved here (on the server) |
-| `backend/controllers/productImageController.js` | Handles image upload/delete |
+| `Cloudinary` | Primary storage for product photos |
+| `backend/controllers/productImageController.js` | Handles Cloudinary uploads/deletes |
 
 ---
 
@@ -135,7 +135,8 @@ sell.js
 │
 ├── uploadProductImage(productId)
 │   ├── Creates FormData with selectedFile as "image"
-│   ├── POST /api/products/:id/image  with Authorization: Bearer token
+│   ├── POST /api/products/:id/image
+│   │   → Uploads to Cloudinary
 │   └── Throws on failure
 │
 ├── removeProductImage(productId)
@@ -176,8 +177,9 @@ Header: Authorization: Bearer <token>
 productController.createProduct
    ↓
 productService.createProduct(userId, productData)
-   ├── Adds seller: userId, isApproved: true, status: 'available'
-   ├── productRepository.create(data)   ← writes to products.json
+   ├── Adds seller: userId, isApproved: false, status: 'available'
+   │   → Note: Listings are HIDDEN from browse until approved by an admin.
+   ├── productRepository.create(data)   ← writes to MongoDB
    └── activityRepository.addListed(userId, newProduct._id)  ← updates userActivity.json
    ↓
 Returns: { _id, title, price, category, ... }
@@ -189,11 +191,9 @@ POST /api/products/:id/image   FormData: { image: <file> }
 Header: Authorization: Bearer <token>
    ↓
 productImageController.uploadImage
-   ├── multer saves file to /data/product-images/ as "productId_timestamp.ext"
-   ├── Deletes old image file if product had one
-   └── jsonDb.products.update(productId, { img: newFilename })
-   ↓
-Returns: { img: "filename.jpg", url: "/product-images/filename.jpg" }
+   ├── Uploads file to Cloudinary
+   ├── Updates MongoDB with the Cloudinary secure_URL
+   └── Returns: { imgURL: "https://res.cloudinary.com/..." }
 ```
 
 ### Edit Existing Product
@@ -268,7 +268,7 @@ If user selected a photo:
   → Backend saves file to /data/product-images/abc123_timestamp.jpg
   → Updates products.json: { img: "abc123_timestamp.jpg" }
       ↓
-showToast("Listing published! ✅")
+showToast("Listing submitted for approval! ⏳")
 setTimeout → redirect to /dashboard
 ```
 

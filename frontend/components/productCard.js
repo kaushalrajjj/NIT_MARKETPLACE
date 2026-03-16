@@ -1,17 +1,24 @@
-import { getEmoji } from '../js/utils/helpers.js';
+import { getEmoji, getOptimizedImageUrl } from '../js/utils/helpers.js';
 
 function productImg(p, size = '3rem') {
     if (p.img) {
-        return `<img src="/product-images/${p.img}" alt="${p.title}"
-                     style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
+        let src = getOptimizedImageUrl(p.img, 400);
+        
+        return `<img src="${src}" alt="${p.title}"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                     style="width:100%;height:100%;object-fit:cover;border-radius:inherit">
+                <span class="fallback-emoji" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; font-size:${size}">${getEmoji(p.category)}</span>`;
     }
     return `<span style="font-size:${size}">${getEmoji(p.category)}</span>`;
 }
 
 function sellerAvatar(seller) {
     if (seller?.profileImage) {
+        let src = getOptimizedImageUrl(seller.profileImage, 100);
+        
         return {
-            html: `<img src="/profile-images/${seller.profileImage}" alt="${seller?.name || ''}"
+            html: `<img src="${src}" alt="${seller?.name || ''}"
+                         onerror="this.style.display='none'; this.parentElement.textContent='${(seller?.name || 'S').charAt(0).toUpperCase()}'; this.parentElement.style.background='var(--pri)'; this.parentElement.style.color='#fff'"
                          style="width:100%;height:100%;object-fit:cover;border-radius:50%">`,
             hasImage: true
         };
@@ -23,7 +30,7 @@ function sellerAvatar(seller) {
 export function renderProductCard(p, isBrowse = false) {
     if (isBrowse) {
         const sellerName    = p.seller?.name || 'Seller';
-        const sellerRoll    = p.seller?.roll ? ` · ${p.seller.roll}` : '';
+        const sellerRoll    = p.seller?.rollNo ? ` · ${p.seller.rollNo}` : '';
         const avatar        = sellerAvatar(p.seller);
         const avatarStyle   = avatar.hasImage
             ? 'background:transparent;padding:0'
@@ -49,7 +56,7 @@ export function renderProductCard(p, isBrowse = false) {
                         <button class="btn btn-blue">View Details</button>
                     </div>
                     <div class="p-footer">
-                        <div class="p-seller">
+                        <div class="p-seller" onclick="event.stopPropagation(); window.openProfileModal('${p._id}')" style="cursor:pointer">
                             <div class="p-seller-img" style="${avatarStyle}">
                                 ${avatar.html}
                             </div>

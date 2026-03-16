@@ -15,6 +15,11 @@ export function getSidebarHTML() {
         <a href="${dashHref}" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
             📊 Dashboard
         </a>
+        ${userInfo.role === 'admin' ? `
+            <a href="/admin" class="sb-link" style="color:var(--pri);font-weight:700" onclick="window.closeSidebar && window.closeSidebar()">
+                🛡️ Admin Panel
+            </a>
+        ` : ''}
     ` : '';
 
     const bottomSection = userInfo ? `
@@ -48,9 +53,9 @@ export function getSidebarHTML() {
                 </div>
 
                 <div class="sb-user">
-                    <div class="sb-avatar">
+                    <div class="sb-avatar" style="${userInfo?.profileImage ? 'background:transparent;padding:0' : ''}">
                         ${userInfo?.profileImage 
-                            ? `<img src="/profile-images/${userInfo.profileImage}" alt="Me" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">` 
+                            ? `<img src="${userInfo.profileImage.startsWith('http') ? userInfo.profileImage : `/profile-images/${userInfo.profileImage}`}" alt="Me" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">` 
                             : initial}
                     </div>
                     <div class="sb-user-info">

@@ -11,10 +11,10 @@ const TOKEN = userInfo?.token;
 // ─── NON-CHANGEABLE FIELD LABELS ─────────────────────────────────────────────
 const COLLEGE_FIELDS = [
     { key: 'name',          label: 'Full Name',       icon: '👤' },
-    { key: 'roll',          label: 'Roll Number',      icon: '🎫' },
+    { key: 'rollNo',        label: 'Roll Number',      icon: '🎫' },
     { key: 'branch',        label: 'Branch',           icon: '📐' },
     { key: 'year',          label: 'Year',             icon: '📅' },
-    { key: 'currentHostel', label: 'Current Hostel',   icon: '🏠' },
+    { key: 'hostel',        label: 'Current Hostel',   icon: '🏠' },
     { key: 'email',         label: 'College Email',    icon: '✉️' },
 ];
 
@@ -40,7 +40,7 @@ function renderCollegeInfo(user) {
 function renderAvatarCard(user, activity) {
     const initial = (user.name || '?').charAt(0).toUpperCase();
     document.getElementById('avName').textContent = user.name || '—';
-    document.getElementById('avRoll').textContent = user.roll  || '';
+    document.getElementById('avRoll').textContent = user.rollNo  || '';
     document.getElementById('avRole').textContent =
         user.role === 'admin' ? 'Administrator' : `${user.branch || 'NIT KKR'} · Year ${user.year || '?'}`;
 
@@ -59,7 +59,8 @@ function setAvatarDisplay(imgFilename, initial) {
     const circle = document.getElementById('avCircle');
     if (!circle) return;
     if (imgFilename) {
-        circle.innerHTML = `<img src="/profile-images/${imgFilename}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        const src = imgFilename;
+        circle.innerHTML = `<img src="${src}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
         circle.style.background = 'transparent';
         circle.style.padding = '0';
     } else {
@@ -71,9 +72,8 @@ function setAvatarDisplay(imgFilename, initial) {
 
 // ─── FILL CONTACT FORM FROM USER DATA ────────────────────────────────────────
 function fillContactForm(user) {
-    document.getElementById('fldPhone').value    = user.phone         || '';
-    document.getElementById('fldWhatsapp').value = user.whatsapp      || '';
-    document.getElementById('fldSecEmail').value = user.secondaryEmail || '';
+    document.getElementById('fldPhone').value    = user.mobileNo    || '';
+    document.getElementById('fldWhatsapp').value = user.whatsappNo  || '';
 }
 
 // ─── SAVE CONTACT ─────────────────────────────────────────────────────────────
@@ -83,9 +83,8 @@ window.saveContact = async () => {
     btn.textContent = 'Saving…';
     try {
         await apiService.updateMe({
-            phone:          document.getElementById('fldPhone').value.trim(),
-            whatsapp:       document.getElementById('fldWhatsapp').value.trim(),
-            secondaryEmail: document.getElementById('fldSecEmail').value.trim()
+            mobileNo:       document.getElementById('fldPhone').value.trim(),
+            whatsappNo:     document.getElementById('fldWhatsapp').value.trim()
         }, TOKEN);
         window.showToast?.('Contact info saved ✅', 'success');
     } catch (err) {
@@ -110,8 +109,8 @@ window.changePassword = async () => {
         window.showToast?.('New passwords do not match.', 'error');
         return;
     }
-    if (newPass.length < 6) {
-        window.showToast?.('New password must be at least 6 characters.', 'error');
+    if (newPass.length < 12) {
+        window.showToast?.('New password must be at least 12 characters.', 'error');
         return;
     }
 

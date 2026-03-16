@@ -1,5 +1,5 @@
 import { apiService } from '../services/apiService.js';
-import { initToast } from '../../components/Toast.js';
+import { initToast, getToastHTML } from '../../components/Toast.js';
 import { getEmoji } from '../utils/helpers.js';
 
 const userInfo = apiService.getUserInfo();
@@ -10,7 +10,10 @@ if (!userInfo || userInfo.role !== 'admin') {
 const TOKEN = userInfo?.token;
 let allProducts = [];
 
-function getStatusBadge(status) {
+function getStatusBadge(status, isApproved) {
+    if (isApproved === false) {
+        return '<span class="admin-pc-status status-pending">Pending Approval</span>';
+    }
     switch (status) {
         case 'available':
             return '<span class="admin-pc-status status-available">Available</span>';
@@ -26,10 +29,7 @@ function getStatusBadge(status) {
 function renderProducts() {
     const grid = document.getElementById('adminProductsGrid');
     const load = document.getElementById('productsLoading');
-    const countBox = document.getElementById('totalProductsCount');
 
-    countBox.textContent = allProducts.length;
-    
     if (allProducts.length === 0) {
         grid.style.display = 'block';
         grid.innerHTML = '<div class="empty-state">No products found.</div>';
@@ -45,12 +45,13 @@ function renderProducts() {
                 : 'Unknown Seller';
             
             const isDeleted = p.status === 'deleted_by_admin';
+            const isPending = p.isApproved === false;
 
             return `
             <div class="pc" style="${isDeleted ? 'opacity:0.6;' : ''}">
                 <div class="pimg" style="background:#f1f5f9;">${thumb}</div>
                 <div class="pbody">
-                    ${getStatusBadge(p.status)}
+                    ${getStatusBadge(p.status, p.isApproved)}
                     <div class="ctitle" style="font-size:1rem;">${p.title}</div>
                     <div class="pprice">₹${p.price.toLocaleString('en-IN')}</div>
                     <div class="admin-pc-meta">
@@ -58,16 +59,49 @@ function renderProducts() {
                         <strong>Posted:</strong> ${new Date(p.createdAt).toLocaleDateString()}
                     </div>
                 </div>
-                <div class="p-actions" style="padding:14px; padding-top:0; display:flex; gap:8px">
-                    <button class="btn btn-danger" style="flex:1; font-size:0.8rem;" 
-                            onclick="window.deleteProductAdmin('${p._id}')" ${isDeleted ? 'disabled' : ''}>
-                        ${isDeleted ? 'Already Deleted' : 'Delete Product'}
-                    </button>
+                <div class="p-actions" style="padding:14px; padding-top:0; display:flex; flex-direction:column; gap:8px">
+                    ${isPending ? `
+                        <div style="display:flex; gap:8px; width:100%">
+                            <button class="btn btn-blue" style="flex:1; font-size:0.8rem;" 
+                                    onclick="window.approveProductAdmin('${p._id}', true)">
+                                Approve
+                            </button>
+                            <button class="btn btn-outline" style="flex:1; font-size:0.8rem;" 
+                                    onclick="window.approveProductAdmin('${p._id}', false)">
+                                Reject
+                            </button>
+                        </div>
+                    ` : `
+                        <button class="btn btn-danger" style="width:100%; font-size:0.8rem;" 
+                                onclick="window.deleteProductAdmin('${p._id}')" ${isDeleted ? 'disabled' : ''}>
+                            ${isDeleted ? 'Already Deleted' : 'Delete Product'}
+                        </button>
+                    `}
                 </div>
             </div>`;
         }).join('');
     }
     load.style.display = 'none';
+}
+
+async function fetchStats() {
+    try {
+        const stats = await apiService.adminGetStats(TOKEN);
+        document.getElementById('totalUsersCount').textContent = stats.totalUsers || 0;
+        document.getElementById('liveListingsCount').textContent = stats.liveListings || 0;
+        document.getElementById('pendingListingsCount').textContent = stats.pendingListings || 0;
+        document.getElementById('totalVolumeCount').textContent = (stats.totalVolume || 0).toLocaleString('en-IN');
+        
+        // Add color coding to pending
+        const pBox = document.getElementById('pendingListingsCount').parentElement;
+        if (stats.pendingListings > 0) {
+            pBox.classList.add('danger');
+        } else {
+            pBox.classList.remove('danger');
+        }
+    } catch (err) {
+        console.error('Stats error:', err);
+    }
 }
 
 async function fetchProducts() {
@@ -80,22 +114,39 @@ async function fetchProducts() {
     }
 }
 
+window.approveProductAdmin = async (id, approve) => {
+    const action = approve ? 'approve' : 'reject';
+    if (!confirm(`Are you sure you want to ${action} this product?`)) return;
+    try {
+        await apiService.adminApproveProduct(id, approve, TOKEN);
+        window.showToast?.(`Product ${approve ? 'approved' : 'rejected'} successfully`, 'success');
+        await refreshAll();
+    } catch (err) {
+        window.showToast?.(`Failed to ${action} product`, 'error');
+    }
+};
+
 window.deleteProductAdmin = async (id) => {
     if (!confirm('Are you sure you want to delete this product? The seller will see it as "Deleted by Admin".')) return;
     try {
         await apiService.adminDeleteProduct(id, TOKEN);
         window.showToast?.('Product deleted successfully', 'success');
-        await fetchProducts(); // Refresh list
+        await refreshAll();
     } catch (err) {
         window.showToast?.('Failed to delete product', 'error');
     }
 };
+
+async function refreshAll() {
+    await Promise.all([fetchProducts(), fetchStats()]);
+}
 
 window.logout = () => {
     apiService.logout();
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('toast-root').innerHTML = getToastHTML();
     initToast();
-    fetchProducts();
+    refreshAll();
 });

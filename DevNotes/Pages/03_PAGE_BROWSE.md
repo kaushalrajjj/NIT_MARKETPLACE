@@ -27,10 +27,8 @@ http://localhost:5000/browse?search=laptop    ← with search pre-loaded
 | `frontend/components/PageHeader.js` | Injects page title/breadcrumb banner |
 | `frontend/components/SortDropdown.js` | Injects sort dropdown widget |
 | `frontend/components/productCard.js` | Renders individual product card HTML |
-| `frontend/components/Toast.js` | Wishlist feedback notifications |
-| `frontend/js/services/apiService.js` | API calls for products + wishlist |
-| `frontend/js/utils/navigation-utils.js` | `initNavigation()` |
-| `frontend/js/utils/helpers.js` | `getEmoji(category)` — category icon lookup |
+| `frontend/js/utils/helpers.js` | `getEmoji(category)`, `getOptimizedImageUrl(url, width)` |
+| `frontend/components/ProfileCard.js` | Renders the HTML for the seller profile modal |
 
 ---
 
@@ -48,12 +46,17 @@ browse.html
 │   └── #qvModal (.modal-overlay)
 │       ├── #qvLoginWall      ← Shown to guests: "Login to View Details"
 │       │   └── Link to /auth
-│       └── #qvContent        ← Shown to logged-in users: full product detail
-│           ├── #qvImgWrap    ← Product image or emoji
+│       ├── #qvContent        ← Shown to logged-in users: full product detail
+│           ├── #qvImgWrap    ← Product image (Cloudinary) or emoji
 │           ├── #qvPrice      ← Price display
 │           ├── #qvInfoRows   ← Condition, Category, Seller
+│               └── .seller-trigger ← Clickable → opens Profile Modal
 │           ├── #qvDesc       ← Description
 │           └── #modalContactActions ← Call + WhatsApp buttons
+│
+├── <!-- PROFILE MODAL -->
+│   └── #profileModal (.modal-overlay)
+│       └── #profileModalContent ← Injected by ProfileCard.js
 │
 └── <main class="browse-layout">
     │
@@ -141,12 +144,29 @@ browse.js
 │   ├── If NOT logged in → shows #qvLoginWall (lock screen)
 │   ├── If logged in → populates and shows #qvContent
 │   │   ├── Finds product in local products[] array
-│   │   ├── Fills in: title, image/emoji, price, condition, category, seller
-│   │   └── Generates Call + WhatsApp buttons using seller's phone number
+│   │   ├── Fills in: title, image (Cloudinary Optimized), price, description
+│   │   ├── Seller row has .seller-trigger → calls window.openProfileModal()
+│   │   └── Generates contact buttons
 │   └── Blocks body scroll
 │
-├── window.closeModal()
-│   └── Closes #qvModal, resets panels
+├── window.openProfileModal(productId) ← Seller name click
+│   ├── Closes current product modal
+│   ├── Fetches seller data from the local product object
+│   ├── Injects ProfileCard(seller) HTML into #profileModalContent
+│   └── Opens #profileModal
+│
+├── window.filterBySeller(id, name)    ← Click "View Listings" in Profile Card
+│   ├── Sets window.selectedSellerId and window.selectedSellerName
+│   ├── Closes all modals
+│   ├── Clears search query for focus
+│   └── Calls fetchAndRender()
+│
+├── window.clearSeller()               ← X on seller chip
+│   ├── Resets seller filters
+│   └── Calls fetchAndRender()
+│
+├── window.closeModal() / window.closeProfileModal()
+│   └── Closes overlays, restores scroll
 │
 ├── window.resetFilters() / clearSearch() / resetPrice() / clearCondition()
 │   └── Various filter reset helpers, each calls fetchAndRender()
@@ -158,7 +178,6 @@ browse.js
     ├── Injects PageHeader banner   → #page-header-root
     ├── Injects SortDropdown        → #sort-root
     ├── Fetches user's wishlisted IDs from /api/users/activity
-    │   (so hearts are correct on first render)
     └── fetchAndRender()            → Initial product load
 ```
 
@@ -258,8 +277,9 @@ Frontend:
 ## 💡 Key Things to Know
 
 - **Guests can browse** without logging in, but clicking a product card shows the login wall instead of seller details.
-- **Logged-in users** can see full details (seller name, contact, WhatsApp) in the Quick View modal.
+- **Logged-in users** can see full details and open the **Seller Profile Card** to see more about the seller (Branch, Year, Hostel).
+- **Seller Filtering:** Users can filter the entire grid to show only one seller's items by clicking "View Listings" in the Profile Card.
+- **Cloudinary Optimization:** Images are no longer served from local disk. We use `getOptimizedImageUrl(url, width)` to request responsive images from Cloudinary.
 - **Wishlist is optimistic** — the heart button toggles instantly before the backend confirms. If the backend fails, it reverts.
-- **Seller filtering:** When a logged-in user queries products, the backend automatically excludes their own listings (filters by `excludeSeller: req.user._id`).
 - **Search from homepage:** If user searched on the homepage, the `?search=` URL param is read on load and pre-applied.
-- **`fields` parameter:** The query sends only specific fields to reduce payload size: `['_id', 'title', 'description', 'price', 'category', 'condition', 'seller', 'img', 'createdAt']`
+- **`fields` parameter:** The query sends only specific fields to reduce payload size: `['_id', 'title', 'description', 'price', 'category', 'condition', 'seller', 'img', 'createdAt', 'branch', 'year', 'hostel']`

@@ -444,63 +444,6 @@ p.sec-sub {
     border-color: var(--blue-mid);
 }
 
-/* ── CTA ── */
-.cta-bg {
-    background: linear-gradient(135deg, #1e3a8a, #2563EB);
-    padding: 80px 0;
-    text-align: center;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-}
-
-.cta-bg::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px);
-    background-size: 32px 32px;
-}
-
-.cta-inner {
-    position: relative;
-    z-index: 1;
-}
-
-.cta-bg h2 {
-    font-family: 'Lora', serif;
-    font-size: 2.5rem;
-    margin-bottom: 14px;
-}
-
-.cta-bg p {
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, .8);
-    margin-bottom: 32px;
-}
-
-.cta-btns {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-}
-
-.cta-note {
-    font-size: .75rem;
-    color: rgba(255, 255, 255, .5) !important;
-}
-
-/* ── Contact item (index page) ── */
-.ci {
-    display: flex;
-    align-items: flex-start;
-    gap: 7px;
-    font-size: .85rem;
-    margin-bottom: 8px;
-}
-
 /* ── Responsive ── */
 @media (max-width: 1024px) {
     .hero-inner {

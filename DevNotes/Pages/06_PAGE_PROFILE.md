@@ -27,7 +27,8 @@ http://localhost:5000/profile
 | `frontend/components/Toast.js` | Success/error notifications |
 | `frontend/js/services/apiService.js` | `fetchMe()`, `updateMe()`, `changePassword()` |
 | `frontend/js/utils/navigation-utils.js` | `initNavigation()` |
-| `data/profile-images/` | Uploaded profile photos stored here |
+| `frontend/js/utils/helpers.js` | `getOptimizedImageUrl(url, width)` |
+| `Cloudinary` | Primary storage for profile photos |
 
 ---
 
@@ -125,9 +126,10 @@ profile.js
 │   ├── Sets #statListings, #statSold, #statWish from activity data
 │   └── Calls setAvatarDisplay(activity.img, initial)
 │
-├── setAvatarDisplay(imgFilename, initial)
-│   ├── If imgFilename exists:
-│   │   → Shows <img src="/profile-images/filename"> in #avCircle
+├── setAvatarDisplay(imgUrl, initial)
+│   ├── If imgUrl exists:
+│   │   → Shows `<img src="cloudinary_url">` in #avCircle
+│   │   → Uses `getOptimizedImageUrl(imgUrl, 256)` for the circle
 │   │   → Makes background transparent
 │   └── Else:
 │       → Shows initial letter in #avCircle
@@ -157,13 +159,12 @@ profile.js
 ├── window.handleAvatarUpload(input)  ← Profile photo upload
 │   ├── Gets file from file input
 │   ├── IMMEDIATELY shows local preview (FileReader → base64 URL)
-│   │   So the user sees the image RIGHT AWAY, before upload completes
 │   ├── Creates FormData with file as "avatar"
-│   ├── POST /api/users/me/avatar   (direct fetch, not apiService)
+│   ├── POST /api/users/me/avatar
 │   ├── On success:
 │   │   ├── Shows "Profile photo updated ✅" toast
-│   │   ├── Updates localStorage userInfo.profileImage = json.img
-│   │   └── Calls setAvatarDisplay(json.img) with server URL
+│   │   ├── Updates localStorage userInfo.profileImage = json.imgURL
+│   │   └── Calls setAvatarDisplay(json.imgURL) with Cloudinary URL
 │   └── On error: shows error toast
 │
 └── DOMContentLoaded (async)
@@ -251,17 +252,14 @@ Returns: { message: "Password updated successfully." }
 ### Upload Profile Photo
 ```
 POST /api/users/me/avatar   FormData: { avatar: <file> }
-Header: Authorization: Bearer <token>
    ↓
-userController.uploadAvatar (uses multer)
-   ├── multer saves file to /data/profile-images/
-   │   Filename: userId_timestamp.ext  (e.g. abc123_1700000000000.jpg)
-   ├── Reads existing activity to find old avatar filename
-   ├── Deletes old avatar file from disk if it existed
-   └── activityRepository.update(userId, { img: newFilename })
-       → updates userActivity.json
+userController.uploadAvatar
+   ├── Uploads file to Cloudinary
+   ├── Destroys old avatar on Cloudinary if it exists
+   └── activityRepository.update(userId, { profileImage: secure_url })
+       → updates MongoDB
    ↓
-Returns: { img: "filename.jpg", url: "/profile-images/filename.jpg" }
+Returns: { imgURL: "https://res.cloudinary.com/..." }
 ```
 
 ---

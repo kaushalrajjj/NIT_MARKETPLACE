@@ -25,11 +25,7 @@ export function closeSidebar() {
 
 export function initNavigation() {
     const userInfo = apiService.getUserInfo();
-    if (userInfo && userInfo.role === 'admin') {
-        window.location.href = '/admin';
-        return;
-    }
-
+    // No more forced redirect! Admins can browse.
     const navRoot = document.getElementById('navbar-root');
     if (navRoot) navRoot.innerHTML = getNavbarHTML();
 
@@ -70,8 +66,9 @@ export function initNavigation() {
             const avatar = document.querySelector('.sb-avatar');
             if (!avatar) return;
             if (img) {
+                const src = img.startsWith('http') ? img : `/profile-images/${img}`;
                 avatar.style.background = 'transparent';
-                avatar.innerHTML = `<img src="/profile-images/${img}" alt="Me"
+                avatar.innerHTML = `<img src="${src}" alt="Me"
                     style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
             } else {
                 // No image — make sure initial letter is showing correctly

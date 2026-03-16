@@ -1,56 +1,68 @@
-const jsonDb = require('../config/jsonDb');
+const userRepository = require('../repositories/userRepository');
 const productRepository = require('../repositories/productRepository');
+const activityRepository = require('../repositories/activityRepository');
 
 const adminService = {
     getPendingProducts: async () => {
-        const products = productRepository.find({ isApproved: false });
-        return products.map(p => {
-            const seller = jsonDb.users.findById(p.seller);
-            return { ...p, seller: seller ? { name: seller.name, email: seller.email } : null };
-        });
+        const products = await productRepository.find({ isApproved: false });
+        return await Promise.all(products.map(async p => {
+            const seller = await userRepository.findById(p.seller);
+            return { 
+                ...(p.toObject ? p.toObject() : p), 
+                seller: seller ? { name: seller.name, email: seller.email } : null 
+            };
+        }));
     },
 
     approveProduct: async (productId, approve) => {
         if (approve) {
-            return productRepository.update(productId, { isApproved: true });
+            return await productRepository.update(productId, { isApproved: true });
         } else {
-            return productRepository.delete(productId);
+            const res = await productRepository.delete(productId);
+            // Cleanup everywhere
+            await activityRepository.removeProductEverywhereOnDelete(productId);
+            return res;
         }
     },
 
     getUsers: async () => {
-        const users = jsonDb.users.find();
+        const users = await userRepository.find();
         return users.map(u => {
-            const { password, ...rest } = u;
+            const userObj = u.toObject ? u.toObject() : u;
+            const { password, ...rest } = userObj;
             return rest;
         });
     },
 
     getStats: async () => {
-        const users = jsonDb.users.find();
-        const products = productRepository.find({});
-        const liveListings = products.filter(p => p.status === 'available').length;
-        const pendingListings = products.filter(p => p.status === 'deleted_by_admin').length;
+        const users = await userRepository.find();
+        const products = await productRepository.find({});
+        const liveListings = products.filter(p => p.status === 'available' && p.isApproved).length;
+        const pendingListings = products.filter(p => p.isApproved === false).length;
 
         return {
             totalUsers: users.length,
             liveListings,
+            pendingListings,
             totalVolume: products.reduce((acc, p) => acc + (p.price || 0), 0)
         };
     },
 
     getAllProducts: async () => {
-        const products = productRepository.find({});
+        const products = await productRepository.find({});
         // Return newest first
         products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        return products.map(p => {
-            const seller = jsonDb.users.findById(p.seller);
-            return { ...p, seller: seller ? { name: seller.name, email: seller.email, roll: seller.roll } : null };
-        });
+        return await Promise.all(products.map(async p => {
+            const seller = await userRepository.findById(p.seller);
+            return { 
+                ...(p.toObject ? p.toObject() : p), 
+                seller: seller ? { name: seller.name, email: seller.email, rollNo: seller.rollNo } : null 
+            };
+        }));
     },
 
     deleteProductAdmin: async (productId) => {
-        return productRepository.update(productId, { status: 'deleted_by_admin' });
+        return await productRepository.update(productId, { status: 'deleted_by_admin' });
     }
 };
 

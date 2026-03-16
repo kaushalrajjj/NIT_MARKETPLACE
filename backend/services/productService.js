@@ -1,4 +1,4 @@
-const jsonDb = require('../config/jsonDb');
+const userRepository = require('../repositories/userRepository');
 const productRepository = require('../repositories/productRepository');
 const activityRepository = require('../repositories/activityRepository');
 
@@ -16,9 +16,11 @@ const productService = {
         const { filters = {}, sort = 'newest', fields = [], page = 1, limit = 12 } = params;
 
         // 1. Fetch raw data from repository
-        let products = productRepository.query(filters);
+        let products = await productRepository.query(filters);
 
-        // 2. Apply Sorting
+        // 2. Apply Sorting (Sorting is now handled in query, but we can refine here if needed)
+        // For convenience, we'll keep the JS sorting if complex logic is needed, 
+        // but Mongoose is faster. We'll stick to JS for now to preserve your logic exactly.
         if (sort === 'price_low') {
             products.sort((a, b) => a.price - b.price);
         } else if (sort === 'price_high') {
@@ -35,18 +37,21 @@ const productService = {
         const paginatedProducts = products.slice(startIndex, startIndex + Number(limit));
 
         // 4. Resolve Seller and Prune Fields
-        const processedProducts = paginatedProducts.map(p => {
+        const processedProducts = await Promise.all(paginatedProducts.map(async p => {
             let sellerInfo = null;
             if (fields.length === 0 || fields.includes('seller')) {
-                const seller = jsonDb.users.findById(p.seller);
-                const activity = activityRepository.getOrCreate(p.seller);
+                const seller = await userRepository.findById(p.seller);
+                const activity = await activityRepository.getOrCreate(p.seller);
                 sellerInfo = seller ? {
                     _id: seller._id,
                     name: seller.name,
-                    roll: seller.roll || '',
+                    rollNo: seller.rollNo || '',
                     email: seller.email,
-                    phone: seller.phone,
-                    whatsapp: seller.whatsapp,
+                    mobileNo: seller.mobileNo,
+                    whatsappNo: seller.whatsappNo,
+                    branch: seller.branch,
+                    year: seller.year,
+                    hostel: seller.hostel,
                     profileImage: activity.img || null
                 } : null;
             }
@@ -63,12 +68,14 @@ const productService = {
                     }
                 });
             } else {
-                Object.assign(result, p);
+                // Mongoose documents need to be converted to plain objects
+                const pObj = p.toObject ? p.toObject() : p;
+                Object.assign(result, pObj);
                 result.seller = sellerInfo;
             }
 
             return result;
-        });
+        }));
 
         return {
             products: processedProducts,
@@ -82,33 +89,36 @@ const productService = {
         const data = {
             ...productData,
             seller: userId,
-            isApproved: true, // Auto-approve for now
+            isApproved: false, // Moderated by admin
             status: 'available'
         };
-        const product = productRepository.create(data);
+        const product = await productRepository.create(data);
 
         // Track in user activity
-        activityRepository.addListed(userId, product._id);
+        await activityRepository.addListed(userId, product._id);
 
         return product;
     },
 
     getProductById: async (id) => {
-        const product = productRepository.findById(id);
+        const product = await productRepository.findById(id);
         if (!product) return null;
 
-        const seller = jsonDb.users.findById(product.seller);
-        const activity = activityRepository.getOrCreate(product.seller);
+        const seller = await userRepository.findById(product.seller);
+        const activity = await activityRepository.getOrCreate(product.seller);
         return {
-            ...product,
+            ...(product.toObject ? product.toObject() : product),
             seller: seller ? {
                 _id: seller._id,
                 name: seller.name,
-                roll: seller.roll || '',
+                rollNo: seller.rollNo || '',
                 email: seller.email,
-                phone: seller.phone,
-                whatsapp: seller.whatsapp,
-                profileImage: activity.img || null
+                mobileNo: seller.mobileNo,
+                whatsappNo: seller.whatsappNo,
+                profileImage: activity.img || null,
+                branch: seller.branch,
+                year: seller.year,
+                hostel: seller.hostel
             } : null
         };
     },
@@ -118,29 +128,29 @@ const productService = {
     },
 
     updateProductStatus: async (productId, userId, status) => {
-        const product = productRepository.findById(productId);
+        const product = await productRepository.findById(productId);
         if (!product) throw new Error('Product not found');
-        if (product.seller !== userId) throw new Error('Not authorized');
+        if (product.seller.toString() !== userId.toString()) throw new Error('Not authorized');
 
-        const updated = productRepository.update(productId, { status });
+        const updated = await productRepository.update(productId, { status });
 
         // If marking as sold, record in activity
         if (status === 'sold') {
-            activityRepository.markSold(userId, productId);
+            await activityRepository.markSold(userId, productId);
         }
 
         return updated;
     },
 
     deleteProduct: async (productId, userId) => {
-        const product = productRepository.findById(productId);
+        const product = await productRepository.findById(productId);
         if (!product) throw new Error('Product not found');
-        if (product.seller !== userId) throw new Error('Not authorized');
+        if (product.seller.toString() !== userId.toString()) throw new Error('Not authorized');
 
-        productRepository.delete(productId);
+        await productRepository.delete(productId);
 
         // Remove from ALL users' wishlists and seller's listed array across the whole app
-        activityRepository.removeProductEverywhereOnDelete(productId);
+        await activityRepository.removeProductEverywhereOnDelete(productId);
     },
 
     /**
@@ -150,7 +160,7 @@ const productService = {
      * @param {boolean} isAdded
      */
     updateWishlist: async (userId, productId, isAdded) => {
-        const activity = activityRepository.getOrCreate(userId);
+        const activity = await activityRepository.getOrCreate(userId);
         const currentList = activity.wishlisted || [];
 
         let updatedList;
@@ -159,17 +169,17 @@ const productService = {
                 ? currentList
                 : [...currentList, productId];
         } else {
-            updatedList = currentList.filter(id => id !== productId);
+            updatedList = currentList.filter(id => id.toString() !== productId.toString());
         }
 
-        return activityRepository.update(userId, { wishlisted: updatedList });
+        return await activityRepository.update(userId, { wishlisted: updatedList });
     },
 
     /**
      * Get a user's full activity record.
      */
     getUserActivity: async (userId) => {
-        return activityRepository.getOrCreate(userId);
+        return await activityRepository.getOrCreate(userId);
     },
 
     /**
@@ -180,9 +190,9 @@ const productService = {
      * @param {Object} updates - { title, description, price, condition }
      */
     updateProduct: async (productId, requesterId, updates) => {
-        const product = productRepository.findById(productId);
+        const product = await productRepository.findById(productId);
         if (!product) throw new Error('Product not found');
-        if (product.seller !== requesterId) throw new Error('Unauthorized: not your listing');
+        if (product.seller.toString() !== requesterId.toString()) throw new Error('Unauthorized: not your listing');
 
         // Whitelist — category is locked, never patched here
         const { title, description, price, condition } = updates;
@@ -194,7 +204,7 @@ const productService = {
 
         if (Object.keys(patch).length === 0) throw new Error('No valid fields to update');
 
-        return productRepository.update(productId, patch);
+        return await productRepository.update(productId, patch);
     }
 };
 

@@ -1,12 +1,5 @@
 import { initNavigation } from '../utils/navigation-utils.js';
 
-// Setup Global Functions (needed for inline onclick in legacy HTML)
-window.handleSearch = (val) => {
-    if (val.trim()) {
-        window.location.href = `/browse?search=${encodeURIComponent(val)}`;
-    }
-};
-
 // Scroll reveal
 function initScrollReveal() {
     const rvEls = document.querySelectorAll('.rv');
@@ -24,18 +17,6 @@ function initScrollReveal() {
     });
     rvEls.forEach(el => obs.observe(el));
 }
-
-// Contact form
-window.handleForm = (e) => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
-    btn.innerHTML = '✔ Sent!';
-    btn.style.background = '#059669';
-    setTimeout(() => {
-        btn.innerHTML = '✈️ Send Message';
-        btn.style.background = '';
-    }, 3000);
-};
 
 // Nav scroll shadow
 window.addEventListener('scroll', () => {

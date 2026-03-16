@@ -25,14 +25,6 @@ app.use('/api/users',    userRoutes);
 const frontendPath = path.join(__dirname, '..', 'frontend');
 app.use(express.static(frontendPath));
 
-// ─── Serve Profile Images ─────────────────────────────────────────────────────
-const profileImagesPath = path.join(__dirname, '..', 'data', 'profile-images');
-app.use('/profile-images', express.static(profileImagesPath));
-
-// ─── Serve Product Images ─────────────────────────────────────────────────────
-const productImagesPath = path.join(__dirname, '..', 'data', 'product-images');
-app.use('/product-images', express.static(productImagesPath));
-
 // Root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(frontendPath, 'pages', 'index.html'));

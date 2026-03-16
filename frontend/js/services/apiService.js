@@ -190,5 +190,26 @@ export const apiService = {
         });
         if (!res.ok) throw new Error('Failed to delete product as admin');
         return await res.json();
+    },
+
+    async adminGetStats(token) {
+        const res = await fetch('/api/admin/stats', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Failed to load admin stats');
+        return await res.json();
+    },
+
+    async adminApproveProduct(id, approve, token) {
+        const res = await fetch(`/api/admin/approve/${id}`, {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify({ approve })
+        });
+        if (!res.ok) throw new Error('Failed to approve/reject product');
+        return await res.json();
     }
 };

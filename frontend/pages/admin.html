@@ -23,6 +23,7 @@
                 <p>Manage all listings across the marketplace.</p>
             </div>
             <div class="admin-actions">
+                <a href="/" class="btn btn-ghost">⬅ Back to Home</a>
                 <button class="btn btn-outline" onclick="window.logout()">Log Out</button>
             </div>
         </header>
@@ -30,8 +31,20 @@
         <main class="admin-main">
             <div class="stats-banner">
                 <div class="stat-box">
-                    <div class="stat-val" id="totalProductsCount">...</div>
-                    <div class="stat-label">Total Listings</div>
+                    <div class="stat-val" id="totalUsersCount">...</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val" id="liveListingsCount">...</div>
+                    <div class="stat-label">Live Listings</div>
+                </div>
+                <div class="stat-box danger">
+                    <div class="stat-val" id="pendingListingsCount">...</div>
+                    <div class="stat-label">Pending Approval</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val" id="totalVolumeCount">...</div>
+                    <div class="stat-label">Total Volume (₹)</div>
                 </div>
             </div>
 
