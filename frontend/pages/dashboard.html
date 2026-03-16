@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Dashboard — NIT KKR Marketplace</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
+    <meta name="description" content="Manage your listings and saved items on NIT KKR Marketplace." />
+    <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/product-card.css" />
+    <link rel="stylesheet" href="../css/components/modal.css" />
+    <link rel="stylesheet" href="../css/components/sort-dropdown.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
+    <link rel="stylesheet" href="../css/components/page-header.css" />
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/pages/dashboard.css" />
+</head>
+
+<body>
+
+    <div id="navbar-root"></div>
+    <div id="page-header-root"></div>
+    <div id="toast-root"></div>
+    <aside>
+        <div id="sidebar-root"></div>
+    </aside>
+
+
+
+    <main class="browse-layout">
+        <div class="main-content">
+
+            <!-- TAB BAR -->
+            <div class="dash-tabs">
+                <button class="dash-tab active" data-tab="listings" onclick="switchTab('listings')">
+                    🏪 My Listings
+                </button>
+                <button class="dash-tab" data-tab="wishlist" onclick="switchTab('wishlist')">
+                    ❤️ Wishlist
+                    <span class="wish-badge" id="wishBadge"></span>
+                </button>
+                <button class="dash-tab" data-tab="sold" onclick="switchTab('sold')">
+                    🤝 Sold Items
+                </button>
+            </div>
+
+            <!-- ── MY LISTINGS SECTION ── -->
+            <div id="listingsSection">
+                <div class="browse-toolbar">
+                    <div class="results-count" id="listingsCount">Your Listings</div>
+                    <div class="toolbar-right">
+                        <div id="sort-root"></div>
+                    </div>
+                </div>
+                <div class="pgrid" id="pgrid">
+                    <!-- Products loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- ── WISHLIST SECTION ── -->
+            <div id="wishlistSection" style="display:none;">
+                <div class="browse-toolbar">
+                    <div class="results-count" id="wishlistCount">Wishlist</div>
+                </div>
+                <div class="pgrid" id="wgrid">
+                    <!-- Wishlist loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- ── SOLD ITEMS SECTION ── -->
+            <div id="soldSection" style="display:none;">
+                <div class="browse-toolbar">
+                    <div class="results-count" id="soldCount">Sold Items</div>
+                </div>
+                <div class="pgrid" id="sgrid">
+                    <!-- Sold items loaded dynamically -->
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <footer>
+        <div id="footer-root"></div>
+    </footer>
+
+    <!-- SCROLL TOP -->
+    <button class="stbtn" id="stb" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        ▲
+    </button>
+
+    <script type="module" src="../js/pages/dashboard.js"></script>
+
+</body>
+
+</html>

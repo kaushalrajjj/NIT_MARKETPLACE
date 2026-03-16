@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — NIT KKR Marketplace</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
+    <link rel="stylesheet" href="../css/base/fonts.css" />
+    <!-- Base -->
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <!-- Components -->
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
+    <!-- Page -->
+    <link rel="stylesheet" href="../css/auth.css" />
+</head>
+
+<body>
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
+    <div id="toast-root"></div>
+
+    <div class="auth-page">
+        <!-- ══════════════════ LEFT PANEL ══════════════════ -->
+        <div class="auth-left
+">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+
+            <div class="auth-left-content">
+
+                <div class="auth-headline">
+                    The Smarter Way<br>to Trade <span class="hi">on Campus</span>
+                </div>
+                <p class="auth-tagline">
+                    Join 1,800+ NIT Kurukshetra students buying, selling, and exchanging items safely within campus.
+                    Verified
+                    profiles. Zero commission.
+                </p>
+
+
+
+                <div class="auth-features" style="margin-top:40px">
+                    <div class="auth-feat">
+                        <div class="af-icon" style="color:#5EF3C5">✔</div>
+                        <div class="af-text"><strong>Verified Users</strong> only with @nitkkr email</div>
+                    </div>
+                    <div class="auth-feat">
+                        <div class="af-icon" style="color:#FFCA5C">🤝</div>
+                        <div class="af-text"><strong>Face-to-Face</strong> deals in campus hostels</div>
+                    </div>
+                    <div class="auth-feat">
+                        <div class="af-icon" style="color:#93C5FD">₹</div>
+                        <div class="af-text"><strong>Zero Commission</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════ RIGHT PANEL ══════════════════ -->
+        <div class="auth-right">
+
+
+            <!-- ── LOGIN FORM ── -->
+            <div class="auth-card" id="loginCard">
+                <div class="auth-card-header">
+
+                    <div class="auth-card-title">Welcome</div>
+                    <div class="auth-card-sub">Login to your campus marketplace account</div>
+                </div>
+
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">NIT Email Address</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" class="form-input" id="loginEmail" placeholder="yourname@nitkkr.ac.in"
+                                oninput="validateEmail(this,'login')" />
+                        </div>
+                        <div class="field-error" id="loginEmailErr">Please login with institute ID</div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+                            <label class="form-label" style="margin-bottom:0">Password</label>
+                        </div>
+                        <div class="input-wrap">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" class="form-input" id="loginPass"
+                                placeholder="Enter your password" />
+                        </div>
+                        <div class="field-error" id="loginPassErr">Password must be at least 12 characters</div>
+                    </div>
+
+                    <div class="check-row">
+                        <input type="checkbox" id="rememberMe" />
+                        <label for="rememberMe">Remember me on this device</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="loginBtn">
+                        <span id="loginBtnText">Sign In</span>
+                        <div class="btn-spinner" id="loginSpinner"></div>
+                    </button>
+                </form>
+
+                <!-- Signup option removed as per request -->
+                
+                <!-- Visible Copyright Added -->
+                <div
+                    style="margin-top:auto; padding-top:40px; font-size:.75rem; color:var(--text-3); text-align:center">
+                    © 2026 NIT KKR Marketplace — Campus Exclusive
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script type="module" src="../js/pages/auth.js"></script>
+
+</body>
+
+</html>

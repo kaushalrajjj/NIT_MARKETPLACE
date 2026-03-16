@@ -1,0 +1,365 @@
+/* ============================================================
+   PROFILE PAGE STYLES
+   Extends base + component styles.
+============================================================ */
+
+/* ── LAYOUT ── */
+.profile-layout {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 0 24px 60px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+@media (max-width: 800px) {
+    .profile-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── CARD ── */
+.card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+}
+
+/* ── AVATAR CARD ── */
+.av-card {
+    text-align: center;
+    position: sticky;
+    top: 90px;
+}
+
+.av-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--pri), #7B9FFF);
+    color: #fff;
+    font-size: 2.2rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    box-shadow: 0 6px 20px rgba(20, 71, 230, .25);
+    overflow: hidden;
+}
+
+/* ── Clickable avatar wrapper with edit overlay ── */
+.av-img-wrapper {
+    position: relative;
+    width: 90px;
+    margin: 0 auto 14px;
+    cursor: pointer;
+}
+
+.av-img-wrapper .av-circle {
+    margin: 0;
+}
+
+.av-edit-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    opacity: 0;
+    transition: opacity .2s;
+    pointer-events: none;
+}
+
+.av-img-wrapper:hover .av-edit-overlay {
+    opacity: 1;
+}
+
+.av-name {
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 3px;
+}
+
+.av-sub {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--pri);
+    margin-bottom: 2px;
+    letter-spacing: .3px;
+}
+
+.av-role {
+    font-size: .78rem;
+    color: var(--text-3);
+    margin-bottom: 18px;
+}
+
+.av-stat-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+}
+
+.av-stat {
+    text-align: center;
+}
+
+.av-stat strong {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--pri);
+}
+
+.av-stat span {
+    font-size: .72rem;
+    color: var(--text-3);
+}
+
+/* Chip badges under avatar */
+.av-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.av-chip {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 4px 12px;
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--text-2);
+}
+
+/* ── SECTION HEADER ── */
+.section-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.section-hint {
+    font-size: .8rem;
+    color: var(--text-3);
+    margin-bottom: 18px;
+    margin-top: 4px;
+}
+
+/* Lock / editable badges next to section title */
+.badge-locked {
+    font-size: .68rem;
+    font-weight: 600;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    border-radius: 99px;
+    padding: 2px 10px;
+}
+
+.badge-editable {
+    font-size: .68rem;
+    font-weight: 600;
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+    border-radius: 99px;
+    padding: 2px 10px;
+}
+
+/* ── COLLEGE INFO GRID (read-only display) ── */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+@media (max-width: 540px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.info-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.info-label {
+    font-size: .7rem;
+    font-weight: 700;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 2px;
+}
+
+.info-value {
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.info-skeleton {
+    grid-column: 1 / -1;
+    height: 80px;
+    background: var(--surface-2);
+    border-radius: 12px;
+    animation: pulse 1.4s ease infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .4; }
+}
+
+/* ── CONTACT / EDITABLE FORM ── */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+@media (max-width: 540px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--text-2);
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: .88rem;
+    color: var(--text);
+    background: var(--bg);
+    transition: border-color .2s;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--pri);
+    background: var(--surface);
+}
+
+.form-full {
+    grid-column: 1 / -1;
+}
+
+/* ── PASSWORD EYE TOGGLE ── */
+.pass-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.pass-wrap input {
+    width: 100%;
+    padding-right: 44px;
+}
+
+.pass-eye {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+    opacity: .65;
+    transition: opacity .2s;
+}
+
+.pass-eye:hover {
+    opacity: 1;
+}
+
+/* ── SAVE BUTTONS ── */
+.save-btn {
+    margin-top: 20px;
+    padding: 11px 28px;
+    background: var(--pri);
+    color: #fff;
+    border: none;
+    border-radius: 99px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.save-btn:hover:not(:disabled) {
+    background: var(--pri-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(20, 71, 230, .3);
+}
+
+.save-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.save-btn-danger {
+    background: #ef4444;
+}
+
+.save-btn-danger:hover:not(:disabled) {
+    background: #dc2626;
+    box-shadow: 0 6px 18px rgba(239, 68, 68, .3);
+}
