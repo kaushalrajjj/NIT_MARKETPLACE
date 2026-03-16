@@ -12,7 +12,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity .3s ease;
-    z-index: 299;
+    z-index: 1999;
 }
 
 .sidebar-overlay.open {
@@ -31,7 +31,7 @@
     border-right: 1.5px solid var(--border);
     transform: translateX(-100%);
     transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 300;
+    z-index: 2000;
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-lg);
@@ -60,12 +60,9 @@
     height: 42px;
     border-radius: 12px;
     background: linear-gradient(135deg, var(--pri), var(--pri-dark));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: 800;
-    font-size: 1.2rem;
+    display: block;
+    object-fit: contain;
+    padding: 2px;
 }
 
 /* ── Close button ── */
@@ -108,6 +105,7 @@
     font-weight: 800;
     font-size: 1.1rem;
     box-shadow: 0 4px 12px rgba(20, 71, 230, 0.2);
+    overflow: hidden;
 }
 
 .sb-user-info .sb-uname {

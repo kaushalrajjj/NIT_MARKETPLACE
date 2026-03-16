@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login / Sign Up — NIT KKR Marketplace</title>
+    <title>Login — NIT KKR Marketplace</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
     <link rel="stylesheet" href="../css/base/variables.css" />
@@ -12,11 +13,16 @@
     <!-- Components -->
     <link rel="stylesheet" href="../css/components/buttons.css" />
     <link rel="stylesheet" href="../css/components/navbar.css" />
+    <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
     <!-- Page -->
     <link rel="stylesheet" href="../css/auth.css" />
 </head>
 
 <body>
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
+    <div id="toast-root"></div>
 
     <div class="auth-page">
         <!-- ══════════════════ LEFT PANEL ══════════════════ -->
@@ -27,10 +33,6 @@
             <div class="blob blob-3"></div>
 
             <div class="auth-left-content">
-                <div class="auth-logo">
-                    <div class="auth-logo-icon">N</div>
-                    <div class="auth-logo-text">KKR Marketplace<span>NIT Kurukshetra — Campus Exclusive</span></div>
-                </div>
 
                 <div class="auth-headline">
                     The Smarter Way<br>to Trade <span class="hi">on Campus</span>
@@ -41,83 +43,35 @@
                     profiles. Zero commission.
                 </p>
 
-                <div class="profile-dropdown">
-                    <div class="profile-avatar" title="Quick Links" onclick="toggleProf()">
-                        Quick Links ∨
-                    </div>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="/">🏠 Home</a>
-                        <a href="/browse">🔍 Browse Items</a>
-                        <a href="/dashboard">⮕ Dashboard</a>
-                        <a href="/chat">💬 Messages</a>
-                    </div>
-                </div>
+
 
                 <div class="auth-features" style="margin-top:40px">
                     <div class="auth-feat">
-                        <div class="af-icon"><span style="color:#5EF3C5">✔</span></div>
+                        <div class="af-icon" style="color:#5EF3C5">✔</div>
                         <div class="af-text"><strong>Verified Users</strong> only with @nitkkr email</div>
                     </div>
                     <div class="auth-feat">
-                        <div class="af-icon"><span style="color:#FFCA5C">🤝</span></div>
+                        <div class="af-icon" style="color:#FFCA5C">🤝</div>
                         <div class="af-text"><strong>Face-to-Face</strong> deals in campus hostels</div>
                     </div>
                     <div class="auth-feat">
-                        <div class="af-icon"><span style="color:#93C5FD">₹</span></div>
-                        <div class="af-text"><strong>Zero Commission</strong> — keep 100% profit</div>
+                        <div class="af-icon" style="color:#93C5FD">₹</div>
+                        <div class="af-text"><strong>Zero Commission</strong></div>
                     </div>
-                </div>
-            </div>
-
-            <div class="auth-stats">
-                <div class="auth-stat">
-                    <div class="num">1.8k+</div>
-                    <div class="lbl">Students Joined</div>
-                </div>
-                <div class="auth-stat">
-                    <div class="num">4.2k+</div>
-                    <div class="lbl">Items Traded</div>
-                </div>
-                <div class="auth-stat">
-                    <div class="num">₹2.5L+</div>
-                    <div class="lbl">Student Savings</div>
-                </div>
-            </div>
-
-            <div class="floating-cards">
-                <div class="float-card">
-                    <div class="fc-icon">🚲</div>
-                    <div class="fc-info">
-                        <div class="fc-title">Hero Cycle</div>
-                        <div class="fc-sub">Sold in BH-3</div>
-                    </div>
-                    <div class="fc-pill">+ ₹2,200</div>
-                </div>
-                <div class="float-card" style="margin-right:-20px">
-                    <div class="fc-icon">📚</div>
-                    <div class="fc-info">
-                        <div class="fc-title">B.S. Grewal</div>
-                        <div class="fc-sub">Sold in BH-4</div>
-                    </div>
-                    <div class="fc-pill">+ ₹450</div>
                 </div>
             </div>
         </div>
 
         <!-- ══════════════════ RIGHT PANEL ══════════════════ -->
         <div class="auth-right">
-            <a href="/" class="back-link">← Back to Home</a>
+
 
             <!-- ── LOGIN FORM ── -->
             <div class="auth-card" id="loginCard">
                 <div class="auth-card-header">
-                    <div class="auth-card-icon">👋</div>
-                    <div class="auth-card-title">Welcome Back</div>
-                    <div class="auth-card-sub">Login to your campus marketplace account</div>
-                </div>
 
-                <div class="auth-tabs">
-                    <button class="auth-tab active" style="width:100%">Login Only</button>
+                    <div class="auth-card-title">Welcome</div>
+                    <div class="auth-card-sub">Login to your campus marketplace account</div>
                 </div>
 
                 <form onsubmit="handleLogin(event)">
@@ -128,23 +82,19 @@
                             <input type="email" class="form-input" id="loginEmail" placeholder="yourname@nitkkr.ac.in"
                                 oninput="validateEmail(this,'login')" />
                         </div>
-                        <div class="email-hint" id="loginEmailHint"></div>
-                        <div class="field-error" id="loginEmailErr">Please enter a valid @nitkkr.ac.in email</div>
+                        <div class="field-error" id="loginEmailErr">Please login with institute ID</div>
                     </div>
 
                     <div class="form-group">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
                             <label class="form-label" style="margin-bottom:0">Password</label>
-                            <a style="font-size:.76rem;color:var(--pri);font-weight:600;cursor:pointer"
-                                onclick="showPanel('forgot')">Forgot password?</a>
                         </div>
                         <div class="input-wrap">
                             <span class="input-icon">🔒</span>
                             <input type="password" class="form-input" id="loginPass"
                                 placeholder="Enter your password" />
-                            <button type="button" class="pass-toggle" onclick="togglePass('loginPass',this)">👁️</button>
                         </div>
-                        <div class="field-error" id="loginPassErr">Password must be at least 8 characters</div>
+                        <div class="field-error" id="loginPassErr">Password must be at least 12 characters</div>
                     </div>
 
                     <div class="check-row">
@@ -158,9 +108,8 @@
                     </button>
                 </form>
 
-
-                <div class="auth-switch">Contact Admin if you don't have access credentials.</div>
-
+                <!-- Signup option removed as per request -->
+                
                 <!-- Visible Copyright Added -->
                 <div
                     style="margin-top:auto; padding-top:40px; font-size:.75rem; color:var(--text-3); text-align:center">
@@ -168,209 +117,9 @@
                 </div>
             </div>
 
-            <!-- ── SIGNUP FORM ── -->
-            <div class="auth-card" id="signupCard" style="display:none">
-                <div class="auth-card-header">
-                    <div class="auth-card-icon">✨</div>
-                    <div class="auth-card-title">Join the Community</div>
-                    <div class="auth-card-sub">Create your free NIT KKR Marketplace account</div>
-                </div>
-
-                <div class="auth-tabs">
-                    <button class="auth-tab" onclick="switchTab('login')">Login</button>
-                    <button class="auth-tab active" onclick="switchTab('signup')">Sign Up</button>
-                </div>
-
-                <!-- Progress steps -->
-                <div class="signup-steps" id="signupSteps">
-                    <div class="signup-step">
-                        <div class="ss-dot active" id="step1dot">1</div>
-                        <div class="ss-label active" id="step1lbl">Account</div>
-                    </div>
-                    <div class="signup-step">
-                        <div class="ss-dot" id="step2dot">2</div>
-                        <div class="ss-label" id="step2lbl">Profile</div>
-                    </div>
-                    <div class="signup-step">
-                        <div class="ss-dot" id="step3dot">3</div>
-                        <div class="ss-label" id="step3lbl">Verify</div>
-                    </div>
-                </div>
-
-                <!-- Step 1: Account -->
-                <div id="signupStep1">
-                    <form onsubmit="nextSignupStep(event,2)">
-                        <div class="form-group">
-                            <label class="form-label">Full Name <span style="color:var(--acc-red)">*</span></label>
-                            <div class="input-wrap">
-                                <span class="input-icon">👤</span>
-                                <input type="text" class="form-input" id="signupName" placeholder="Your full name"
-                                    required />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">NIT Email <span style="color:var(--acc-red)">*</span></label>
-                            <div class="input-wrap">
-                                <span class="input-icon">✉️</span>
-                                <input type="email" class="form-input" id="signupEmail"
-                                    placeholder="yourname@nitkkr.ac.in" required
-                                    oninput="validateEmail(this,'signup')" />
-                            </div>
-                            <div class="email-hint" id="signupEmailHint"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Create Password <span
-                                    style="color:var(--acc-red)">*</span></label>
-                            <div class="input-wrap">
-                                <span class="input-icon">🔒</span>
-                                <input type="password" class="form-input" id="signupPass" placeholder="Min 8 characters"
-                                    required oninput="checkStrength(this)" />
-                                <button type="button" class="pass-toggle" onclick="togglePass('signupPass',this)">👁️</button>
-                            </div>
-                            <div class="pass-strength" id="passStrength">
-                                <div class="ps-seg" id="ps1"></div>
-                                <div class="ps-seg" id="ps2"></div>
-                                <div class="ps-seg" id="ps3"></div>
-                                <div class="ps-seg" id="ps4"></div>
-                            </div>
-                            <div class="ps-label" id="psLabel"></div>
-                        </div>
-
-                        <button type="submit" class="submit-btn" style="margin-top:10px">Continue →</button>
-                    </form>
-                </div>
-
-                <!-- Step 2: Profile -->
-                <div id="signupStep2" style="display:none">
-                    <form onsubmit="nextSignupStep(event,3); startOTPTimer()">
-                        <div class="form-group">
-                            <label class="form-label">Hostel Name</label>
-                            <div class="input-wrap">
-                                <span class="input-icon">🏢</span>
-                                <select class="form-input" style="appearance:none">
-                                    <option>Select Hostel</option>
-                                    <option>BH-1</option>
-                                    <option>BH-2</option>
-                                    <option>BH-3</option>
-                                    <option>BH-4</option>
-                                    <option>Meera Bhawan</option>
-                                    <option>KC Hall</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Branch & Year</label>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-                                <select class="form-input" style="padding-left:16px">
-                                    <option>Branch</option>
-                                    <option>CSE</option>
-                                    <option>IT</option>
-                                    <option>ECE</option>
-                                    <option>EE</option>
-                                </select>
-                                <select class="form-input" style="padding-left:16px">
-                                    <option>Year</option>
-                                    <option>1st Year</option>
-                                    <option>2nd Year</option>
-                                    <option>3rd Year</option>
-                                    <option>4th Year</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Phone Number (Optional)</label>
-                            <div class="input-wrap">
-                                <span class="input-icon">📞</span>
-                                <input type="tel" class="form-input" placeholder="+91 XXXX XXXX" />
-                            </div>
-                        </div>
-
-                        <button type="submit" class="submit-btn" style="margin-top:10px">Setup Profile →</button>
-                        <button type="button"
-                            style="width:100%;background:none;border:none;color:var(--text-3);font-size:.82rem;margin-top:14px;cursor:pointer"
-                            onclick="goSignupStep(1)">Go Back</button>
-                    </form>
-                </div>
-
-                <!-- Step 3: Verify -->
-                <div id="signupStep3" style="display:none">
-                    <div class="otp-target"
-                        style="padding:14px;background:var(--pri-light);border-radius:12px;display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text-2);border:1px dashed var(--pri-mid);margin-bottom:20px">
-                        ✉️
-                        <span>OTP sent to <strong>raj.kumar@nitkkr.ac.in</strong></span>
-                    </div>
-
-                    <div class="otp-wrap">
-                        <input type="text" maxlength="1" class="otp-input" oninput="otpMove(this,0)"
-                            onkeydown="otpBack(this,event,0)" autocomplete="off" />
-                        <input type="text" maxlength="1" class="otp-input" oninput="otpMove(this,1)"
-                            onkeydown="otpBack(this,event,1)" autocomplete="off" />
-                        <input type="text" maxlength="1" class="otp-input" oninput="otpMove(this,2)"
-                            onkeydown="otpBack(this,event,2)" autocomplete="off" />
-                        <input type="text" maxlength="1" class="otp-input" oninput="otpMove(this,3)"
-                            onkeydown="otpBack(this,event,3)" autocomplete="off" />
-                        <input type="text" maxlength="1" class="otp-input" oninput="otpMove(this,4)"
-                            onkeydown="otpBack(this,event,4)" autocomplete="off" />
-                        <input type="text" maxlength="1" class="otp-input" oninput="otpMove(this,5)"
-                            onkeydown="otpBack(this,event,5)" autocomplete="off" />
-                    </div>
-
-                    <div class="otp-timer">
-                        <span id="resendTimer">Resend OTP in <strong id="timerCount">30</strong>s</span>
-                        <a id="resendLink" onclick="resendOTP()"
-                            style="color:var(--pri);font-weight:700;cursor:pointer;display:none">Resend Code</a>
-                    </div>
-
-                    <div class="success-box" id="otpSuccess">
-                        ✔
-                        <h3>Verification Successful</h3>
-                        <p>Welcome to NIT KKR Marketplace community!</p>
-                    </div>
-
-                    <button type="button" class="submit-btn" id="verifyBtn" onclick="verifyOTP()">Verify &
-                        Finish</button>
-                </div>
-
-                <div class="auth-switch">Already have an account? <a onclick="switchTab('login')">Login here</a></div>
-            </div>
-
-            <!-- ── FORGOT PASSWORD ── -->
-            <div class="auth-card" id="forgotCard" style="display:none">
-                <div class="auth-card-header">
-                    <div class="auth-card-icon">🔑</div>
-                    <div class="auth-card-title">Reset Password</div>
-                    <div class="auth-card-sub">We'll send a password recovery link to your NIT email</div>
-                </div>
-
-                <form id="forgotForm" onsubmit="event.preventDefault(); sendResetLink()">
-                    <div class="form-group" style="margin-bottom:28px">
-                        <label class="form-label">NIT Email Address</label>
-                        <div class="input-wrap">
-                            <span class="input-icon">✉️</span>
-                            <input type="email" class="form-input" id="forgotEmail" placeholder="yourname@nitkkr.ac.in"
-                                required />
-                        </div>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Reset Link</button>
-                </form>
-
-                <div class="success-box" id="resetSuccess">
-                    ✈️
-                    <h3>Reset Link Sent</h3>
-                    <p>Check your NIT inbox for instructions to reset your password.</p>
-                </div>
-
-                <div class="auth-switch"><a onclick="showPanel('login')">← Back to
-                        Login</a>
-                </div>
-            </div>
-
         </div>
     </div>
+
 
     <script type="module" src="../js/pages/auth.js"></script>
 

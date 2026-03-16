@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NIT KKR Market — Buy, Sell & Connect</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
     <link rel="stylesheet" href="../css/base/variables.css" />
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="../css/components/buttons.css" />
     <link rel="stylesheet" href="../css/components/navbar.css" />
     <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
     <link rel="stylesheet" href="../css/components/footer.css" />
     <!-- Page -->
     <link rel="stylesheet" href="../css/pages/index.css" />
@@ -20,11 +22,10 @@
 
 <body>
 
-    <header>
-        <div id="navbar-root"></div>
-    </header>
+    <div id="navbar-root"></div>
+    <div id="sidebar-root"></div>
+    <div id="toast-root"></div>
     <aside>
-        <div id="sidebar-root"></div>
     </aside>
 
     <main>
@@ -35,11 +36,8 @@
         <div class="hero-dots"></div>
         <div class="container hero-inner">
             <div>
-                <div class="hero-eyebrow">
-                    Only for the NIT KKR Students
-                </div>
                 <h1>
-                    Skip the M-Gate hassle. Buy & Sell <em>right here.</em>
+                    Skip the hassle. right here.
                 </h1>
                 <p class="hero-desc">
                     Grab old textbooks or sell your cycle before placement
@@ -49,7 +47,7 @@
                     <a href="/browse" class="btn btn-yellow btn-lg">
                         🔍 See what's new
                     </a>
-                    <a href="/dashboard" class="btn btn-ghost btn-lg">
+                    <a href="/sell" class="btn btn-ghost btn-lg">
                         🏷️ Sell an item 
                     </a>
                 </div>
@@ -70,10 +68,10 @@
                     <div class="hc-t">Cycles</div>
                     <div class="hc-s">Buy or sell cycles</div>
                 </div>
-                 <div class="hc">
-                    <div class="hc-emoji">🚲</div>
-                    <div class="hc-t">Cycles & Gear</div>
-                    <div class="hc-s">Buy or sell cycles</div>
+                <div class="hc">
+                    <div class="hc-emoji">📦</div>
+                    <div class="hc-t">Hostel Hacks</div>
+                    <div class="hc-s">Essential gear for your room</div>
                 </div>
             </div>
         </div>
@@ -161,8 +159,8 @@
                 <div class="step">
                     <div class="step-num">05</div>
                     <div class="step-icon">✅</div>
-                    <div class="step-t">Pay & Rate</div>
-                    <div class="step-d">UPI or cash. Leave a rating. Help the community.</div>
+                    <div class="step-t">Pay & Collect</div>
+                    <div class="step-d">UPI or cash. Get your item. Help the community.</div>
                 </div>
             </div>
         </div>
@@ -251,81 +249,6 @@
             </div>
         </div>
     </section>
-
-    <!-- CTA -->
-    <section class="cta-bg" id="sell">
-        <div class="container cta-inner">
-            <div class="chip"
-                style="background:rgba(245,158,11,.2);color:#fcd34d;border:1px solid rgba(245,158,11,.3);margin:0 auto 14px;display:inline-flex">
-                🚀 Ready?
-            </div>
-            <h2>Clear your room.<br>Fill your wallet.</h2>
-            <p>Join 1,800+ NIT students already trading. Access your campus marketplace now.</p>
-            <div class="cta-btns">
-                <a href="/auth" class="btn btn-yellow btn-lg">🚪 Login
-                    Now</a>
-                <a href="/browse" class="btn btn-ghost btn-lg">🔍 Browse
-                    First</a>
-            </div>
-            <p class="cta-note">🔒 Only @nitkkr.ac.in emails · No fees · No commission</p>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="section" id="contact" style="background:var(--white)">
-        <div class="container">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start">
-                <div class="rv">
-                    <div class="chip">✉️ Contact</div>
-                    <h2 class="sec-h">Say hello 👋</h2>
-                    <p class="sec-sub">Got a question, suggestion, or something to report? We're fellow students — we
-                        respond
-                        fast.</p>
-                    <div style="display:flex; flex-direction:column; gap:12px">
-                        <div class="ci">✉️ <span>marketplacenit@gmail.com</span></div>
-                        <div class="ci">📍 <span>NIT Kurukshetra, Haryana –
-                                136119</span></div>
-                        <div class="ci">📸 <span>@nitkkr.market</span></div>
-                        <div class="ci">🔗 <span>/nitkkr-marketplace</span></div>
-                    </div>
-                </div>
-                <div class="rv">
-                    <form style="display:flex; flex-direction:column; gap:12px" onsubmit="handleForm(event)">
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
-                            <div>
-                                <label
-                                    style="font-size:.79rem; font-weight:700; color:var(--ink-2); display:block; margin-bottom:5px">Name</label>
-                                <input type="text" placeholder="Your name"
-                                    style="width:100%; padding:10px 13px; border:1.5px solid var(--border); border-radius:var(--r-sm); background:var(--paper); color:var(--ink); font-family:inherit; font-size:.87rem; outline:none; transition:border-color .18s"
-                                    onfocus="this.style.borderColor='#2563EB'"
-                                    onblur="this.style.borderColor='var(--border)'">
-                            </div>
-                            <div>
-                                <label
-                                    style="font-size:.79rem; font-weight:700; color:var(--ink-2); display:block; margin-bottom:5px">Email</label>
-                                <input type="email" placeholder="you@nitkkr.ac.in"
-                                    style="width:100%; padding:10px 13px; border:1.5px solid var(--border); border-radius:var(--r-sm); background:var(--paper); color:var(--ink); font-family:inherit; font-size:.87rem; outline:none; transition:border-color .18s"
-                                    onfocus="this.style.borderColor='#2563EB'"
-                                    onblur="this.style.borderColor='var(--border)'">
-                            </div>
-                        </div>
-                        <div>
-                            <label
-                                style="font-size:.79rem; font-weight:700; color:var(--ink-2); display:block; margin-bottom:5px">Message</label>
-                            <textarea rows="4" placeholder="What's on your mind?"
-                                style="width:100%; padding:10px 13px; border:1.5px solid var(--border); border-radius:var(--r-sm); background:var(--paper); color:var(--ink); font-family:inherit; font-size:.87rem; outline:none; transition:border-color .18s; resize:vertical"
-                                onfocus="this.style.borderColor='#2563EB'"
-                                onblur="this.style.borderColor='var(--border)'"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-blue" style="align-self:flex-start">
-                            ✈️ Send Message
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
     </main>
 
     <footer>

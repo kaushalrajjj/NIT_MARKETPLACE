@@ -39,12 +39,9 @@
     height: 40px;
     border-radius: 11px;
     background: linear-gradient(135deg, var(--pri), #7B9FFF);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-weight: 800;
-    font-size: 1.1rem;
+    display: block;
+    object-fit: contain;
+    padding: 2px;
     flex-shrink: 0;
 }
 

@@ -7,29 +7,32 @@ export function getSidebarHTML() {
     const userInfo = userInfoStr ? JSON.parse(userInfoStr) : null;
     const initial = userInfo ? userInfo.name.charAt(0).toUpperCase() : '?';
     const name = userInfo ? userInfo.name : 'Guest User';
-    const dashHref = userInfo && userInfo.role === 'admin' ? '/admin' : '/dashboard';
+    const dashHref = '/dashboard';
 
-    const urole = userInfo
-        ? (userInfo.role === 'admin' ? 'Administrator' : 'NIT KKR Student')
-        : 'Login to sell items';
+    const urole = userInfo ? 'NIT KKR Student' : 'Login to sell items';
 
     const dashLink = userInfo ? `
         <a href="${dashHref}" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
             📊 Dashboard
         </a>
+        ${userInfo.role === 'admin' ? `
+            <a href="/admin" class="sb-link" style="color:var(--pri);font-weight:700" onclick="window.closeSidebar && window.closeSidebar()">
+                🛡️ Admin Panel
+            </a>
+        ` : ''}
     ` : '';
 
     const bottomSection = userInfo ? `
         <div class="sb-bottom">
             <button class="sb-link danger" style="width:100%;background:none;border:none;font-family:inherit;cursor:pointer"
                     onclick="window.logout && window.logout()">
-                [⮕Log Out
+                ⮕ Log Out
             </button>
         </div>
     ` : `
         <div class="sb-bottom">
             <a href="/auth" class="sb-link" style="justify-content:center;background:var(--pri);color:#fff;border-radius:12px;text-decoration:none">
-                [⬅ Login
+                ⬅ Login
             </a>
         </div>
     `;
@@ -42,7 +45,7 @@ export function getSidebarHTML() {
             <div class="sb-top">
                 <div class="sb-head">
                     <div class="sb-logo">
-                        <div class="sb-logo-icon">N</div>
+                        <img src="../assets/siteFavicon.png" class="sb-logo-icon" alt="Logo">
                     </div>
                     <button class="sb-close" onclick="window.closeSidebar && window.closeSidebar()" title="Close sidebar">
                         <i>✕</i>
@@ -50,7 +53,11 @@ export function getSidebarHTML() {
                 </div>
 
                 <div class="sb-user">
-                    <div class="sb-avatar">${initial}</div>
+                    <div class="sb-avatar" style="${userInfo?.profileImage ? 'background:transparent;padding:0' : ''}">
+                        ${userInfo?.profileImage 
+                            ? `<img src="${userInfo.profileImage.startsWith('http') ? userInfo.profileImage : `/profile-images/${userInfo.profileImage}`}" alt="Me" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">` 
+                            : initial}
+                    </div>
                     <div class="sb-user-info">
                         <div class="sb-uname">${name}</div>
                         <div class="sb-urole">${urole}</div>
@@ -71,7 +78,7 @@ export function getSidebarHTML() {
                     ✚ Sell an Item
                 </a>
                 ${dashLink}
-                <a href="/wishlist" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
+                <a href="/dashboard?tab=wishlist" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">
                     ❤️ Wishlist
                 </a>
                 <a href="/profile" class="sb-link" onclick="window.closeSidebar && window.closeSidebar()">

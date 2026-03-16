@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Profile — NIT KKR Marketplace</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
     <meta name="description" content="View and edit your NIT KKR Marketplace profile." />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
@@ -14,90 +15,90 @@
     <link rel="stylesheet" href="../css/components/buttons.css" />
     <link rel="stylesheet" href="../css/components/navbar.css" />
     <link rel="stylesheet" href="../css/components/sidebar.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
     <link rel="stylesheet" href="../css/components/footer.css" />
     <!-- Page -->
     <link rel="stylesheet" href="../css/pages/profile.css" />
 </head>
 
 <body>
-    <header>
-        <div id="navbar-root"></div>
-    </header>
+    <div id="navbar-root"></div>
     <aside>
         <div id="sidebar-root"></div>
     </aside>
-
-
+    <div id="toast-root"></div>
 
     <main class="profile-layout">
 
-        <!-- LEFT: Avatar + stats -->
+        <!-- LEFT: Avatar + quick stats -->
         <div class="card av-card">
-            <div class="av-circle" id="avCircle">?</div>
+            <!-- Clickable avatar: click to upload image -->
+            <div class="av-img-wrapper" onclick="document.getElementById('avatarInput').click()" title="Change profile photo">
+                <div class="av-circle" id="avCircle">?</div>
+                <div class="av-edit-overlay">✏️</div>
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(this)"
+>
             <div class="av-name" id="avName">—</div>
+            <div class="av-sub" id="avRoll">—</div>
             <div class="av-role" id="avRole">NIT KKR Student</div>
             <div class="av-stat-row">
                 <div class="av-stat"><strong id="statListings">0</strong><span>Listings</span></div>
                 <div class="av-stat"><strong id="statSold">0</strong><span>Sold</span></div>
+                <div class="av-stat"><strong id="statWish">0</strong><span>Saved</span></div>
             </div>
         </div>
 
-        <!-- RIGHT: Form + activity -->
-        <div style="display:flex;flex-direction:column;gap:20px">
+        <!-- RIGHT: sections -->
+        <div class="profile-right">
 
+            <!-- ── COLLEGE INFO (non-changeable) ── -->
             <div class="card">
-                <div class="section-title">✏️ Personal Info</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="fldName" placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="fldEmail" placeholder="you@nitkkr.ac.in" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label>Branch</label>
-                        <select id="fldBranch">
-                            <option value="">Select branch</option>
-                            <option>CSE</option>
-                            <option>ECE</option>
-                            <option>ME</option>
-                            <option>CE</option>
-                            <option>EE</option>
-                            <option>IT</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Year</label>
-                        <select id="fldYear">
-                            <option value="">Select year</option>
-                            <option>1st Year</option>
-                            <option>2nd Year</option>
-                            <option>3rd Year</option>
-                            <option>4th Year</option>
-                        </select>
-                    </div>
-                    <div class="form-group form-full">
-                        <label>Phone (for buyers to contact)</label>
-                        <input type="tel" id="fldPhone" placeholder="+91 XXXXX XXXXX">
-                    </div>
+                <div class="info-grid" id="collegeInfoGrid">
+                    <!-- Populated by JS -->
+                    <div class="info-skeleton"></div>
                 </div>
-                <button class="save-btn" onclick="saveProfile()">💾 Changes</button>
             </div>
 
+            <!-- ── CONTACT INFO (changeable) ── -->
             <div class="card">
-                <div class="section-title">🕒 Recent Activity</div>
-                <div class="activity-list" id="activityList">
-                    <div class="activity-item">
-                        <div class="act-icon">🏷️</div>
-                        <div>
-                            <div class="act-text">No recent activity yet.</div>
-                            <div class="act-time">Start by posting a listing!</div>
-                        </div>
+                <div class="section-title">📞 Contact Info</div>
+               <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fldPhone">Phone Number</label>
+                        <input type="tel" id="fldPhone" placeholder="+91 XXXXX XXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="fldWhatsapp">WhatsApp Number</label>
+                        <input type="tel" id="fldWhatsapp" placeholder="91XXXXXXXXXX (no +)">
+                    </div>
+                    <div class="form-group form-full">
+                        <label for="fldSecEmail">Secondary Email (optional)</label>
+                        <input type="email" id="fldSecEmail" placeholder="personal@gmail.com">
                     </div>
                 </div>
+                <button class="save-btn" id="saveContactBtn" onclick="saveContact()">💾 Save Contact Info</button>
+            </div>
+
+            <!-- ── PASSWORD CHANGE ── -->
+            <div class="card">
+                <div class="section-title">🔑 Change Password</div>
+                <p class="section-hint">You must enter your current password to set a new one.</p>
+                <div class="form-grid">
+                    <div class="form-group form-full">
+                        <label for="fldCurrentPass">Current Password</label>
+                        <input type="password" id="fldCurrentPass" placeholder="Enter current password" autocomplete="current-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="fldNewPass">New Password</label>
+                        <input type="password" id="fldNewPass" placeholder="Min. 6 characters" autocomplete="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="fldConfirmPass">Confirm New Password</label>
+                        <input type="password" id="fldConfirmPass" placeholder="Repeat new password" autocomplete="new-password">
+                    </div>
+                </div>
+                <button class="save-btn save-btn-danger" id="changePassBtn" onclick="changePassword()">🔑 Update Password</button>
             </div>
 
         </div>

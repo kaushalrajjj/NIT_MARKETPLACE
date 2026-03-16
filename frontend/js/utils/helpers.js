@@ -1,28 +1,23 @@
 export function getEmoji(cat) {
     const cats = {
-        'Books': '📚',
+        'Books':       '📚',
         'Electronics': '🔌',
-        'Cycles': '🚲',
-        'Hostel': '📦',
-        'Tools': '🛠️',
-        'Other': '✨'
+        'Cycles':      '🚲',
+        'Hostel':      '📦',
+        'Tools':       '🛠️',
+        'Other':       '✨'
     };
     return cats[cat] || '✨';
 }
 
-export function animateValue(id, start, end, duration) {
-    const obj = document.getElementById(id);
-    if (!obj) return;
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString();
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
+export function getOptimizedImageUrl(url, width) {
+    if (!url || !url.startsWith('http')) return url;
+    if (url.includes('res.cloudinary.com')) {
+        const parts = url.split('/upload/');
+        if (parts.length === 2) {
+            const transform = width ? `f_auto,q_auto,w_${width},c_limit/` : 'f_auto,q_auto/';
+            return `${parts[0]}/upload/${transform}${parts[1]}`;
         }
-    };
-    window.requestAnimationFrame(step);
+    }
+    return url;
 }
-
-

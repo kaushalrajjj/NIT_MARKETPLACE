@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Browse Items — NIT KKR Marketplace</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
     <link rel="stylesheet" href="../css/base/variables.css" />
@@ -13,20 +14,22 @@
     <link rel="stylesheet" href="../css/components/buttons.css" />
     <link rel="stylesheet" href="../css/components/navbar.css" />
     <link rel="stylesheet" href="../css/components/sidebar.css" />
-    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
     <link rel="stylesheet" href="../css/components/product-card.css" />
     <link rel="stylesheet" href="../css/components/modal.css" />
+    <link rel="stylesheet" href="../css/components/sort-dropdown.css" />
     <link rel="stylesheet" href="../css/components/page-header.css" />
+    <link rel="stylesheet" href="../css/components/footer.css" />
+    <link rel="stylesheet" href="../css/components/profile-card.css" />
     <!-- Page -->
     <link rel="stylesheet" href="../css/pages/browse.css" />
 </head>
 
 <body>
 
-    <header>
-        <div id="navbar-root"></div>
-        <div id="page-header-root"></div>
-    </header>
+    <div id="navbar-root"></div>
+    <div id="page-header-root"></div>
+    <div id="toast-root"></div>
     <aside>
         <div id="sidebar-root"></div>
     </aside>
@@ -35,47 +38,59 @@
         <div class="modal">
             <div class="modal-header">
                 <div class="modal-title" id="qvTitle">Product Details</div>
-                <button class="modal-close" onclick="closeModal()"><b>X</b></button>
+                <button class="modal-close" onclick="closeModal()"><b>✕</b></button>
             </div>
-            <div class="modal-body">
-                <div class="modal-img" id="qvEmoji">📚</div>
-                <div class="modal-details">
-                    <div class="modal-price" id="qvPrice"></div>
-                    <div id="qvInfoRows">
-                        <!-- Populated dynamically via JS -->
+            
+            <div id="qvLoginWall" style="display:none; padding:0">
+                <div style="text-align:center; padding: 60px 24px">
+                    <div style="font-size:4rem; margin-bottom:20px">🔒</div>
+                    <h3 style="font-size:1.35rem; font-weight:800; color:var(--text); margin-bottom:24px">
+                        Login to View Details
+                    </h3>
+                    <div style="max-width:240px; margin:0 auto">
+                        <a href="/auth" class="btn btn-blue" style="text-decoration:none; text-align:center; padding:14px; font-weight:700; border-radius:10px; font-size:1rem; display:block">
+                            🎓 Login with NIT Email
+                        </a>
                     </div>
-                    <div class="modal-desc" id="qvDesc"></div>
-                    <div class="modal-actions" id="modalContactActions">
-                        <!-- Contact buttons will be injected here -->
+                </div>
+            </div>
+
+            <div id="qvContent" style="display:none">
+                <div class="modal-body">
+                    <div class="modal-img" id="qvImgWrap">📚</div>
+                    <div class="modal-details">
+                        <div class="modal-price" id="qvPrice"></div>
+                        <div id="qvInfoRows"></div>
+                        <div class="modal-desc" id="qvDesc"></div>
+                        <div class="modal-actions" id="modalContactActions"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FILTER DRAWER (mobile) -->
-    <div class="filter-drawer-overlay" id="filterOverlay" onclick="closeFilterDrawer()"></div>
-    <div class="filter-drawer" id="filterDrawer">
-        <div class="drawer-header">
-            <div class="drawer-title" style="font-family:'Syne',sans-serif; font-weight:700">Filters</div>
-            <button class="modal-close" onclick="closeFilterDrawer()"><i>✕</i></button>
-        </div>
-        <div id="drawerFilters" style="padding:0"></div>
-        <div style="padding:20px; border-top:1px solid var(--border); display:flex; gap:12px">
-            <button class="btn btn-primary" style="flex:1" onclick="closeFilterDrawer(); applyFilters()">Apply
-                Filters</button>
-            <button class="btn btn-ghost" onclick="resetFilters(); closeFilterDrawer()">Reset</button>
+    <!-- PROFILE CARD MODAL -->
+    <div class="modal-overlay" id="profileModal" style="z-index: 1001;">
+        <div class="modal" style="max-width: 500px; padding: 0;">
+            <div id="profileModalContent">
+                <!-- Profile Card injected here -->
+            </div>
         </div>
     </div>
 
 
 
 
+
+
+
+
+
     <main class="browse-layout">
-        <!-- SIDEBAR -->
+        <!-- Categories Sidebar -->
         <aside class="filter-sidebar" id="filterSidebar">
             <div class="filter-header">
-                <h3>Filters</h3>
+                <h3>Categories</h3>
                 <button class="filter-reset" onclick="resetFilters()">Reset All</button>
             </div>
             <div class="filter-body">
@@ -95,15 +110,15 @@
                             <span class="cat-filter-icon">🔌</span>
                             <span class="cat-filter-name">Electronics</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'Cycles')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Cycle')">
                             <span class="cat-filter-icon">🚲</span>
                             <span class="cat-filter-name">Cycles & Gear</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'Hostel')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Hostel Stuff')">
                             <span class="cat-filter-icon">📦</span>
                             <span class="cat-filter-name">Hostel Essentials</span>
                         </label>
-                        <label class="cat-filter-item" onclick="setCat(this, 'Tools')">
+                        <label class="cat-filter-item" onclick="setCat(this, 'Academic')">
                             <span class="cat-filter-icon">🛠️</span>
                             <span class="cat-filter-name">Lab & Academic</span>
                         </label>
@@ -114,7 +129,7 @@
                     </div>
                 </div>
 
-                <!-- Removed Price Range, Condition, Location, Rating, and Apply Buttons to the top bar -->
+                <!-- Removed Price Range, Condition, Location, and Apply Buttons to the top bar -->
             </div>
         </aside>
 
@@ -122,13 +137,13 @@
         <section class="results-area">
             <!-- Toolbar -->
             <div class="results-toolbar">
-                <div class="results-count">Showing <strong id="resultsCount">48</strong> results for "All Items"</div>
+                <div class="results-count">Showing <strong id="resultsCount">0</strong> results for <span id="resultsLabel">"All Items"</span></div>
                 <div class="toolbar-right">
                     
                     <!-- NEW FILTER DROPDOWN -->
                     <div class="filters-dropdown-container" id="filterDropdownContainer">
                         <button class="btn btn-outline filters-btn" onclick="toggleFilterDropdown(event)">
-                            <span class="filters-icon">🔍</span> Filters <span class="caret">⌄</span>
+                            <span class="filters-icon">🔍</span> Filters <span class="caret">˅</span>
                         </button>
                         
                         <div class="filters-popover" id="filtersPopover">
@@ -152,42 +167,13 @@
                                 <div class="filter-section">
                                     <div class="filter-section-title">Condition</div>
                                     <div class="check-list">
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Brand New" checked><span class="check-box"></span><span class="lbl">Brand New</span></label>
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Like New" checked><span class="check-box"></span><span class="lbl">Like New</span></label>
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Lightly Used" checked><span class="check-box"></span><span class="lbl">Lightly Used</span></label>
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Used" checked><span class="check-box"></span><span class="lbl">Used</span></label>
-                                        <label class="check-item"><input type="checkbox" name="condition" value="Damaged/For Parts"><span class="check-box"></span><span class="lbl">Damaged/For Parts</span></label>
+                                        <label class="check-item"><input type="checkbox" name="condition" value="New"><span class="check-box"></span><span class="lbl">New</span></label>
+                                        <label class="check-item"><input type="checkbox" name="condition" value="Lightly Used"><span class="check-box"></span><span class="lbl">Lightly Used</span></label>
+                                        <label class="check-item"><input type="checkbox" name="condition" value="Used"><span class="check-box"></span><span class="lbl">Used</span></label>
+                                        <label class="check-item"><input type="checkbox" name="condition" value="Damaged"><span class="check-box"></span><span class="lbl">Damaged</span></label>
                                     </div>
                                 </div>
                 
-                                <!-- Location -->
-                                <div class="filter-section">
-                                    <div class="filter-section-title">Hostel/Location</div>
-                                    <select class="hostel-select" id="locationFilter">
-                                        <option>All Locations</option>
-                                        <option>BH-1 (Chakravarty)</option>
-                                        <option>BH-2 (Vishwakarma)</option>
-                                        <option>BH-3 (Aryabhatta)</option>
-                                        <option>BH-4 (Bhaskara)</option>
-                                        <option>BH-5 (Bose)</option>
-                                        <option>BH-6</option>
-                                        <option>BH-7</option>
-                                        <option>BH-8</option>
-                                        <option>Kalpana Chawla Hall</option>
-                                        <option>Meera Bhawan</option>
-                                        <option>Main Gate Area</option>
-                                    </select>
-                                </div>
-                
-                                <!-- Rating -->
-                                <div class="filter-section" style="border-bottom:none;">
-                                    <div class="filter-section-title">Seller Rating</div>
-                                    <div class="check-list">
-                                        <label class="check-item"><input type="radio" name="minRating" value="4"><span class="check-box" style="border-radius:50%"></span><span class="lbl">4 stars & up</span></label>
-                                        <label class="check-item"><input type="radio" name="minRating" value="3"><span class="check-box" style="border-radius:50%"></span><span class="lbl">3 stars & up</span></label>
-                                        <label class="check-item"><input type="radio" name="minRating" value="0" checked><span class="check-box" style="border-radius:50%"></span><span class="lbl">Any Rating</span></label>
-                                    </div>
-                                </div>
                             </div>
                             <div class="fp-footer">
                                 <button class="btn btn-ghost" onclick="resetFilters(); toggleFilterDropdown(event)">Reset</button>
@@ -196,17 +182,9 @@
                         </div>
                     </div>
 
-                    <div style="font-size:.85rem; color:var(--text-3)">Sort:</div>
-                    <select class="sort-select" onchange="applySort(this.value)">
-                        <option value="newest">Newest First</option>
-                        <option value="price_low">Price: Low to High</option>
-                        <option value="price_high">Price: High to Low</option>
-                        <option value="popular">Most Popular</option>
-                    </select>
-                    <div class="view-toggle">
-                        <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')">▦</button>
-                        <button class="view-btn" id="listViewBtn" onclick="setView('list')">≡</button>
-                    </div>
+                    <div id="sort-root"></div>
+
+
                 </div>
             </div>
 
@@ -222,10 +200,7 @@
         </section>
     </main>
 
-    <!-- Mobile Filter Btn -->
-    <button class="btn btn-primary btn-lg filter-mobile-btn" onclick="openFilterDrawer()">
-        🔍 Filters
-    </button>
+
 
     <!-- FOOTER -->
     <footer>

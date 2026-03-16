@@ -1,8 +1,8 @@
 const express = require('express');
-const { authUser, registerUser } = require('../handlers/authHandler');
+const { login, register } = require('../controllers/authController');
 const router = express.Router();
 
-router.post('/register', registerUser);
-router.post('/login', authUser);
+// router.post('/register', register); // Disabled as per request
+router.post('/login', login);
 
 module.exports = router;

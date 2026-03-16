@@ -1,7 +1,7 @@
 import { getNavbarHTML } from '../../components/Navbar.js';
 import { getSidebarHTML } from '../../components/Sidebar.js';
 import { getFooterHTML } from '../../components/Footer.js';
-import { logout } from '../api/authApi.js';
+import { apiService } from '../services/apiService.js';
 
 // ─── Sidebar open / close ─────────────────────────────────────────────────────
 
@@ -24,55 +24,83 @@ export function closeSidebar() {
 // ─── Main entry point called by every page controller ─────────────────────────
 
 export function initNavigation() {
-    // Inject Navbar HTML into #navbar-root
+    const userInfo = apiService.getUserInfo();
+    // No more forced redirect! Admins can browse.
     const navRoot = document.getElementById('navbar-root');
     if (navRoot) navRoot.innerHTML = getNavbarHTML();
 
-    // Inject Sidebar HTML into #sidebar-root
     const sideRoot = document.getElementById('sidebar-root');
     if (sideRoot) sideRoot.innerHTML = getSidebarHTML();
 
-    // Inject Footer HTML into #footer-root
     const footRoot = document.getElementById('footer-root');
     if (footRoot) footRoot.innerHTML = getFooterHTML();
 
-    // Mark the current page's links as active in both navbar and sidebar
     setActiveLinks();
 
-    // Wire overlay click to close sidebar
     const overlay = document.getElementById('sidebarOverlay');
     if (overlay) overlay.addEventListener('click', closeSidebar);
 
-    // Wire Escape key to close sidebar
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeSidebar();
     });
+
+    // ── Silently refresh profile image in sidebar ────────────────────────────
+    // Old localStorage sessions may not have `profileImage` stored.
+    // We fetch from /api/users/activity (cheap call) and hot-patch the avatar.
+    if (userInfo?.token) {
+        fetch('/api/users/activity', {
+            headers: { 'Authorization': `Bearer ${userInfo.token}` }
+        })
+        .then(r => r.ok ? r.json() : null)
+        .then(activity => {
+            if (!activity) return;
+            const img = activity.img || null;
+
+            // Sync to localStorage so next getSidebarHTML() also picks it up
+            if (userInfo.profileImage !== img) {
+                userInfo.profileImage = img;
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            }
+
+            // Hot-patch the already-rendered .sb-avatar
+            const avatar = document.querySelector('.sb-avatar');
+            if (!avatar) return;
+            if (img) {
+                const src = img.startsWith('http') ? img : `/profile-images/${img}`;
+                avatar.style.background = 'transparent';
+                avatar.innerHTML = `<img src="${src}" alt="Me"
+                    style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
+            } else {
+                // No image — make sure initial letter is showing correctly
+                const initial = (userInfo.name || '?').charAt(0).toUpperCase();
+                avatar.style.background = '';
+                avatar.textContent = initial;
+            }
+        })
+        .catch(() => { /* non-fatal — sidebar still shows the initial */ });
+    }
 }
 
-// ─── Highlight the nav/sidebar link that matches the current page ─────────────
 function setActiveLinks() {
     const path = window.location.pathname;
-
-    // Select all links in the navbar mini-list and the sidebar nav
     const links = document.querySelectorAll('.nav-links-mini a, .sb-nav .sb-link');
 
     links.forEach(link => {
         const href = link.getAttribute('href');
         if (!href) return;
-
-        const isActive =
-            (href === '/' && path === '/') ||          // exact match for home
-            (href !== '/' && path.startsWith(href));   // prefix match for all others
-
-        if (isActive) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
+        const isActive = (href === '/' && path === '/') || (href !== '/' && path.startsWith(href));
+        link.classList.toggle('active', isActive);
     });
 }
 
-// ─── Global window exports (for onclick handlers in HTML) ─────────────────────
+// ─── Global window exports ────────────────────────────────────────────────────
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
-window.logout = logout;
+window.logout = () => apiService.logout();
+
+window.handleSiteSearch = (query) => {
+    if (!query.trim()) return;
+    const url = new URL('/browse', window.location.origin);
+    url.searchParams.set('search', query);
+    window.location.href = url.pathname + url.search;
+};

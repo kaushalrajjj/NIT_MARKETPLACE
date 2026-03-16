@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Dashboard — NIT KKR Marketplace</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
     <meta name="description" content="Manage your listings and saved items on NIT KKR Marketplace." />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <!-- Base -->
@@ -17,6 +18,8 @@
     <link rel="stylesheet" href="../css/components/footer.css" />
     <link rel="stylesheet" href="../css/components/product-card.css" />
     <link rel="stylesheet" href="../css/components/modal.css" />
+    <link rel="stylesheet" href="../css/components/sort-dropdown.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
     <link rel="stylesheet" href="../css/components/page-header.css" />
     <!-- Page -->
     <link rel="stylesheet" href="../css/pages/dashboard.css" />
@@ -24,10 +27,9 @@
 
 <body>
 
-    <header>
-        <div id="navbar-root"></div>
-        <div id="page-header-root"></div>
-    </header>
+    <div id="navbar-root"></div>
+    <div id="page-header-root"></div>
+    <div id="toast-root"></div>
     <aside>
         <div id="sidebar-root"></div>
     </aside>
@@ -43,8 +45,11 @@
                     🏪 My Listings
                 </button>
                 <button class="dash-tab" data-tab="wishlist" onclick="switchTab('wishlist')">
-                    ❤️ Saved Items
+                    ❤️ Wishlist
                     <span class="wish-badge" id="wishBadge"></span>
+                </button>
+                <button class="dash-tab" data-tab="sold" onclick="switchTab('sold')">
+                    🤝 Sold Items
                 </button>
             </div>
 
@@ -53,22 +58,7 @@
                 <div class="browse-toolbar">
                     <div class="results-count" id="listingsCount">Your Listings</div>
                     <div class="toolbar-right">
-                        <div class="sort-wrap" id="sw">
-                            <button class="sort-btn" onclick="toggleSort()">Sort: <span id="sortLbl">Newest First</span>
-                                ∨</button>
-                            <div class="sort-menu">
-                                <div class="sort-opt active" onclick="setSort(this, 'Newest First')">Newest First</div>
-                                <div class="sort-opt" onclick="setSort(this, 'Price: Low to High')">Price: Low to High
-                                </div>
-                                <div class="sort-opt" onclick="setSort(this, 'Price: High to Low')">Price: High to Low
-                                </div>
-                                <div class="sort-opt" onclick="setSort(this, 'Popularity')">Popularity</div>
-                            </div>
-                        </div>
-                        <div class="vt">
-                            <button class="vbtn active" id="gvBtn" onclick="setView('g')">▦</button>
-                            <button class="vbtn" id="lvBtn" onclick="setView('l')">≡</button>
-                        </div>
+                        <div id="sort-root"></div>
                     </div>
                 </div>
                 <div class="pgrid" id="pgrid">
@@ -76,19 +66,26 @@
                 </div>
             </div>
 
-            <!-- ── SAVED ITEMS (WISHLIST) SECTION ── -->
+            <!-- ── WISHLIST SECTION ── -->
             <div id="wishlistSection" style="display:none;">
                 <div class="browse-toolbar">
-                    <div class="results-count" id="wishlistCount">Saved Items</div>
-                    <a href="/wishlist" class="btn btn-outline"
-                        style="text-decoration:none; font-size:.82rem; padding:8px 16px;">
-                        ↗ View Full Wishlist
-                    </a>
+                    <div class="results-count" id="wishlistCount">Wishlist</div>
                 </div>
                 <div class="pgrid" id="wgrid">
                     <!-- Wishlist loaded dynamically -->
                 </div>
             </div>
+
+            <!-- ── SOLD ITEMS SECTION ── -->
+            <div id="soldSection" style="display:none;">
+                <div class="browse-toolbar">
+                    <div class="results-count" id="soldCount">Sold Items</div>
+                </div>
+                <div class="pgrid" id="sgrid">
+                    <!-- Sold items loaded dynamically -->
+                </div>
+            </div>
+
 
         </div>
     </main>
