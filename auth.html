@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Sign Up — NIT KKR Marketplace</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Figtree:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --pri: #1447E6;
+      --pri-dark: #0B2E99;
+      --pri-deep: #071A5E;
+      --pri-light: #EEF3FF;
+      --pri-mid: #C7D6FD;
+      --acc: #F5A623;
+      --acc-green: #0DA678;
+      --acc-red: #E53935;
+      --text: #0D1B2A;
+      --text-2: #3B4A5A;
+      --text-3: #7A8FA6;
+      --bg: #F0F4FF;
+      --surface: #FFFFFF;
+      --border: #DDE4F0;
+      --shadow: 0 8px 32px rgba(20, 71, 230, .14);
+      --shadow-lg: 0 20px 60px rgba(20, 71, 230, .2);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
+      --tr: .22s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    [data-theme="dark"] {
+      --pri: #4D79FF;
+      --pri-dark: #3360DD;
+      --pri-deep: #1A2E6B;
+      --pri-light: #0F172A;
+      --pri-mid: #1C2E5A;
+      --text: #E8EEFF;
+      --text-2: #9AAAC8;
+      --text-3: #4C637A;
+      --bg: #070D1B;
+      --surface: #0D1528;
+      --border: #192840;
+      --shadow: 0 8px 32px rgba(0, 0, 0, .5);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, .6);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background .3s, color .3s
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit
+    }
+
+    button {
+      cursor: pointer;
+      font-family: inherit
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--pri-mid);
+      border-radius: 99px
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .auth-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 520px;
+    }
+
+    /* ── LEFT PANEL ── */
+    .auth-left {
+      background: linear-gradient(145deg, var(--pri-deep) 0%, var(--pri-dark) 50%, #1A3BAA 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px;
+    }
+
+    /* Animated grid */
+    .auth-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px);
+      background-size: 36px 36px;
+      animation: gridShift 30s linear infinite;
+    }
+
+    @keyframes gridShift {
+      0% {
+        background-position: 0 0
+      }
+
+      100% {
+        background-position: 36px 36px
+      }
+    }
+
+    /* Glowing blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      animation: blobPulse 6s ease-in-out infinite alternate
+    }
+
+    .blob-1 {
+      width: 400px;
+      height: 400px;
+      top: -80px;
+      right: -60px;
+      background: radial-gradient(circle, rgba(77, 121, 255, .25), transparent 70%)
+    }
+
+    .blob-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -40px;
+      left: 30%;
+      background: radial-gradient(circle, rgba(245, 166, 35, .2), transparent 70%);
+      animation-delay: 2s
+    }
+
+    .blob-3 {
+      width: 200px;
+      height: 200px;
+      top: 40%;
+      left: -40px;
+      background: radial-gradient(circle, rgba(13, 166, 120, .18), transparent 70%);
+      animation-delay: 4s
+    }
+
+    @keyframes blobPulse {
+      0% {
+        transform: scale(1)
+      }
+
+      100% {
+        transform: scale(1.2) translate(10px, -10px)
+      }
+    }
+
+    .auth-left-content {
+      position: relative;
+      z-index: 1
+    }
+
+    /* Logo */
+    .auth-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 56px
+    }
+
+    .auth-logo-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem
+    }
+
+    .auth-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      font-size: 1.05rem
+    }
+
+    .auth-logo-text span {
+      display: block;
+      font-size: .65rem;
+      color: rgba(255, 255, 255, .5);
+      font-weight: 400
+    }
+
+    /* Quick Links Dropdown for Auth Page */
+    /* Profile Dropdown Updated */
+    .profile-dropdown {
+      position: relative;
+      margin-top: 20px;
+      z-index: 100;
+    }
+
+    .profile-avatar {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, .2);
+      color: #fff;
+      font-weight: 700;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: all var(--tr);
+    }
+
+    .profile-avatar:hover {
+      background: rgba(255, 255, 255, .2);
+      transform: translateY(-1px);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: 220px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-lg);
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      animation: ddSlide .25s ease forwards;
+    }
+
+    @keyframes ddSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .dropdown-menu.open {
+      display: flex;
+    }
+
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text-2);
+      transition: all var(--tr);
+    }
+
+    .dropdown-menu a:hover {
+      background: var(--pri-light);
+      color: var(--pri);
+    }
+
+    .dropdown-menu i {
+      width: 20px;
+      text-align: center;
+      font-size: .95rem;
+      color: var(--pri);
+    }
+
+    .dropdown-menu hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 6px 0;
+    }
+
+    .dropdown-menu a.danger {
+      color: var(--acc-red);
+    }
+
+    .dropdown-menu a.danger:hover {
+      background: #fef2f2;
+    }
+
+    .dropdown-menu a.danger i {
+      color: var(--acc-red);
+    }
+
+    .auth-headline {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 20px
+    }
+
+    .auth-headline .hi {
+      color: #FFCA5C
+    }
+
+    .auth-tagline {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, .65);
+      line-height: 1.75;
+      max-width: 380px;
+      margin-bottom: 40px
+    }
+
+    /* Feature list */
+    .auth-features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px
+    }
+
+    .auth-feat {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .af-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, .15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0
+    }
+
+    .af-text {
+      font-size: .88rem;
+      color: rgba(255, 255, 255, .75)
+    }
+
+    .af-text strong {
+      color: #fff
+    }
+
+    /* Bottom stats */
+    .auth-stats {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 28px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, .12)
+    }
+
+    .auth-stat .num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: #fff
+    }
+
+    .auth-stat .lbl {
+      font-size: .72rem;
+      color: rgba(255, 255, 255, .5);
+      margin-top: 2px
+    }
+
+    /* Floating cards */
+    .floating-cards {
+      position: absolute;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1
+    }
+
+    .float-card {
+      background: rgba(255, 255, 255, .1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: floatY 3s ease-in-out infinite alternate
+    }
+
+    .float-card:nth-child(2) {
+      animation-delay: .8s
+    }
+
+    .float-card:nth-child(3) {
+      animation-delay: 1.6s
+    }
+
+    @keyframes floatY {
+      from {
+        transform: translateY(0)
+      }
+
+      to {
+        transform: translateY(-8px)
+      }
+    }
+
+    .fc-icon {
+      font-size: 1.4rem
+    }
+
+    .fc-info .fc-title {
+      font-size: .78rem;
+      font-weight: 600;
+      color: #fff
+    }
+
+    .fc-info .fc-sub {
+      font-size: .66rem;
+      color: rgba(255, 255, 255, .55)
+    }
+
+    .fc-pill {
+      background: rgba(13, 166, 120, .25);
+      color: #5EF3C5;
+      font-size: .62rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 99px;
+      margin-left: auto
+    }
+
+    /* ── RIGHT PANEL ── */
+    .auth-right {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      font-size: .88rem;
+      cursor: pointer;
+      transition: all var(--tr);
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--pri);
+      color: var(--pri);
+      background: var(--pri-light)
+    }
+
+    /* Back link */
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .82rem;
+      color: var(--text-3);
+      transition: color var(--tr)
+    }
+
+    .back-link:hover {
+      color: var(--pri)
+    }
+
+    /* ── FORM CARDS ── */
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      animation: formIn .4s both
+    }
+
+    @keyframes formIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .auth-card-header {
+      text-align: center;
+      margin-bottom: 28px
+    }
+
+    .auth-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--pri-light), var(--pri-mid));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 14px;
+    }
+
+    .auth-card-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--text);
+      margin-bottom: 6px
+    }
+
+    .auth-card-sub {
+      font-size: .88rem;
+      color: var(--text-3);
+      line-height: 1.6
+    }
+
+    /* Tabs */
+    .auth-tabs {
+      display: flex;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      padding: 4px;
+      margin-bottom: 24px
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 9px;
+      border-radius: 99px;
+      border: none;
+      background: transparent;
+      font-family: 'Figtree', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text-3);
+      cursor: pointer;
+      transition: all var(--tr);
+      text-align: center
+    }
+
+    .auth-tab.active {
+      background: var(--pri);
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(20, 71, 230, .3)
+    }
+
+    /* Form groups */
+    .form-group {
+      margin-bottom: 16px
+    }
+
+    .form-label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text-2);
+      margin-bottom: 7px
+    }
+
+    .input-wrap {
+      position: relative
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-3);
+      font-size: .88rem;
+      pointer-events: none;
+      transition: color var(--tr)
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Figtree', sans-serif;
+      font-size: .9rem;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: all var(--tr);
+    }
+
+    .form-input:focus {
+      border-color: var(--pri);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(20, 71, 230, .1)
+    }
+
+    .form-input:focus~.input-icon,
+    .input-wrap:focus-within .input-icon {
+      color: var(--pri)
+    }
+
+    .form-input::placeholder {
+      color: var(--text-3)
+    }
+
+    .form-input.error {
+      border-color: var(--acc-red);
+      box-shadow: 0 0 0 3px rgba(229, 57, 53, .1)
+    }
+
+    .form-input.success {
+      border-color: var(--acc-green);
+      box-shadow: 0 0 0 3px rgba(13, 166, 120, .1)
+    }
+
+    .field-error {
+      font-size: .72rem;
+      color: var(--acc-red);
+      margin-top: 5px;
+      display: none
+    }
+
+    .field-error.show {
+      display: block
+    }
+
+    /* Password toggle */
+    .pass-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-3);
+      cursor: pointer;
+      padding: 4px;
+      font-size: .88rem;
+      transition: color var(--tr)
+    }
+
+    .pass-toggle:hover {
+      color: var(--pri)
+    }
+
+    /* Password strength */
+    .pass-strength {
+      margin-top: 8px
+    }
+
+    .ps-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 4px
+    }
+
+    .ps-seg {
+      flex: 1;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--border);
+      transition: background .3s
+    }
+
+    .ps-label {
+      font-size: .7rem;
+      color: var(--text-3)
+    }
+
+    /* Email hint */
+    .email-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--pri-light);
+      border: 1px solid var(--pri-mid);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-top: 6px;
+      font-size: .74rem;
+      color: var(--pri);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--tr);
+    }
+
+    .email-hint.show {
+      opacity: 1;
+      visibility: visible
+    }
+
+    .email-hint.bad {
+      background: #fff0f0;
+      border-color: #fca5a5;
+      color: var(--acc-red)
+    }
+
+    /* Checkbox row */
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 16px
+    }
+
+    .check-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: var(--pri)
+    }
+
+    .check-row label {
+      font-size: .82rem;
+      color: var(--text-2);
+      cursor: pointer;
+      line-height: 1.5
+    }
+
+    .check-row label a {
+      color: var(--pri);
+      font-weight: 600
+    }
+
+    .check-row label a:hover {
+      text-decoration: underline
+    }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, var(--pri), var(--pri-dark));
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all var(--tr);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, .15);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width .6s, height .6s;
+    }
+
+    .submit-btn:active::before {
+      width: 300px;
+      height: 300px
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(20, 71, 230, .35)
+    }
+
+    .submit-btn:disabled {
+      opacity: .7;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .submit-btn .btn-spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, .4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* Divider */
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 20px 0
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border)
+    }
+
+    .auth-divider span {
+      font-size: .76rem;
+      color: var(--text-3);
+      white-space: nowrap
+    }
+
+    /* Google button */
+    .google-btn {
+      width: 100%;
+      padding: 11px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--tr);
+    }
+
+    .google-btn:hover {
+      border-color: var(--pri);
+      background: var(--pri-light);
+      transform: translateY(-1px)
+    }
+
+    .google-btn img {
+      width: 18px;
+      height: 18px
+    }
+
+    /* Switch link */
+    .auth-switch {
+      text-align: center;
+      margin-top: 20px;
+      font-size: .84rem;
+      color: var(--text-3)
+    }
+
+    .auth-switch a {
+      color: var(--pri);
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .auth-switch a:hover {
+      text-decoration: underline
+    }
+
+    /* ── OTP PANEL ── */
+    .otp-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 24px 0
+    }
+
+    .otp-input {
+      width: 52px;
+      height: 58px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-align: center;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: all var(--tr);
+    }
+
+    .otp-input:focus {
+      border-color: var(--pri);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(20, 71, 230, .12)
+    }
+
+    .otp-input.filled {
+      border-color: var(--pri);
+      background: var(--pri-light)
+    }
+
+    .otp-resend {
+      text-align: center;
+      font-size: .83rem;
+      color: var(--text-3);
+      margin-top: 4px
+    }
+
+    .otp-resend a {
+      color: var(--pri);
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .otp-resend a:hover {
+      text-decoration: underline
+    }
+
+    .otp-timer {
+      color: var(--acc-red);
+      font-weight: 700
+    }
+
+    .otp-target {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: .84rem;
+      color: var(--text-2);
+      margin-bottom: 8px
+    }
+
+    .otp-target strong {
+      color: var(--text)
+    }
+
+    /* ── FORGOT PASS PANEL ── */
+    .success-box {
+      text-align: center;
+      padding: 24px;
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(13, 166, 120, .3);
+      display: none;
+    }
+
+    .success-box.show {
+      display: block;
+      animation: formIn .4s both
+    }
+
+    .success-box i {
+      font-size: 2.5rem;
+      color: var(--acc-green);
+      margin-bottom: 12px;
+      display: block
+    }
+
+    .success-box h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #065F46
+    }
+
+    .success-box p {
+      font-size: .84rem;
+      color: #047857
+    }
+
+    /* ── PROGRESS STEPS ── */
+    .signup-steps {
+      display: flex;
+      gap: 0;
+      margin-bottom: 24px;
+      position: relative
+    }
+
+    .signup-steps::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 32px;
+      right: 32px;
+      height: 2px;
+      background: var(--border);
+      z-index: 0
+    }
+
+    .signup-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1
+    }
+
+    .ss-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+      font-size: .78rem;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      color: var(--text-3);
+      transition: all var(--tr);
+    }
+
+    .ss-dot.active {
+      background: var(--pri);
+      border-color: var(--pri);
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(20, 71, 230, .3)
+    }
+
+    .ss-dot.done {
+      background: var(--acc-green);
+      border-color: var(--acc-green);
+      color: #fff
+    }
+
+    .ss-label {
+      font-size: .65rem;
+      color: var(--text-3);
+      font-weight: 500;
+      transition: color var(--tr)
+    }
+
+    .ss-label.active {
+      color: var(--pri);
+      font-weight: 600
+    }
+
+    .ss-label.done {
+      color: var(--acc-green)
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      .auth-page {
+        grid-template-columns: 1fr
+      }
+
+      .auth-left {
+        display: none
+      }
+
+      .auth-right {
+        min-height: 100vh;
+        padding: 32px 24px
+      }
+    }
+
+    @media(max-width:480px) {
+      .auth-right {
+        padding: 24px 16px
+      }
+
+      .otp-input {
+        width: 44px;
+        height: 52px;
+        font-size: 1.3rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-page">
+
+    <!-- ══════════════════ LEFT PANEL ══════════════════ -->
+    <div class="auth-left">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+
+      <div class="auth-left-content">
+        <div class="auth-logo">
+          <div class="auth-logo-icon">N</div>
+          <div class="auth-logo-text">KKR Marketplace<span>NIT Kurukshetra — Campus Exclusive</span></div>
+        </div>
+
+        <div class="auth-headline">
+          The Smarter Way<br>to Trade <span class="hi">on Campus</span>
+        </div>
+        <p class="auth-tagline">
+          Join 1,800+ NIT Kurukshetra students buying, selling, and exchanging items safely within campus. Verified
+          profiles. Zero commission.
+        </p>
+
+        <div class="profile-dropdown">
+          <div class="profile-avatar" title="Quick Links" onclick="toggleProf()">
+            Quick Links <i class="fa-solid fa-chevron-down" style="margin-left:8px;font-size:.7rem"></i>
+          </div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="dashboard.html"><i class="fa-solid fa-plus-circle"></i> Sell an Item</a>
+            <a href="chat.html"><i class="fa-solid fa-comments"></i> Messages <span
+                style="margin-left:auto;background:var(--acc-red);color:#fff;border-radius:99px;padding:1px 7px;font-size:.67rem">2</span></a>
+            <a href="#"><i class="fa-solid fa-heart"></i> Wishlist</a>
+            <a href="#"><i class="fa-solid fa-star"></i> My Ratings</a>
+            <hr>
+            <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="auth.html" class="danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+          </div>
+        </div>
+
+        <div class="auth-features">
+          <div class="auth-feat">
+            <div class="af-icon">🔐</div>
+            <div class="af-text"><strong>100% Exclusive</strong> — only @nitkkr.ac.in emails</div>
+          </div>
+          <div class="auth-feat">
+            <div class="af-icon">💬</div>
+            <div class="af-text"><strong>Real-time Chat</strong> — negotiate directly with sellers</div>
+          </div>
+          <div class="auth-feat">
+            <div class="af-icon">✨</div>
+            <div class="af-text"><strong>AI Price Suggestions</strong> — always get a fair deal</div>
+          </div>
+          <div class="auth-feat">
+            <div class="af-icon">🛡️</div>
+            <div class="af-text"><strong>Verified Profiles</strong> — safe campus meetups only</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="floating-cards">
+        <div class="float-card">
+          <div class="fc-icon">📚</div>
+          <div class="fc-info">
+            <div class="fc-title">Engg. Maths Vol I</div>
+            <div class="fc-sub">Sold in 2 hours!</div>
+          </div>
+          <div class="fc-pill">✔ Sold</div>
+        </div>
+        <div class="float-card">
+          <div class="fc-icon">💻</div>
+          <div class="fc-info">
+            <div class="fc-title">HP Pavilion 15</div>
+            <div class="fc-sub">12 interested buyers</div>
+          </div>
+          <div class="fc-pill">🔥 Hot</div>
+        </div>
+        <div class="float-card">
+          <div class="fc-icon">🚲</div>
+          <div class="fc-info">
+            <div class="fc-title">Cycle Rental</div>
+            <div class="fc-sub">₹30/day available</div>
+          </div>
+          <div class="fc-pill">✔ Live</div>
+        </div>
+      </div>
+
+      <div class="auth-stats">
+        <div class="auth-stat">
+          <div class="num">1.8K</div>
+          <div class="lbl">Students</div>
+        </div>
+        <div class="auth-stat">
+          <div class="num">₹0</div>
+          <div class="lbl">Commission</div>
+        </div>
+        <div class="auth-stat">
+          <div class="num">2.4K</div>
+          <div class="lbl">Listings</div>
+        </div>
+        <div class="auth-stat">
+          <div class="num">98%</div>
+          <div class="lbl">Satisfaction</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ RIGHT PANEL ══════════════════ -->
+    <div class="auth-right" id="authRight">
+      <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+      <button class="theme-toggle" id="themeToggle"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+
+      <!-- ── LOGIN FORM ── -->
+      <div class="auth-card" id="loginCard">
+        <div class="auth-card-header">
+          <div class="auth-card-icon">🎓</div>
+          <div class="auth-card-title">Welcome Back!</div>
+          <div class="auth-card-sub">Sign in to your NIT KKR Marketplace account</div>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="auth-tab active" onclick="switchTab('login')">Login</button>
+          <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+        </div>
+
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label class="form-label">NIT Email Address</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input type="email" class="form-input" id="loginEmail" placeholder="yourname@nitkkr.ac.in"
+                oninput="validateEmail(this,'login')" />
+            </div>
+            <div class="email-hint" id="loginEmailHint"></div>
+            <div class="field-error" id="loginEmailErr">Please enter a valid @nitkkr.ac.in email</div>
+          </div>
+
+          <div class="form-group">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+              <label class="form-label" style="margin-bottom:0">Password</label>
+              <a style="font-size:.76rem;color:var(--pri);font-weight:600;cursor:pointer"
+                onclick="showPanel('forgot')">Forgot password?</a>
+            </div>
+            <div class="input-wrap">
+              <i class="fa-solid fa-lock input-icon"></i>
+              <input type="password" class="form-input" id="loginPass" placeholder="Enter your password" />
+              <button type="button" class="pass-toggle" onclick="togglePass('loginPass',this)"><i
+                  class="fa-regular fa-eye"></i></button>
+            </div>
+            <div class="field-error" id="loginPassErr">Password must be at least 8 characters</div>
+          </div>
+
+          <div class="check-row">
+            <input type="checkbox" id="rememberMe" />
+            <label for="rememberMe">Remember me on this device</label>
+          </div>
+
+          <button type="submit" class="submit-btn" id="loginBtn">
+            <span id="loginBtnText">Sign In</span>
+            <div class="btn-spinner" id="loginSpinner"></div>
+          </button>
+        </form>
+
+        <div class="auth-divider"><span>or continue with</span></div>
+
+        <button class="google-btn" onclick="handleGoogle()">
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path fill="#4285F4"
+              d="M23.745 12.27c0-.79-.07-1.54-.19-2.27h-11.3v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />
+            <path fill="#34A853"
+              d="M12.255 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96h-3.98v3.09C3.515 21.3 7.565 24 12.255 24z" />
+            <path fill="#FBBC05"
+              d="M5.525 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62h-3.98a11.86 11.86 0 0 0 0 10.76l3.98-3.09z" />
+            <path fill="#EA4335"
+              d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.69 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z" />
+          </svg>
+          Sign in with Google
+        </button>
+
+        <div class="auth-switch">Don't have an account? <a onclick="switchTab('signup')">Create one free</a></div>
+
+        <!-- Visible Copyright Added -->
+        <div style="margin-top:auto; padding-top:40px; font-size:.75rem; color:var(--text-3); text-align:center">
+          © 2026 NIT KKR Marketplace — Campus Exclusive
+        </div>
+      </div>
+
+      <!-- ── SIGNUP FORM ── -->
+      <div class="auth-card" id="signupCard" style="display:none">
+        <div class="auth-card-header">
+          <div class="auth-card-icon">✨</div>
+          <div class="auth-card-title">Join the Community</div>
+          <div class="auth-card-sub">Create your free NIT KKR Marketplace account</div>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="auth-tab" onclick="switchTab('login')">Login</button>
+          <button class="auth-tab active" onclick="switchTab('signup')">Sign Up</button>
+        </div>
+
+        <!-- Progress steps -->
+        <div class="signup-steps" id="signupSteps">
+          <div class="signup-step">
+            <div class="ss-dot active" id="step1dot">1</div>
+            <div class="ss-label active" id="step1lbl">Account</div>
+          </div>
+          <div class="signup-step">
+            <div class="ss-dot" id="step2dot">2</div>
+            <div class="ss-label" id="step2lbl">Profile</div>
+          </div>
+          <div class="signup-step">
+            <div class="ss-dot" id="step3dot">3</div>
+            <div class="ss-label" id="step3lbl">Verify</div>
+          </div>
+        </div>
+
+        <!-- Step 1: Account -->
+        <div id="signupStep1">
+          <form onsubmit="nextSignupStep(event,2)">
+            <div class="form-group">
+              <label class="form-label">Full Name <span style="color:var(--acc-red)">*</span></label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-user input-icon"></i>
+                <input type="text" class="form-input" id="signupName" placeholder="Your full name" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">NIT KKR Email <span style="color:var(--acc-red)">*</span></label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-envelope input-icon"></i>
+                <input type="email" class="form-input" id="signupEmail" placeholder="yourname@nitkkr.ac.in"
+                  oninput="validateEmail(this,'signup')" required />
+              </div>
+              <div class="email-hint" id="signupEmailHint"></div>
+              <div class="field-error" id="signupEmailErr">Only @nitkkr.ac.in emails are allowed</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password <span style="color:var(--acc-red)">*</span></label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" class="form-input" id="signupPass" placeholder="Create a strong password"
+                  oninput="checkStrength(this)" required />
+                <button type="button" class="pass-toggle" onclick="togglePass('signupPass',this)"><i
+                    class="fa-regular fa-eye"></i></button>
+              </div>
+              <div class="pass-strength" id="passStrength" style="display:none">
+                <div class="ps-bar">
+                  <div class="ps-seg" id="ps1"></div>
+                  <div class="ps-seg" id="ps2"></div>
+                  <div class="ps-seg" id="ps3"></div>
+                  <div class="ps-seg" id="ps4"></div>
+                </div>
+                <div class="ps-label" id="psLabel">Too weak</div>
+              </div>
+            </div>
+            <div class="check-row">
+              <input type="checkbox" id="agreeTerms" required />
+              <label for="agreeTerms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
+                  Policy</a></label>
+            </div>
+            <button type="submit" class="submit-btn">Continue <i class="fa-solid fa-arrow-right"
+                style="margin-left:6px"></i></button>
+          </form>
+        </div>
+
+        <!-- Step 2: Profile -->
+        <div id="signupStep2" style="display:none">
+          <form onsubmit="nextSignupStep(event,3)">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div class="form-group">
+                <label class="form-label">Roll Number <span style="color:var(--acc-red)">*</span></label>
+                <div class="input-wrap">
+                  <i class="fa-solid fa-id-card input-icon"></i>
+                  <input type="text" class="form-input" placeholder="e.g. 21CS1034" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Year</label>
+                <div class="input-wrap">
+                  <i class="fa-solid fa-graduation-cap input-icon"></i>
+                  <select class="form-input" style="padding-left:38px">
+                    <option>1st Year</option>
+                    <option>2nd Year</option>
+                    <option selected>3rd Year</option>
+                    <option>4th Year</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Department <span style="color:var(--acc-red)">*</span></label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-building-columns input-icon"></i>
+                <select class="form-input" style="padding-left:38px" required>
+                  <option value="">Select department</option>
+                  <option>Computer Science & Engineering</option>
+                  <option>Electronics & Communication</option>
+                  <option>Mechanical Engineering</option>
+                  <option>Civil Engineering</option>
+                  <option>Electrical Engineering</option>
+                  <option>Chemical Engineering</option>
+                  <option>Physics</option>
+                  <option>Chemistry</option>
+                  <option>MCA</option>
+                  <option>MBA</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hostel / Accommodation</label>
+              <div class="input-wrap">
+                <i class="fa-solid fa-house input-icon"></i>
+                <select class="form-input" style="padding-left:38px">
+                  <option>BH-1 (Boys Hostel 1)</option>
+                  <option>BH-2 (Boys Hostel 2)</option>
+                  <option>BH-3 (Boys Hostel 3)</option>
+                  <option>BH-4 (Boys Hostel 4)</option>
+                  <option>Kalpana Chawla Hall</option>
+                  <option>Saraswati Bhawan</option>
+                  <option>Day Scholar</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button type="button" class="submit-btn"
+                style="background:var(--bg);color:var(--text-2);border:1.5px solid var(--border);flex:0 0 auto;width:48px;padding:0;display:flex;align-items:center;justify-content:center"
+                onclick="goSignupStep(1)"><i class="fa-solid fa-arrow-left"></i></button>
+              <button type="submit" class="submit-btn" style="flex:1">Continue <i class="fa-solid fa-arrow-right"
+                  style="margin-left:6px"></i></button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Step 3: Verify — triggers OTP panel -->
+        <div id="signupStep3" style="display:none">
+          <div style="text-align:center;padding:16px 0">
+            <div style="font-size:3rem;margin-bottom:12px">📧</div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:6px">Verify your
+              NIT email</div>
+            <div style="font-size:.84rem;color:var(--text-3);margin-bottom:24px">We'll send a 6-digit OTP to confirm
+              your identity</div>
+            <button class="submit-btn" onclick="showPanel('otp')">Send OTP to Email <i class="fa-solid fa-paper-plane"
+                style="margin-left:6px"></i></button>
+            <div style="margin-top:14px">
+              <button type="button" class="submit-btn"
+                style="background:var(--bg);color:var(--text-2);border:1.5px solid var(--border)"
+                onclick="goSignupStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-switch">Already have an account? <a onclick="switchTab('login')">Sign in</a></div>
+      </div>
+
+      <!-- ── OTP VERIFICATION ── -->
+      <div class="auth-card" id="otpCard" style="display:none">
+        <div class="auth-card-header">
+          <div class="auth-card-icon">🔢</div>
+          <div class="auth-card-title">Verify Your Email</div>
+          <div class="auth-card-sub">Enter the 6-digit code sent to your NIT email</div>
+        </div>
+
+        <div class="otp-target">
+          <i class="fa-solid fa-envelope" style="color:var(--pri)"></i>
+          <span>OTP sent to <strong id="otpEmailDisplay">raj.kumar@nitkkr.ac.in</strong></span>
+          <button
+            style="margin-left:auto;background:none;border:none;color:var(--pri);font-size:.78rem;font-weight:600;cursor:pointer"
+            onclick="showPanel('signup')">Change</button>
+        </div>
+
+        <div class="otp-inputs" id="otpInputs">
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,0)"
+            onkeydown="otpBack(this,event,0)" />
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,1)"
+            onkeydown="otpBack(this,event,1)" />
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,2)"
+            onkeydown="otpBack(this,event,2)" />
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,3)"
+            onkeydown="otpBack(this,event,3)" />
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,4)"
+            onkeydown="otpBack(this,event,4)" />
+          <input type="text" class="otp-input" maxlength="1" oninput="otpMove(this,5)"
+            onkeydown="otpBack(this,event,5)" />
+        </div>
+
+        <button class="submit-btn" id="verifyBtn" onclick="verifyOTP()">Verify & Continue</button>
+
+        <div class="otp-resend" style="margin-top:14px">
+          Didn't receive it? <a id="resendLink" onclick="resendOTP()" style="display:none">Resend OTP</a>
+          <span id="resendTimer">Resend in <span class="otp-timer" id="timerCount">30</span>s</span>
+        </div>
+
+        <!-- OTP success state -->
+        <div class="success-box" id="otpSuccess" style="display:none;margin-top:16px">
+          <i class="fa-solid fa-circle-check"></i>
+          <h3>Email Verified! 🎉</h3>
+          <p>Your NIT KKR account is now active. Redirecting to dashboard…</p>
+        </div>
+
+        <div class="auth-switch" style="margin-top:16px"><a onclick="showPanel('login')"><i
+              class="fa-solid fa-arrow-left"></i> Back to Login</a></div>
+      </div>
+
+      <!-- ── FORGOT PASSWORD ── -->
+      <div class="auth-card" id="forgotCard" style="display:none">
+        <div class="auth-card-header">
+          <div class="auth-card-icon">🔑</div>
+          <div class="auth-card-title">Reset Password</div>
+          <div class="auth-card-sub">Enter your NIT email to receive a reset link</div>
+        </div>
+
+        <div id="forgotForm">
+          <div class="form-group">
+            <label class="form-label">NIT Email Address</label>
+            <div class="input-wrap">
+              <i class="fa-solid fa-envelope input-icon"></i>
+              <input type="email" class="form-input" id="forgotEmail" placeholder="yourname@nitkkr.ac.in"
+                oninput="validateEmail(this,'forgot')" />
+            </div>
+            <div class="email-hint" id="forgotEmailHint"></div>
+          </div>
+          <button class="submit-btn" onclick="sendResetLink()">Send Reset Link</button>
+        </div>
+
+        <div class="success-box" id="resetSuccess">
+          <i class="fa-solid fa-envelope-circle-check"></i>
+          <h3>Reset Link Sent!</h3>
+          <p>Check your @nitkkr.ac.in inbox for the password reset link. Valid for 15 minutes.</p>
+        </div>
+
+        <div class="auth-switch" style="margin-top:20px"><a onclick="showPanel('login')"><i
+              class="fa-solid fa-arrow-left"></i> Back to Login</a></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SCRIPTS ── -->
+  <script>
+    /* Dark mode */
+    const html = document.documentElement;
+    let dark = localStorage.getItem('theme') === 'dark';
+    const tt = document.getElementById('themeToggle'), ti = document.getElementById('themeIcon');
+    function applyTheme() { html.setAttribute('data-theme', dark ? 'dark' : 'light'); ti.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'; localStorage.setItem('theme', dark ? 'dark' : 'light') }
+    applyTheme();
+    tt.addEventListener('click', () => { dark = !dark; applyTheme() });
+
+    /* Panel management */
+    function showPanel(panel) {
+      document.querySelectorAll('.auth-card').forEach(c => { c.style.display = 'none' });
+      const map = { login: 'loginCard', signup: 'signupCard', otp: 'otpCard', forgot: 'forgotCard' };
+      const el = document.getElementById(map[panel]);
+      if (el) { el.style.display = 'block'; el.style.animation = 'none'; el.offsetHeight; el.style.animation = '' }
+      if (panel === 'otp') startOTPTimer();
+    }
+
+    /* Tab switch */
+    function switchTab(tab) {
+      showPanel(tab);
+    }
+
+    /* Email validation */
+    function validateEmail(input, prefix) {
+      const val = input.value.trim();
+      const hint = document.getElementById(prefix + 'EmailHint');
+      const err = document.getElementById(prefix + 'EmailErr');
+      if (!val) { hint.className = 'email-hint'; hint.textContent = ''; if (err) err.classList.remove('show'); input.className = 'form-input'; return }
+      if (val.includes('@')) {
+        if (val.endsWith('@nitkkr.ac.in') || val.includes('@nitkkr.ac.in')) {
+          hint.className = 'email-hint show'; hint.innerHTML = '<i class="fa-solid fa-circle-check"></i> ✅ Valid NIT KKR email!';
+          input.className = 'form-input success'; if (err) err.classList.remove('show');
+        } else {
+          hint.className = 'email-hint show bad'; hint.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ❌ Only @nitkkr.ac.in emails allowed';
+          input.className = 'form-input error'; if (err) err.classList.add('show');
+        }
+      } else {
+        hint.className = 'email-hint'; hint.textContent = ''; input.className = 'form-input';
+      }
+    }
+
+    /* Password visibility */
+    function togglePass(id, btn) {
+      const inp = document.getElementById(id);
+      const isPass = inp.type === 'password';
+      inp.type = isPass ? 'text' : 'password';
+      btn.querySelector('i').className = isPass ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+    }
+
+    /* Password strength */
+    function checkStrength(inp) {
+      const val = inp.value;
+      const ps = document.getElementById('passStrength');
+      if (!val) { ps.style.display = 'none'; return }
+      ps.style.display = 'block';
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+      const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e'];
+      const labels = ['Too weak', 'Weak', 'Good', 'Strong'];
+      for (let i = 1; i <= 4; i++) {
+        const seg = document.getElementById('ps' + i);
+        seg.style.background = i <= score ? colors[score - 1] : 'var(--border)';
+      }
+      document.getElementById('psLabel').textContent = labels[score - 1] || 'Too weak';
+      document.getElementById('psLabel').style.color = colors[score - 1] || '#ef4444';
+    }
+
+    /* Signup steps */
+    let currentStep = 1;
+    function nextSignupStep(e, step) {
+      e.preventDefault();
+      goSignupStep(step);
+    }
+    function goSignupStep(step) {
+      document.getElementById('signupStep' + currentStep).style.display = 'none';
+      currentStep = step;
+      document.getElementById('signupStep' + step).style.display = 'block';
+      // Update dots
+      for (let i = 1; i <= 3; i++) {
+        const dot = document.getElementById('step' + i + 'dot');
+        const lbl = document.getElementById('step' + i + 'lbl');
+        if (i < step) { dot.className = 'ss-dot done'; dot.innerHTML = '<i class="fa-solid fa-check" style="font-size:.65rem"></i>'; lbl.className = 'ss-label done' }
+        else if (i === step) { dot.className = 'ss-dot active'; dot.textContent = i; lbl.className = 'ss-label active' }
+        else { dot.className = 'ss-dot'; dot.textContent = i; lbl.className = 'ss-label' }
+      }
+    }
+
+    /* Login handler */
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPass').value;
+      if (!email.includes('@nitkkr.ac.in')) {
+        document.getElementById('loginEmailErr').classList.add('show');
+        document.getElementById('loginEmail').className = 'form-input error';
+        return;
+      }
+      if (pass.length < 8) {
+        document.getElementById('loginPassErr').classList.add('show');
+        document.getElementById('loginPass').className = 'form-input error';
+        return;
+      }
+      // Simulate loading
+      const btn = document.getElementById('loginBtn');
+      const txt = document.getElementById('loginBtnText');
+      const spinner = document.getElementById('loginSpinner');
+      txt.style.display = 'none'; spinner.style.display = 'block';
+      btn.disabled = true;
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1500);
+    }
+
+    /* Google login */
+    function handleGoogle() {
+      const btn = document.querySelector('.google-btn');
+      btn.textContent = 'Signing in…'; btn.disabled = true;
+      setTimeout(() => { window.location.href = 'dashboard.html' }, 1200);
+    }
+
+    /* OTP inputs */
+    const otpInputEls = () => document.querySelectorAll('.otp-input');
+    function otpMove(inp, idx) {
+      inp.value = inp.value.replace(/[^0-9]/g, '');
+      if (inp.value.length === 1) {
+        inp.classList.add('filled');
+        const inputs = otpInputEls();
+        if (idx < 5) inputs[idx + 1].focus();
+        if (idx === 5) checkOTPComplete();
+      }
+    }
+    function otpBack(inp, e, idx) {
+      if (e.key === 'Backspace' && !inp.value && idx > 0) {
+        const inputs = otpInputEls();
+        inputs[idx - 1].focus(); inputs[idx - 1].value = ''; inputs[idx - 1].classList.remove('filled');
+      }
+    }
+    function checkOTPComplete() {
+      const vals = [...otpInputEls()].map(i => i.value).join('');
+      if (vals.length === 6) {
+        // Auto verify after small delay
+      }
+    }
+    function verifyOTP() {
+      const vals = [...otpInputEls()].map(i => i.value).join('');
+      if (vals.length < 6) {
+        otpInputEls().forEach(i => { if (!i.value) i.classList.add('error') });
+        return;
+      }
+      const btn = document.getElementById('verifyBtn');
+      btn.textContent = 'Verifying…'; btn.disabled = true;
+      setTimeout(() => {
+        // Show success
+        document.getElementById('otpSuccess').className = 'success-box show';
+        btn.style.display = 'none';
+        setTimeout(() => window.location.href = 'dashboard.html', 2000);
+      }, 1200);
+    }
+
+    function toggleProf() {
+      document.getElementById('dropdownMenu').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.profile-dropdown')) {
+        const dd = document.getElementById('dropdownMenu');
+        if (dd) dd.classList.remove('open');
+      }
+    });
+
+    // Update copyright in footer (if any) - Auth page doesn't have a visible footer but adding logic for consistency
+    console.log("© 2026 NIT KKR Marketplace");
+
+    /* OTP timer */
+    let otpInterval;
+    function startOTPTimer() {
+      let secs = 30;
+      document.getElementById('timerCount').textContent = secs;
+      document.getElementById('resendLink').style.display = 'none';
+      document.getElementById('resendTimer').style.display = '';
+      clearInterval(otpInterval);
+      otpInterval = setInterval(() => {
+        secs--;
+        document.getElementById('timerCount').textContent = secs;
+        if (secs <= 0) {
+          clearInterval(otpInterval);
+          document.getElementById('resendTimer').style.display = 'none';
+          document.getElementById('resendLink').style.display = 'inline';
+        }
+      }, 1000);
+    }
+    function resendOTP() {
+      startOTPTimer();
+      otpInputEls().forEach(i => { i.value = ''; i.classList.remove('filled', 'error') });
+      otpInputEls()[0].focus();
+      // Visual feedback
+      const target = document.querySelector('.otp-target');
+      target.style.background = 'var(--acc-green)'; target.style.color = '#fff'; target.style.border = 'none';
+      target.innerHTML = '<i class="fa-solid fa-circle-check"></i> OTP resent successfully!';
+      setTimeout(() => {
+        target.style.background = ''; target.style.color = ''; target.style.border = '';
+        target.innerHTML = `<i class="fa-solid fa-envelope" style="color:var(--pri)"></i><span>OTP sent to <strong>raj.kumar@nitkkr.ac.in</strong></span>`;
+      }, 2000);
+    }
+
+    /* Forgot password */
+    function sendResetLink() {
+      const email = document.getElementById('forgotEmail').value;
+      if (!email.includes('@nitkkr.ac.in')) {
+        document.getElementById('forgotEmail').className = 'form-input error';
+        return;
+      }
+      document.getElementById('forgotForm').style.display = 'none';
+      document.getElementById('resetSuccess').className = 'success-box show';
+    }
+  </script>
+</body>
+
+</html>
