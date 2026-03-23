@@ -1,0 +1,66 @@
+/* ============================================================
+   PAGE HEADER COMPONENT
+============================================================ */
+
+.page-hdr {
+    background: linear-gradient(135deg, var(--pri-deep, #071A5E), var(--pri-dark, #0B2E99));
+    padding: 36px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-hdr::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+.page-hdr .inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .77rem;
+    color: rgba(255, 255, 255, .5);
+    margin-bottom: 10px;
+}
+
+.breadcrumb a {
+    color: rgba(255, 255, 255, .5);
+    transition: color var(--tr, 0.2s);
+}
+
+.breadcrumb a:hover {
+    color: #fff;
+}
+
+.breadcrumb i {
+    font-size: .6rem;
+}
+
+.breadcrumb .cur {
+    color: rgba(255, 255, 255, .85);
+}
+
+.page-hdr h1 {
+    font-weight: 800;
+    font-size: 1.95rem;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.page-hdr p {
+    color: rgba(255, 255, 255, .62);
+    font-size: .88rem;
+    margin-bottom: 0;
+}

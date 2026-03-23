@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard — NIT KKR Marketplace</title>
+    <link rel="icon" type="image/png" href="../assets/siteFavicon.png">
+    <link rel="stylesheet" href="../css/base/fonts.css" />
+    <link rel="stylesheet" href="../css/base/variables.css" />
+    <link rel="stylesheet" href="../css/base/reset.css" />
+    <link rel="stylesheet" href="../css/components/buttons.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
+    <link rel="stylesheet" href="../css/components/product-card.css" />
+    <link rel="stylesheet" href="../css/pages/admin.css" />
+    <script src="../js/utils/theme.js"></script>
+</head>
+<body>
+    <div id="toast-root"></div>
+
+    <div class="admin-layout">
+        <header class="admin-header">
+            <div>
+                <h1>Admin Control Panel</h1>
+                <p>Manage all listings across the marketplace.</p>
+            </div>
+            <div class="admin-actions">
+                <a href="/" class="btn btn-ghost">⬅ Back to Home</a>
+                <button class="btn btn-outline" onclick="window.logout()">Log Out</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="stats-banner">
+                <div class="stat-box">
+                    <div class="stat-val" id="totalUsersCount">...</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val" id="liveListingsCount">...</div>
+                    <div class="stat-label">Live Listings</div>
+                </div>
+                <div class="stat-box danger">
+                    <div class="stat-val" id="pendingListingsCount">...</div>
+                    <div class="stat-label">Pending Approval</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val" id="totalVolumeCount">...</div>
+                    <div class="stat-label">Total Volume (₹)</div>
+                </div>
+            </div>
+
+            <section class="admin-products">
+                <h2>All Products</h2>
+                <div id="productsLoading" style="padding: 2rem; text-align: center;">Loading products...</div>
+                <div id="adminProductsGrid" class="admin-grid" style="display: none;">
+                    <!-- Products injected here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="../js/pages/admin.js"></script>
+</body>
+</html>

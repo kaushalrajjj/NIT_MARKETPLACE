@@ -1,0 +1,800 @@
+[2026-03-23T09:26:57.917Z] Product validation failed: description: Path `description` (`rrr`, length 3) is shorter than the minimum allowed length (10).
+ValidationError: Product validation failed: description: Path `description` (`rrr`, length 3) is shorter than the minimum allowed length (10).
+    at model.validate (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\document.js:2864:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async model.$__save (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:389:7)
+    at async model.save (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:663:5)
+    at async model.create (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:2750:5)
+    at async Object.create (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\repositories\productRepository.js:58:16)
+    at async Object.createProduct (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\services\productService.js:99:25)
+    at async createProduct (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\controllers\productController.js:46:29)
+
+[2026-03-23T09:27:01.695Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:27:14.615Z] Product validation failed: title: Path `title` (`c`, length 1) is shorter than the minimum allowed length (3)., description: Path `description` (`c`, length 1) is shorter than the minimum allowed length (10).
+ValidationError: Product validation failed: title: Path `title` (`c`, length 1) is shorter than the minimum allowed length (3)., description: Path `description` (`c`, length 1) is shorter than the minimum allowed length (10).
+    at model.validate (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\document.js:2864:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async model.$__save (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:389:7)
+    at async model.save (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:663:5)
+    at async model.create (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:2750:5)
+    at async Object.create (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\repositories\productRepository.js:58:16)
+    at async Object.createProduct (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\services\productService.js:99:25)
+    at async createProduct (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\controllers\productController.js:46:29)
+
+[2026-03-23T09:28:13.084Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:28:29.361Z] Product validation failed: title: Path `title` (`uh`, length 2) is shorter than the minimum allowed length (3)., description: Path `description` (`nnn`, length 3) is shorter than the minimum allowed length (10).
+ValidationError: Product validation failed: title: Path `title` (`uh`, length 2) is shorter than the minimum allowed length (3)., description: Path `description` (`nnn`, length 3) is shorter than the minimum allowed length (10).
+    at model.validate (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\document.js:2864:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async model.$__save (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:389:7)
+    at async model.save (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:663:5)
+    at async model.create (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\mongoose\lib\model.js:2750:5)
+    at async Object.create (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\repositories\productRepository.js:58:16)
+    at async Object.createProduct (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\services\productService.js:99:25)
+    at async createProduct (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\controllers\productController.js:46:29)
+
+[2026-03-23T09:30:39.656Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:30:54.586Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:31:12.591Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:52:23.907Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:52:28.659Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:52:34.186Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:52:40.945Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:52:40.988Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T09:52:41.554Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T10:07:16.517Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T10:21:16.282Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T10:21:19.409Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:14:58.072Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:15:24.013Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:25:39.282Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:25:48.369Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:27:31.316Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:27:45.102Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:27:45.198Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:27:45.204Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:27:45.243Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:27:48.277Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:27:48.288Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:27:48.320Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:28:04.480Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:28:04.497Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:28:04.924Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:18.307Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:18.312Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:18.538Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:21.256Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:29:26.113Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:27.576Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:27.582Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:27.807Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:31.825Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:33.162Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:33.178Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:36.379Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:36.386Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:29:36.406Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:30:42.349Z] Not Found - /login
+Error: Not Found - /login
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.onStatError (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:315:12)
+
+[2026-03-23T15:30:42.403Z] Not Found - /favicon.ico
+Error: Not Found - /favicon.ico
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.onStatError (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:315:12)
+
+[2026-03-23T15:30:44.627Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:30:50.565Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:34:57.736Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:34:57.741Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:34:57.789Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:35:07.054Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T15:35:51.136Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:35:51.140Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:35:51.186Z] Cannot set headers after they are sent to the client
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at ServerResponse.setHeader (node:_http_outgoing:642:11)
+    at ServerResponse.header (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:686:10)
+    at ServerResponse.location (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:802:15)
+    at ServerResponse.redirect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\express\lib\response.js:843:18)
+    at protect (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\authMiddleware.js:44:17)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+
+[2026-03-23T15:37:36.265Z] Not Found - /api/users
+Error: Not Found - /api/users
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:508:28)
+    at SendStream.error (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:168:17)
+    at SendStream.onStatError (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\send\index.js:315:12)
+
+[2026-03-23T16:19:29.974Z] Not Found - /.well-known/appspecific/com.chrome.devtools.json
+Error: Not Found - /.well-known/appspecific/com.chrome.devtools.json
+    at notFound (C:\Users\kaush\Downloads\p22\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\kaush\Downloads\p22\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:342:13)
+    at C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:519:28)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:168:17)
+    at SendStream.pipe (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:468:14)
+
+[2026-03-23T16:33:31.033Z] Not Found - /signup
+Error: Not Found - /signup
+    at notFound (C:\Users\kaush\Downloads\p22\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\kaush\Downloads\p22\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:342:13)
+    at C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:519:28)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:168:17)
+    at SendStream.onStatError (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:315:12)
+
+[2026-03-23T16:33:31.065Z] Not Found - /favicon.ico
+Error: Not Found - /favicon.ico
+    at notFound (C:\Users\kaush\Downloads\p22\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\kaush\Downloads\p22\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:342:13)
+    at C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:519:28)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:168:17)
+    at SendStream.onStatError (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:315:12)
+
+[2026-03-23T16:33:44.331Z] Not Found - /signup
+Error: Not Found - /signup
+    at notFound (C:\Users\kaush\Downloads\p22\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\kaush\Downloads\p22\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:342:13)
+    at C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\kaush\Downloads\p22\backend\node_modules\router\index.js:291:5)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\serve-static\index.js:120:7)
+    at SendStream.emit (node:events:519:28)
+    at SendStream.error (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:168:17)
+    at SendStream.onStatError (C:\Users\kaush\Downloads\p22\backend\node_modules\send\index.js:315:12)
+

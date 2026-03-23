@@ -1,0 +1,341 @@
+/* ============================================================
+   MODAL COMPONENT
+   Quick-view / detail modals used on browse & dashboard.
+============================================================ */
+
+/* ── Overlay ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 14, 30, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+/* ── Modal (browse-style) ── */
+.modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    width: 95%;
+    max-width: 950px;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: modalIn .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+@keyframes modalIn {
+    from {
+        transform: scale(.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--text-3);
+    cursor: pointer;
+    transition: color var(--tr);
+}
+
+.modal-close:hover {
+    color: var(--acc-red);
+}
+
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.modal-img {
+    height: auto;
+    min-height: 400px;
+    max-height: 600px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7rem;
+}
+
+.modal-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--pri);
+    margin-bottom: 16px;
+}
+
+.modal-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: .88rem;
+}
+
+.modal-info-row .key {
+    color: var(--text-3);
+    font-weight: 500;
+}
+
+.modal-info-row .val {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.modal-desc {
+    margin: 20px 0;
+    font-size: .92rem;
+    color: var(--text-2);
+    line-height: 1.6;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ── Dashboard-style modal box ── */
+.modal-box {
+    background: var(--surface);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 760px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    animation: mIn .3s var(--tr);
+}
+
+@keyframes mIn {
+    from {
+        opacity: 0;
+        transform: scale(.95) translateY(20px)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0)
+    }
+}
+
+/* image side */
+.mimg {
+    height: 100%;
+    min-height: 350px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7rem;
+    position: relative;
+}
+
+.mclose {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .9);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-2);
+    cursor: pointer;
+    font-size: .88rem;
+    transition: all var(--tr);
+}
+
+.mclose:hover {
+    background: #fff;
+    color: var(--acc-red);
+}
+
+/* body side */
+.mbody {
+    padding: 24px;
+}
+
+.mcat {
+    font-size: .7rem;
+    color: var(--pri);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 5px;
+}
+
+.mtitle {
+    font-weight: 800;
+    font-size: 1.35rem;
+    margin-bottom: 7px;
+}
+
+.mprice {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--pri);
+    margin-bottom: 14px;
+}
+
+.mdesc {
+    font-size: .87rem;
+    color: var(--text-2);
+    line-height: 1.75;
+    margin-bottom: 18px;
+}
+
+.mtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.mtag {
+    font-size: .68rem;
+    background: var(--bg);
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-weight: 700;
+    color: var(--text-3);
+}
+
+.msrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    margin-bottom: 22px;
+}
+
+.msav {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--pri-light);
+    color: var(--pri);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: .9rem;
+}
+
+.msn {
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+.msmeta {
+    font-size: .74rem;
+    color: var(--text-3);
+}
+
+.macts {
+    display: flex;
+    gap: 10px;
+}
+
+/* ── Contact details box ── */
+.contact-details-box {
+    background: var(--pri-light);
+    border: 1.5px solid var(--pri-mid);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.contact-details-box h4 {
+    font-size: .85rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--pri-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    padding: 4px 0;
+}
+
+.contact-item:last-child {
+    margin-bottom: 0;
+}
+
+.contact-item i {
+    color: var(--pri);
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.contact-item .label {
+    font-size: .75rem;
+    color: var(--text-3);
+    font-weight: 500;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-box {
+        grid-template-columns: 1fr;
+    }
+
+    .mimg {
+        min-height: 200px;
+    }
+}
