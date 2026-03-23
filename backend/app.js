@@ -1,3 +1,7 @@
+/**
+ * Main Express Application configuration.
+ * Sets up middleware, API routes, and static frontend serving.
+ */
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -17,9 +21,9 @@ app.use(express.json());
 
 // ─── API Routes ───────────────────────────────────────────────────────────────
 app.use('/api/auth',     authRoutes);
+app.use('/api/users',    userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/admin',    adminRoutes);
-app.use('/api/users',    userRoutes);
 
 // ─── Serve Frontend ───────────────────────────────────────────────────────────
 const frontendPath = path.join(__dirname, '..', 'frontend');

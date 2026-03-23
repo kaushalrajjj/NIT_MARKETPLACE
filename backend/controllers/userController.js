@@ -17,10 +17,14 @@ const upload = multer({
     }
 });
 
+/**
+ * Controller for User Profile and Activity related requests.
+ * Handles profiles, contact details, passwords, avatars, and wishlists.
+ */
 const userController = {
     /**
      * GET /api/users/me — Get current user's profile
-     */
+    */
     getMe: async (req, res) => {
         try {
             const user = await userService.getUserById(req.user._id);
@@ -39,11 +43,12 @@ const userController = {
      */
     updateMe: async (req, res) => {
         try {
-            const { mobileNo, whatsappNo } = req.body;
+            const { mobileNo, whatsappNo, secondaryEmail } = req.body;
             const patch = {};
-            if (mobileNo !== undefined)   patch.mobileNo = mobileNo;
-            if (whatsappNo !== undefined)  patch.whatsappNo = whatsappNo;
-
+            if (mobileNo !== undefined)       patch.mobileNo = mobileNo;
+            if (whatsappNo !== undefined)     patch.whatsappNo = whatsappNo;
+            if (secondaryEmail !== undefined) patch.secondaryEmail = secondaryEmail;
+            if (whatsappNo === undefined && mobileNo !== undefined) patch.whatsappNo = mobileNo;
             const updated = await userService.updateUserProfile(req.user._id, patch);
             if (!updated) return res.status(404).json({ message: 'User not found' });
             
@@ -64,8 +69,8 @@ const userController = {
             if (!currentPassword || !newPassword) {
                 return res.status(400).json({ message: 'Both current and new password are required.' });
             }
-            if (newPassword.length < 12) {
-                return res.status(400).json({ message: 'New password must be at least 12 characters.' });
+            if (newPassword.length < 6 || newPassword.length > 12) {
+                return res.status(400).json({ message: 'New password must be between 6 and 12 characters.' });
             }
 
             const user = await userService.getUserById(req.user._id);

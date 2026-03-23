@@ -3,6 +3,9 @@ const productRepository = require('../repositories/productRepository');
 const activityRepository = require('../repositories/activityRepository');
 
 const adminService = {
+    /** 
+     * Get products awaiting approval with seller details attached. 
+     */
     getPendingProducts: async () => {
         const products = await productRepository.find({ isApproved: false });
         return await Promise.all(products.map(async p => {
@@ -14,6 +17,9 @@ const adminService = {
         }));
     },
 
+    /** 
+     * Approve a listing or permanently delete a rejected one. 
+     */
     approveProduct: async (productId, approve) => {
         if (approve) {
             return await productRepository.update(productId, { isApproved: true });
@@ -25,6 +31,9 @@ const adminService = {
         }
     },
 
+    /** 
+     * Retrieve all users, stripping away passwords. 
+     */
     getUsers: async () => {
         const users = await userRepository.find();
         return users.map(u => {
@@ -34,6 +43,9 @@ const adminService = {
         });
     },
 
+    /** 
+     * Calculate global metrics for the admin dashboard. 
+     */
     getStats: async () => {
         const users = await userRepository.find();
         const products = await productRepository.find({});
@@ -48,6 +60,9 @@ const adminService = {
         };
     },
 
+    /** 
+     * Retrieve every product listing in the system with full seller context. 
+     */
     getAllProducts: async () => {
         const products = await productRepository.find({});
         // Return newest first
@@ -61,6 +76,9 @@ const adminService = {
         }));
     },
 
+    /** 
+     * Forcefully change product status to 'deleted_by_admin'. 
+     */
     deleteProductAdmin: async (productId) => {
         return await productRepository.update(productId, { status: 'deleted_by_admin' });
     }

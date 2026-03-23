@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         required: true, 
         match: [/^[0-9]{5,9}$/, 'Roll number must be between 5 and 9 digits'] 
     },
-    password: { type: String, required: true, minlength: 12 },
+    password: { type: String, required: true, minlength: 6 },
     mobileNo: { 
         type: String, 
         required: true, 
@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema({
         type: String, 
         required: true, 
         match: [/^[0-9]{10}$/, 'WhatsApp number must be 10 digits'] 
+    },
+    secondaryEmail: {
+        type: String,
+        required: false,
+        match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Please use a valid secondary email address']
     },
     role: { type: String, default: 'student', enum: ['student', 'admin'] }
 }, { timestamps: true });

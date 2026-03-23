@@ -4,6 +4,15 @@ import { getToastHTML, initToast } from '../../components/Toast.js';
 
 
 
+/**
+ * Authentication Logic:
+ * Handles user login and domain-specific email validation.
+ */
+
+/** 
+ * Client-side validation for NIT Kurukshetra official emails.
+ * Only allows addresses ending with '@nitkkr.ac.in'.
+ */
 window.validateEmail = (input, prefix) => {
     const isValid = input.value.endsWith('@nitkkr.ac.in');
     const err = document.getElementById(`${prefix}EmailErr`);
@@ -18,6 +27,12 @@ window.validateEmail = (input, prefix) => {
     }
 };
 
+/** 
+ * Primary Login Handler:
+ * 1. Submits credentials to the backend.
+ * 2. Caches the JWT token and user info in localStorage.
+ * 3. Redirects to Admin or Home page based on user role.
+ */
 window.handleLogin = async (e) => {
     if (e) e.preventDefault();
     const email = document.getElementById('loginEmail')?.value.trim();
@@ -28,6 +43,7 @@ window.handleLogin = async (e) => {
         return;
     }
 
+    // UI Loading state
     const btn = document.getElementById('loginBtn');
     const txt = document.getElementById('loginBtnText');
     const spinner = document.getElementById('loginSpinner');
@@ -38,8 +54,11 @@ window.handleLogin = async (e) => {
     try {
         const data = await apiService.login(email, pass);
         if (data.token) {
+            // Save session
             localStorage.setItem('userInfo', JSON.stringify(data));
             window.showToast('Login success', 'success');
+            
+            // Wait slightly for the toast to be seen before redirecting
             setTimeout(() => {
                 if (data.role === 'admin') {
                     window.location.href = '/admin';
@@ -62,6 +81,9 @@ window.handleLogin = async (e) => {
     }
 };
 
+/** 
+ * Initialize page-specific UI state on load.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-body');
     initNavigation();

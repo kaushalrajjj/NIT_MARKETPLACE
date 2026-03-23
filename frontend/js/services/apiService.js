@@ -2,9 +2,29 @@
  * Unified API Service layer.
  * All low-level network calls (fetch) are centralized here.
  */
+
+/**
+ * Wrapper around fetch that auto-handles 401 responses.
+ * If any API call returns 401, the user's session is cleared
+ * and they are redirected to the login page.
+ */
+async function authFetch(url, options = {}) {
+    const response = await fetch(url, options);
+    if (response.status === 401) {
+        localStorage.removeItem('userInfo');
+        window.location.href = '/auth';
+        // Throw to prevent callers from processing the response further
+        throw new Error('Session expired. Redirecting to login...');
+    }
+    return response;
+}
+
 export const apiService = {
     // ─── AUTHENTICATION ──────────────────────────────────────────────────────
     
+    // ─── AUTHENTICATION ──────────────────────────────────────────────────────
+    
+    /** Send login credentials and return user info + token */
     async login(email, password) {
         const response = await fetch('/api/auth/login', {
             method: 'POST',
@@ -16,11 +36,13 @@ export const apiService = {
         return data;
     },
 
+    /** Clear user session and redirect to login page */
     logout() {
         localStorage.removeItem('userInfo');
         window.location.href = '/auth';
     },
 
+    /** Retrieve parsed user info from localStorage */
     getUserInfo() {
         const info = localStorage.getItem('userInfo');
         return info ? JSON.parse(info) : null;
@@ -28,6 +50,7 @@ export const apiService = {
 
     // ─── PRODUCTS ────────────────────────────────────────────────────────────
 
+    /** Generic product search with filters, sorting, and pagination */
     async query(payload) {
         // payload = { filters, sort, fields, page, limit }
         const userInfo = this.getUserInfo();
@@ -37,7 +60,7 @@ export const apiService = {
             headers['Authorization'] = `Bearer ${userInfo.token}`;
         }
         
-        const response = await fetch('/api/products/query', {
+        const response = await authFetch('/api/products/query', {
             method: 'POST',
             headers,
             body: JSON.stringify(payload)
@@ -45,8 +68,9 @@ export const apiService = {
         return await response.json();
     },
 
+    /** Post a new product listing (requires auth) */
     async create(productData, token) {
-        const res = await fetch('/api/products', {
+        const res = await authFetch('/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,19 +78,22 @@ export const apiService = {
             },
             body: JSON.stringify(productData)
         });
-        if (!res.ok) throw new Error('Failed to create product');
-        return await res.json();
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.message || 'Failed to create product');
+        return json;
     },
 
+    /** Fetch all products listed by the current user */
     async fetchMyProducts(token) {
-        const response = await fetch('/api/products/me', {
+        const response = await authFetch('/api/products/me', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         return await response.json();
     },
 
+    /** Change product availability (Mark as Sold, etc.) */
     async updateStatus(id, status, token) {
-        const res = await fetch(`/api/products/${id}/status`, {
+        const res = await authFetch(`/api/products/${id}/status`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,8 +105,9 @@ export const apiService = {
         return await res.json();
     },
 
+    /** Permanently remove a product listing */
     async delete(id, token) {
-        const res = await fetch(`/api/products/${id}`, {
+        const res = await authFetch(`/api/products/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -87,13 +115,15 @@ export const apiService = {
         return await res.json();
     },
 
+    /** Get global stats (Total users, listings, etc.) */
     async fetchPublicStats() {
         const response = await fetch('/api/products/stats/public');
         return await response.json();
     },
 
+    /** Toggle a product in user's wishlist */
     async syncWishlist(productId, isAdded, token) {
-        const res = await fetch('/api/products/wishlist', {
+        const res = await authFetch('/api/products/wishlist', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,16 +137,18 @@ export const apiService = {
 
     // ─── USER PROFILE ─────────────────────────────────────────────────────────
 
+    /** Fetch private profile data for the current user */
     async fetchMe(token) {
-        const res = await fetch('/api/users/me', {
+        const res = await authFetch('/api/users/me', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Failed to load profile');
         return await res.json();
     },
 
+    /** Update user contact information */
     async updateMe(data, token) {
-        const res = await fetch('/api/users/me', {
+        const res = await authFetch('/api/users/me', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,8 +161,9 @@ export const apiService = {
         return json;
     },
 
+    /** Update account password */
     async changePassword(currentPassword, newPassword, token) {
-        const res = await fetch('/api/users/me/password', {
+        const res = await authFetch('/api/users/me/password', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -143,24 +176,27 @@ export const apiService = {
         return json;
     },
 
+    /** Fetch all product objects in the user's wishlist */
     async fetchWishlist(token) {
-        const res = await fetch('/api/users/me/wishlist', {
+        const res = await authFetch('/api/users/me/wishlist', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Failed to load wishlist');
         return await res.json();
     },
 
+    /** Get user activity (img, wishlist count, listed count) */
     async fetchActivity(token) {
-        const res = await fetch('/api/users/activity', {
+        const res = await authFetch('/api/users/activity', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Failed to load activity');
         return await res.json();
     },
 
+    /** Batch update product details like title or price */
     async updateProduct(productId, data, token) {
-        const res = await fetch(`/api/products/${productId}`, {
+        const res = await authFetch(`/api/products/${productId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type':  'application/json',
@@ -175,16 +211,18 @@ export const apiService = {
 
     // ─── ADMIN ─────────────────────────────────────────────────────────────
 
+    /** Get EVERY product listing on the platform (Admin only) */
     async adminGetProducts(token) {
-        const res = await fetch('/api/admin/products', {
+        const res = await authFetch('/api/admin/products', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Failed to load admin products');
         return await res.json();
     },
 
+    /** Admin tool to force-delete any product listing */
     async adminDeleteProduct(id, token) {
-        const res = await fetch(`/api/admin/products/${id}`, {
+        const res = await authFetch(`/api/admin/products/${id}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -192,16 +230,18 @@ export const apiService = {
         return await res.json();
     },
 
+    /** Get admin-level dashboard stats */
     async adminGetStats(token) {
-        const res = await fetch('/api/admin/stats', {
+        const res = await authFetch('/api/admin/stats', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Failed to load admin stats');
         return await res.json();
     },
 
+    /** Approve or reject/delete a pending product listing */
     async adminApproveProduct(id, approve, token) {
-        const res = await fetch(`/api/admin/approve/${id}`, {
+        const res = await authFetch(`/api/admin/approve/${id}`, {
             method: 'PUT',
             headers: { 
                 'Content-Type': 'application/json',

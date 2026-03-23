@@ -5,7 +5,11 @@ const userService = require('../services/userService');
  * Controller for product-related HTTP requests.
  */
 const productController = {
-    queryProducts: async (req, res) => {
+    /** 
+     * Search and Filter Products 
+     * Supports optional authentication to exclude user's own products 
+     */
+    queryProducts: async (req, res, next) => {
         try {
             if (req.user) {
                 req.body.filters = req.body.filters || {};
@@ -17,29 +21,38 @@ const productController = {
             const data = await productService.queryProducts(req.body);
             res.json(data);
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            next(error);
         }
     },
 
-    syncWishlist: async (req, res) => {
+    /** 
+     * Add or Remove Product from User Wishlist 
+     */
+    syncWishlist: async (req, res, next) => {
         try {
             const { productId, isAdded } = req.body;
             await productService.updateWishlist(req.user._id, productId, isAdded);
             res.json({ success: true });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            next(error);
         }
     },
 
-    createProduct: async (req, res) => {
+    /** 
+     * List a New Product for Sale 
+     */
+    createProduct: async (req, res, next) => {
         try {
             const product = await productService.createProduct(req.user._id, req.body);
             res.status(201).json(product);
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            next(error);
         }
     },
 
+    /** 
+     * Get Detailed Information for a Single Product 
+     */
     getProductById: async (req, res) => {
         try {
             const product = await productService.getProductById(req.params.id);
@@ -53,6 +66,9 @@ const productController = {
         }
     },
 
+    /** 
+     * Get All Products Listed by the Current User 
+     */
     getMyProducts: async (req, res) => {
         try {
             const products = await productService.getUserProducts(req.user._id);
@@ -62,6 +78,9 @@ const productController = {
         }
     },
 
+    /** 
+     * Get General Marketplace Statistics 
+     */
     getPublicStats: async (req, res) => {
         try {
             const stats = await userService.getPublicStats();
@@ -71,6 +90,9 @@ const productController = {
         }
     },
 
+    /** 
+     * Update Product Availability Status (e.g., Sold) 
+     */
     updateProductStatus: async (req, res) => {
         try {
             const { status } = req.body;
@@ -82,6 +104,9 @@ const productController = {
         }
     },
 
+    /** 
+     * Permanently Remove a Product Listing 
+     */
     deleteProduct: async (req, res) => {
         try {
             await productService.deleteProduct(req.params.id, req.user._id);
@@ -92,15 +117,17 @@ const productController = {
         }
     },
 
-    updateProduct: async (req, res) => {
+    /** 
+     * Update Product Details (Title, Description, Price, etc.) 
+     */
+    updateProduct: async (req, res, next) => {
         try {
             const updated = await productService.updateProduct(req.params.id, req.user._id, req.body);
             res.json(updated);
-        } catch (err) {
-            const status = err.message.startsWith('Unauthorized') ? 403 : 400;
-            res.status(status).json({ message: err.message });
+        } catch (error) {
+            next(error);
         }
-    }
+    },
 };
 
 module.exports = productController;
