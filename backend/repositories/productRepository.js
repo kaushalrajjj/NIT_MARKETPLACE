@@ -48,18 +48,22 @@ const productRepository = {
         return await Product.find(query).sort({ createdAt: -1 });
     },
 
+    // Fetch a single product by ID
     findById: async (id) => {
         return await Product.findById(id);
     },
 
+    // Create a new product entry
     create: async (data) => {
         return await Product.create(data);
     },
 
+    // Update an existing product's fields (status, info, etc.)
     update: async (id, updateData) => {
         return await Product.findByIdAndUpdate(id, updateData, { new: true });
     },
 
+    // Remove a product from the database
     delete: async (id) => {
         return await Product.findByIdAndDelete(id);
     }

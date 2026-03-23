@@ -2,13 +2,21 @@ import { apiService } from '../services/apiService.js';
 import { initNavigation } from '../utils/navigation-utils.js';
 import { initToast } from '../../components/Toast.js';
 
+/**
+ * User Profile Logic:
+ * Manages identity, contact details, security settings, and personal avatar.
+ */
+
 // ─── AUTH GUARD ───────────────────────────────────────────────────────────────
+// Only logged-in users can access their profile settings.
 const userInfo = apiService.getUserInfo();
 if (!userInfo) window.location.href = '/auth';
 
 const TOKEN = userInfo?.token;
 
 // ─── NON-CHANGEABLE FIELD LABELS ─────────────────────────────────────────────
+// These fields are pulled from the college registration system (via Mock data).
+// They cannot be edited directly by the user to maintain platform integrity.
 const COLLEGE_FIELDS = [
     { key: 'name',          label: 'Full Name',       icon: '👤' },
     { key: 'rollNo',        label: 'Roll Number',      icon: '🎫' },
@@ -19,6 +27,7 @@ const COLLEGE_FIELDS = [
 ];
 
 // ─── RENDER COLLEGE INFO GRID ─────────────────────────────────────────────────
+/** Generates the UI for read-only college identity fields */
 function renderCollegeInfo(user) {
     const grid = document.getElementById('collegeInfoGrid');
     if (!grid) return;
@@ -37,6 +46,10 @@ function renderCollegeInfo(user) {
 }
 
 // ─── RENDER AVATAR CARD ───────────────────────────────────────────────────────
+/** 
+ * Populates the main profile preview card, including activity stats
+ * (Total Listings, Sold, and Wishlisted).
+ */
 function renderAvatarCard(user, activity) {
     const initial = (user.name || '?').charAt(0).toUpperCase();
     document.getElementById('avName').textContent = user.name || '—';
@@ -48,12 +61,12 @@ function renderAvatarCard(user, activity) {
     document.getElementById('statSold').textContent     = (activity?.sold?.length)        ?? 0;
     document.getElementById('statWish').textContent     = (activity?.wishlisted?.length)  ?? 0;
 
-    // Show image if stored, otherwise initials
+    // Resolve avatar display (image or initial)
     setAvatarDisplay(activity?.img || null, initial);
 }
 
 /**
- * Update the av-circle to show either an <img> or the initial letter.
+ * Handle the visual toggle between showing an <img> and showing the user's initial letter.
  */
 function setAvatarDisplay(imgFilename, initial) {
     const circle = document.getElementById('avCircle');
@@ -71,12 +84,15 @@ function setAvatarDisplay(imgFilename, initial) {
 }
 
 // ─── FILL CONTACT FORM FROM USER DATA ────────────────────────────────────────
+/** Pre-populates the editable phone/whatsapp inputs with existing data from server */
 function fillContactForm(user) {
-    document.getElementById('fldPhone').value    = user.mobileNo    || '';
-    document.getElementById('fldWhatsapp').value = user.whatsappNo  || '';
+    document.getElementById('fldPhone').value    = user.mobileNo       || '';
+    document.getElementById('fldWhatsapp').value = user.whatsappNo     || '';
+    document.getElementById('fldSecEmail').value = user.secondaryEmail  || '';
 }
 
 // ─── SAVE CONTACT ─────────────────────────────────────────────────────────────
+/** Submits updated contact info (Phone/WhatsApp) to the backend API */
 window.saveContact = async () => {
     const btn = document.getElementById('saveContactBtn');
     btn.disabled = true;
@@ -84,7 +100,8 @@ window.saveContact = async () => {
     try {
         await apiService.updateMe({
             mobileNo:       document.getElementById('fldPhone').value.trim(),
-            whatsappNo:     document.getElementById('fldWhatsapp').value.trim()
+            whatsappNo:     document.getElementById('fldWhatsapp').value.trim(),
+            secondaryEmail: document.getElementById('fldSecEmail').value.trim()
         }, TOKEN);
         window.showToast?.('Contact info saved ✅', 'success');
     } catch (err) {
@@ -96,6 +113,7 @@ window.saveContact = async () => {
 };
 
 // ─── CHANGE PASSWORD ──────────────────────────────────────────────────────────
+/** Logic for user password update with basic validation */
 window.changePassword = async () => {
     const currentPass = document.getElementById('fldCurrentPass').value;
     const newPass     = document.getElementById('fldNewPass').value;
@@ -109,8 +127,8 @@ window.changePassword = async () => {
         window.showToast?.('New passwords do not match.', 'error');
         return;
     }
-    if (newPass.length < 12) {
-        window.showToast?.('New password must be at least 12 characters.', 'error');
+    if (newPass.length < 6 || newPass.length > 12) {
+        window.showToast?.('New password must be between 6 and 12 characters.', 'error');
         return;
     }
 
@@ -120,7 +138,8 @@ window.changePassword = async () => {
     try {
         await apiService.changePassword(currentPass, newPass, TOKEN);
         window.showToast?.('Password updated successfully 🔑', 'success');
-        // Clear all password fields
+        
+        // Wipe fields after success for security
         document.getElementById('fldCurrentPass').value = '';
         document.getElementById('fldNewPass').value     = '';
         document.getElementById('fldConfirmPass').value = '';
@@ -133,11 +152,15 @@ window.changePassword = async () => {
 };
 
 // ─── AVATAR UPLOAD ────────────────────────────────────────────────────────────
+/** 
+ * Event listener for profile photo change.
+ * Uploads chosen file to Cloudinary via the backend.
+ */
 window.handleAvatarUpload = async (input) => {
     const file = input.files[0];
     if (!file) return;
 
-    // Show local preview immediately
+    // Instant local preview for better UX
     const reader = new FileReader();
     reader.onload = (e) => {
         const circle = document.getElementById('avCircle');
@@ -149,7 +172,7 @@ window.handleAvatarUpload = async (input) => {
     };
     reader.readAsDataURL(file);
 
-    // Upload to backend
+    // Sync to backend storage
     const formData = new FormData();
     formData.append('avatar', file);
     try {
@@ -162,31 +185,29 @@ window.handleAvatarUpload = async (input) => {
         if (!res.ok) throw new Error(json.message || 'Upload failed');
         window.showToast?.('Profile photo updated ✅', 'success');
         
-        // Sync to localStorage so sidebar/etc update
+        // Cache the new image URL in localStorage for UI consistency across pages
         const currentInfo = apiService.getUserInfo();
         if (currentInfo) {
             currentInfo.profileImage = json.img;
             localStorage.setItem('userInfo', JSON.stringify(currentInfo));
         }
 
-        // Update with the server URL (stable)
+        // Finalize state with the server-returned URL
         setAvatarDisplay(json.img, null);
     } catch (err) {
         window.showToast?.(err.message, 'error');
     } finally {
-        input.value = ''; // reset so same file can be re-selected
+        input.value = ''; // Reset file input
     }
 };
 
-
-
-// ─── INIT ─────────────────────────────────────────────────────────────────────
+// ─── PAGE BOOTSTRAP ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     initNavigation();
     initToast();
 
     try {
-        // Fetch full profile and activity in parallel
+        // Fetch identity and activity in parallel to speed up first load
         const [user, activity] = await Promise.all([
             apiService.fetchMe(TOKEN),
             fetch('/api/users/activity', {

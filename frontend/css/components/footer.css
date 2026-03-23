@@ -4,7 +4,7 @@
 ============================================================ */
 
 .site-footer {
-    background: var(--pri-deep, #071A5E);
+    background: var(--pri-dark, #0B2E99);
     color: rgba(255, 255, 255, 0.75);
     padding: 60px 0 0;
     margin-top: 60px;

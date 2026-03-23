@@ -85,6 +85,10 @@ const productService = {
         };
     },
 
+    /** 
+     * List a new product for sale: 
+     * Attaches seller ID, initializes status, and tracks in activity. 
+     */
     createProduct: async (userId, productData) => {
         const data = {
             ...productData,
@@ -100,6 +104,9 @@ const productService = {
         return product;
     },
 
+    /** 
+     * Get single product with full seller profile resolved. 
+     */
     getProductById: async (id) => {
         const product = await productRepository.findById(id);
         if (!product) return null;
@@ -123,10 +130,17 @@ const productService = {
         };
     },
 
+    /** 
+     * Retrieve all products listed by a specific seller. 
+     */
     getUserProducts: async (userId) => {
         return productRepository.find({ seller: userId });
     },
 
+    /** 
+     * Update product availability: 
+     * Marks as 'sold' or resets to 'available'. Records 'sold' event in activity. 
+     */
     updateProductStatus: async (productId, userId, status) => {
         const product = await productRepository.findById(productId);
         if (!product) throw new Error('Product not found');
@@ -142,6 +156,10 @@ const productService = {
         return updated;
     },
 
+    /** 
+     * Permanently delete a listing: 
+     * Ownership check, then triggers global activity cleanup. 
+     */
     deleteProduct: async (productId, userId) => {
         const product = await productRepository.findById(productId);
         if (!product) throw new Error('Product not found');

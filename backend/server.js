@@ -1,3 +1,7 @@
+/**
+ * Final Server Entry Point.
+ * Handles DNS adjustments, database connection, and port listening.
+ */
 const app = require('./app');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');

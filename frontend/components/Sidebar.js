@@ -52,14 +52,36 @@ export function getSidebarHTML() {
                     </button>
                 </div>
 
-                <div class="sb-user">
+                <div class="sb-user" style="position:relative;">
                     <div class="sb-avatar" style="${userInfo?.profileImage ? 'background:transparent;padding:0' : ''}">
                         ${userInfo?.profileImage 
                             ? `<img src="${userInfo.profileImage.startsWith('http') ? userInfo.profileImage : `/profile-images/${userInfo.profileImage}`}" alt="Me" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">` 
                             : initial}
                     </div>
-                    <div class="sb-user-info">
-                        <div class="sb-uname">${name}</div>
+                    <div class="sb-user-info" style="flex:1;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div class="sb-uname">${name}</div>
+                            <div class="theme-trigger-container" style="position:static;">
+                                <button class="theme-circle-btn" id="mainThemeBtn" onclick="window.toggleThemeSidebar && window.toggleThemeSidebar(event)" title="Current Theme">
+                                    <span class="color-dot" id="mainThemeDot"></span>
+                                </button>
+                                <div class="theme-sub-sidebar" id="themeSubSidebar" style="top: -10px; bottom: auto; left: calc(var(--sidebar-w) + 10px);">
+                                    <div class="theme-header">Select Theme</div>
+                                    <div class="theme-list">
+                                        <button class="theme-dot" style="background:#2563EB" onclick="window.setTheme('blue')" title="Azure Blue"></button>
+                                        <button class="theme-dot" style="background:#00BCD4" onclick="window.setTheme('cyan')" title="Cyan Ocean"></button>
+                                        <button class="theme-dot" style="background:#6C5CE7" onclick="window.setTheme('periwinkle')" title="Periwinkle"></button>
+                                        <button class="theme-dot" style="background:#10B981" onclick="window.setTheme('green')" title="Emerald Green"></button>
+                                        <button class="theme-dot" style="background:#F97316" onclick="window.setTheme('orange')" title="Sunset Orange"></button>
+                                        <button class="theme-dot" style="background:#E11D48" onclick="window.setTheme('red')" title="Ruby Red"></button>
+                                        <button class="theme-dot" style="background:#8B5CF6" onclick="window.setTheme('purple')" title="Amethyst Purple"></button>
+                                        <button class="theme-dot" style="background:linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)" onclick="window.setTheme('cosmic-grad')" title="Cosmic Gradient"></button>
+                                        <button class="theme-dot" style="background:linear-gradient(135deg, #0F172A 50%, #3B82F6 100%)" onclick="window.setTheme('dark-navy')" title="Midnight Navy (Dark Mode)"></button>
+                                        <button class="theme-dot" style="background:linear-gradient(135deg, #000000 50%, #06B6D4 100%)" onclick="window.setTheme('dark-cyber')" title="Cyberpunk (Dark Mode)"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="sb-urole">${urole}</div>
                     </div>
                 </div>

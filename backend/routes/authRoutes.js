@@ -2,7 +2,8 @@ const express = require('express');
 const { login, register } = require('../controllers/authController');
 const router = express.Router();
 
-// router.post('/register', register); // Disabled as per request
-router.post('/login', login);
+// Authentication Routes (Login/Registration)
+// router.post('/register', register); // Disabled for now
+router.post('/login', login); // Single entry for both student and admin login
 
 module.exports = router;

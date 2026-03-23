@@ -5,14 +5,20 @@ import { initToast } from '../../components/Toast.js';
 import { PageHeader } from '../../components/PageHeader.js';
 import { SortDropdown } from '../../components/SortDropdown.js';
 
+/**
+ * Dashboard Logic:
+ * Manages user's personal listings, wishlist, and sales history.
+ */
+
 // ─── AUTH GUARD ───────────────────────────────────────────────────────────────
+// Ensure only logged-in users can stay on this page.
 const userInfo = apiService.getUserInfo();
 if (!userInfo) window.location.href = '/auth';
 
 const TOKEN = userInfo?.token;
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
-// Returns either a real <img> or the category emoji
+/** Returns either a real product photo or a placeholder emoji based on category */
 function productThumb(p) {
     if (p.img) {
         const src = p.img;
@@ -21,26 +27,34 @@ function productThumb(p) {
     return getEmoji(p.category);
 }
 
-// ─── LOCAL SORT STATE ─────────────────────────────────────────────────────────
-let myProducts  = [];
+// ─── LOCAL SORT & TAB STATE ───────────────────────────────────────────────────
+let myProducts  = [];         // Array of product objects owned by the user
 let currentSort = 'Newest First';
-let activeTab   = 'listings';
+let activeTab   = 'listings'; // Default view: 'listings', 'wishlist', or 'sold'
 
 // ─── TAB SWITCHING ────────────────────────────────────────────────────────────
+/** 
+ * Toggle between Dashboard tabs: My Listings, Wishlist, and Sold.
+ * Updates DOM visibility and triggers data fetches for the specific tab.
+ */
 window.switchTab = (tab) => {
     activeTab = tab;
+    // Update tab bar UI
     document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
     document.querySelector(`.dash-tab[data-tab="${tab}"]`)?.classList.add('active');
 
+    // Show/Hide sections
     document.getElementById('listingsSection').style.display = tab === 'listings' ? '' : 'none';
     document.getElementById('wishlistSection').style.display = tab === 'wishlist'  ? '' : 'none';
     document.getElementById('soldSection').style.display     = tab === 'sold'      ? '' : 'none';
 
+    // Lazy load or render specific content
     if (tab === 'wishlist') loadAndRenderWishlist();
     if (tab === 'sold')     renderSoldTab();
 };
 
 // ─── MY LISTINGS ─────────────────────────────────────────────────────────────
+/** Fetch all products belonging to the logged-in user from API */
 async function refreshProducts() {
     try {
         myProducts = await apiService.fetchMyProducts(TOKEN);
@@ -50,6 +64,7 @@ async function refreshProducts() {
     }
 }
 
+/** Apply active sorting criteria to local array and trigger render */
 function applySortAndRender() {
     const sorted = [...myProducts];
     if (currentSort === 'Newest First') {
@@ -62,6 +77,7 @@ function applySortAndRender() {
     renderMyProducts(sorted);
 }
 
+/** Draw the "My Listings" grid, handling active and admin-deleted states */
 function renderMyProducts(products) {
     const grid = document.getElementById('pgrid');
     if (!grid) return;
@@ -76,6 +92,7 @@ function renderMyProducts(products) {
             const isDeleted = p.status === 'deleted_by_admin';
             return `
             <div class="pc" ${isDeleted ? 'style="opacity:0.6"' : 'onclick="window.location.href=\'/browse\'"'}>
+                <!-- Product Image & Status Badge -->
                 <div class="pimg">${productThumb(p)}
                     <span class="pcond ${isDeleted ? 'r' : 'n'}" ${isDeleted ? 'style="background:#fee2e2; color:#991b1b; padding: 2px 8px; border-radius:12px; font-weight:bold; font-size:0.75rem;"' : ''}>${isDeleted ? 'Deleted by Admin' : 'Active'}</span>
                     <button class="p-wish-btn"
@@ -85,6 +102,7 @@ function renderMyProducts(products) {
                         <img src="../assets/icons/trash.svg" alt="Delete" style="width:18px;height:18px;pointer-events:none">
                     </button>
                 </div>
+                <!-- Card Header/Body -->
                 <div class="pbody">
                     <div class="pcat">${p.category}</div>
                     <div class="ctitle">${p.title}</div>
@@ -110,6 +128,7 @@ function renderMyProducts(products) {
 }
 
 // ─── SOLD TAB ─────────────────────────────────────────────────────────────────
+/** Render items that have been marked as 'sold' by the user */
 function renderSoldTab() {
     const grid = document.getElementById('sgrid');
     if (!grid) return;
@@ -138,6 +157,7 @@ function renderSoldTab() {
 
 
 // ─── WISHLIST TAB ─────────────────────────────────────────────────────────────
+/** Load full product objects for user's wishlist from API and render */
 async function loadAndRenderWishlist() {
     const grid = document.getElementById('wgrid');
     if (!grid) return;
@@ -152,6 +172,7 @@ async function loadAndRenderWishlist() {
     }
 }
 
+/** Draw the wishlist grid */
 function renderWishlistTab(list) {
     const grid  = document.getElementById('wgrid');
     if (!grid) return;
@@ -167,7 +188,10 @@ function renderWishlistTab(list) {
     grid.innerHTML = list.map(p => `
         <div class="pc" id="wc-${p._id}">
             <div class="pimg">
-                ${getEmoji(p.category)}
+                ${p.img
+                    ? `<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`
+                    : getEmoji(p.category)
+                }
                 <span class="pcond u">${p.condition || 'Used'}</span>
                 <button class="p-wish-btn active" title="Remove" onclick="window.removeWish('${p._id}')">❤️</button>
             </div>
@@ -184,6 +208,7 @@ function renderWishlistTab(list) {
     `).join('');
 }
 
+/** Sync removal of a wishlisted item to backend and update UI */
 window.removeWish = async (productId) => {
     try {
         await apiService.syncWishlist(productId, false, TOKEN);
@@ -201,11 +226,13 @@ window.removeWish = async (productId) => {
     }
 };
 
-// ─── SORT ─────────────────────────────────────────────────────────────────────
+// ─── SORTING ──────────────────────────────────────────────────────────────────
+/** Open/Close sorting menu */
 window.toggleSort = () => {
     document.querySelector('.sort-menu')?.classList.toggle('open');
 };
 
+/** Set sort criteria and trigger UI update */
 window.setSort = (el, value, label) => {
     currentSort = label;
     document.querySelectorAll('.sort-opt').forEach(opt => opt.classList.toggle('active', opt === el));
@@ -216,6 +243,7 @@ window.setSort = (el, value, label) => {
 };
 
 // ─── PRODUCT ACTIONS ──────────────────────────────────────────────────────────
+/** Move a listing from 'Available' to 'Sold' */
 window.markAsSold = async (id) => {
     if (!confirm('Mark this item as sold?')) return;
     try {
@@ -227,6 +255,7 @@ window.markAsSold = async (id) => {
     }
 };
 
+/** Permanently delete one of your own listings */
 window.deleteProduct = async (id) => {
     if (!confirm('Are you sure you want to delete this listing?')) return;
     try {
@@ -238,7 +267,8 @@ window.deleteProduct = async (id) => {
     }
 };
 
-// ─── BADGE ────────────────────────────────────────────────────────────────────
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+/** Update the little red number on the navigation wishlist icon */
 function updateWishBadge(count) {
     const badge = document.getElementById('wishBadge');
     if (!badge) return;
@@ -246,7 +276,7 @@ function updateWishBadge(count) {
     badge.classList.toggle('visible', count > 0);
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
+// ─── PAGE BOOTSTRAP ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     initNavigation();
     initToast();
@@ -270,13 +300,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await refreshProducts();
 
-    // Load wishlist badge count from backend
     try {
         const activity = await apiService.fetchActivity(TOKEN);
         updateWishBadge((activity.wishlisted || []).length);
     } catch { /* non-fatal */ }
 
-    // Handle ?tab= URL param
+    // Handle URL ?tab= routing
     const urlTab    = new URLSearchParams(window.location.search).get('tab');
     const validTabs = ['listings', 'wishlist', 'sold'];
     window.switchTab(validTabs.includes(urlTab) ? urlTab : 'listings');

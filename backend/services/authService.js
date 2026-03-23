@@ -5,6 +5,10 @@ const generateToken = require('../config/generateToken');
 const bcrypt = require('bcryptjs');
 
 const authService = {
+    /** 
+     * Perform Login logic: 
+     * Checks both students and admins, verifies password, and generates token. 
+     */
     login: async (email, password) => {
         const trimmedEmail = email ? email.trim() : '';
         // Check students first, then admins
@@ -32,12 +36,24 @@ const authService = {
         throw new Error('Invalid email or password');
     },
 
+    /** 
+     * Perform Registration logic: 
+     * Validates domain, password length, defaults WhatsApp, and hashes password. 
+     */
     register: async (userData) => {
-        let { name, email, password, rollNo, branch, year, hostel } = userData;
+        let { name, email, password, rollNo, branch, year, hostel, mobileNo, whatsappNo } = userData;
         email = email ? email.trim() : '';
 
         if (!email.endsWith('@nitkkr.ac.in')) {
             throw new Error('Only NIT Kurukshetra (@nitkkr.ac.in) emails are allowed.');
+        }
+
+        if (!password || password.length < 6 || password.length > 12) {
+            throw new Error('Password must be between 6 and 12 characters.');
+        }
+
+        if (whatsappNo === undefined && mobileNo !== undefined) {
+            whatsappNo = mobileNo;
         }
 
         if (await userRepository.findOne({ email })) {
@@ -56,8 +72,8 @@ const authService = {
             year: year || null,
             hostel: hostel || '',
             role: 'student',
-            mobileNo: '',
-            whatsappNo: '',
+            mobileNo: mobileNo || '',
+            whatsappNo: whatsappNo || '',
         });
 
         if (user) {

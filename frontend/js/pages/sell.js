@@ -2,31 +2,43 @@ import { apiService } from '../services/apiService.js';
 import { initNavigation } from '../utils/navigation-utils.js';
 import { initToast } from '../../components/Toast.js';
 
+/**
+ * Sell/Edit Page Logic:
+ * Handles listing creation, editing, and photo uploads to Cloudinary.
+ */
+
 // ─── AUTH GUARD ───────────────────────────────────────────────────────────────
+// Only authenticated users can list items.
 const userInfo = apiService.getUserInfo();
 if (!userInfo) window.location.href = '/auth';
 
-// ─── EDIT MODE DETECTION ──────────────────────────────────────────────────────
+// ─── PAGE MODE ────────────────────────────────────────────────────────────────
+// If '?edit=ID' is in the URL, the page switches into Update mode.
 const editId     = new URLSearchParams(window.location.search).get('edit');
 const isEditMode = Boolean(editId);
 
-// ─── IMAGE STATE ──────────────────────────────────────────────────────────────
-let selectedFile     = null;  // File object from input
-let existingImgName  = null;  // filename already on server (edit mode)
-let removeExisting   = false; // user clicked "Remove" in edit mode
+// ─── DATA STATE ───────────────────────────────────────────────────────────────
+let selectedFile     = null;  // Local file chosen via input or drag-drop
+let existingImgName  = null;  // Filename of current image (for edit mode)
+let removeExisting   = false; // Flag to indicate if existing image should be deleted
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
+// ─── PAGE BOOTSTRAP ───────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
     initNavigation();
     initToast();
     initImageUpload();
 
+    // If editing, load the product data from the server first
     if (isEditMode) {
         await loadProductForEdit(editId);
     }
 });
 
-// ─── IMAGE UPLOAD UI ─────────────────────────────────────────────────────────
+// ─── IMAGE UPLOAD UI & DRAG-DROP ──────────────────────────────────────────────
+/** 
+ * Initializes the interactive image upload area.
+ * Handles: click-to-upload, drag-over effects, and file preview rendering.
+ */
 function initImageUpload() {
     const input      = document.getElementById('productImg');
     const area       = document.getElementById('imgUploadArea');
@@ -34,12 +46,12 @@ function initImageUpload() {
     const placeholder = document.getElementById('imgPlaceholder');
     const actions    = document.getElementById('imgActions');
 
-    // File input change
+    // 1. Native File Input
     input?.addEventListener('change', () => {
         if (input.files[0]) selectFile(input.files[0]);
     });
 
-    // Drag & drop
+    // 2. Drag & Drop Events
     area?.addEventListener('dragover', (e) => {
         e.preventDefault();
         area.classList.add('drag-over');
@@ -52,6 +64,7 @@ function initImageUpload() {
         if (file) selectFile(file);
     });
 
+    /** Process chosen file, validate size, and generate base64 preview */
     function selectFile(file) {
         if (file.size > 4 * 1024 * 1024) {
             window.showToast?.('File too large. Max 4 MB.', 'error');
@@ -59,6 +72,7 @@ function initImageUpload() {
         }
         selectedFile   = file;
         removeExisting = false;
+        
         const reader   = new FileReader();
         reader.onload  = (e) => {
             preview.src          = e.target.result;
@@ -69,8 +83,10 @@ function initImageUpload() {
         reader.readAsDataURL(file);
     }
 
+    /** UI Trigger to open file explorer */
     window.changePhoto = () => document.getElementById('productImg')?.click();
 
+    /** Wipe current selection and show placeholder again */
     window.removePhoto = () => {
         selectedFile      = null;
         removeExisting    = true;
@@ -82,14 +98,18 @@ function initImageUpload() {
     };
 }
 
-// ─── LOAD PRODUCT DATA (EDIT MODE) ───────────────────────────────────────────
+// ─── EDIT MODE DATA LOADER ───────────────────────────────────────────────────
+/** 
+ * Fetches existing product data, verifies ownership, 
+ * and populates the form fields for editing.
+ */
 async function loadProductForEdit(productId) {
     try {
         const res = await fetch(`/api/products/${productId}`);
         if (!res.ok) throw new Error('Product not found');
         const p = await res.json();
 
-        // Verify ownership
+        // Security check: Only original seller can edit
         const sellerId = p.seller?._id || p.seller;
         if (sellerId !== userInfo._id) {
             window.showToast?.('You can only edit your own listings.', 'error');
@@ -97,13 +117,13 @@ async function loadProductForEdit(productId) {
             return;
         }
 
-        // Update page heading
+        // Change UI text to "Edit" instead of "Sell"
         document.getElementById('sellPageTitle').textContent = 'Edit Listing';
         document.getElementById('sellPageSub').textContent   = 'Update the details of your listing below.';
         document.getElementById('sellHeroIcon').textContent  = '✏️';
         document.getElementById('submitBtn').textContent     = '💾 Update Listing';
 
-        // Pre-fill editable fields
+        // Pre-fill form
         document.getElementById('title').value       = p.title       || '';
         document.getElementById('price').value       = p.price       ?? '';
         document.getElementById('description').value = p.description || '';
@@ -111,15 +131,14 @@ async function loadProductForEdit(productId) {
         const condSel = document.getElementById('condition');
         if (condSel) condSel.value = p.condition || '';
 
-
-        // Lock category
+        // Category is locked after creation to prevent system-hopping
         const catSel = document.getElementById('category');
         if (catSel) {
             catSel.value    = p.category || '';
             catSel.disabled = true;
         }
 
-        // Show existing image if any
+        // Load existing product image into preview
         if (p.img) {
             existingImgName = p.img;
             const preview     = document.getElementById('imgPreview');
@@ -138,7 +157,8 @@ async function loadProductForEdit(productId) {
     }
 }
 
-// ─── UPLOAD IMAGE TO BACKEND ──────────────────────────────────────────────────
+// ─── IMAGE SYNC ───────────────────────────────────────────────────────────────
+/** Sends the actual binary file to the server for Cloudinary upload */
 async function uploadProductImage(productId) {
     if (!selectedFile) return;
     const formData = new FormData();
@@ -154,6 +174,7 @@ async function uploadProductImage(productId) {
     }
 }
 
+/** Tells server to remove the current image link */
 async function removeProductImage(productId) {
     await fetch(`/api/products/${productId}/image`, {
         method: 'DELETE',
@@ -161,35 +182,72 @@ async function removeProductImage(productId) {
     });
 }
 
-// ─── FORM SUBMIT ─────────────────────────────────────────────────────────────
+// ─── FORM SUBMISSION ──────────────────────────────────────────────────────────
+/** 
+ * Handles 'Create' or 'Update' API calls.
+ * 1. POST/PUT the text data (metadata).
+ * 2. If metadata succeeds, POST the image file.
+ * 3. Redirect to dashboard.
+ */
 document.getElementById('sellForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // ── CLIENT-SIDE VALIDATION ──────────────────────────────────────────────
+    const title       = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const price       = document.getElementById('price').value;
+    const condition   = document.getElementById('condition').value;
+    const category    = !isEditMode ? document.getElementById('category').value : null;
+
+    if (title.length < 3) {
+        window.showToast?.('Title must be at least 3 characters.', 'error');
+        return;
+    }
+    if (description.length < 10) {
+        window.showToast?.('Description must be at least 10 characters.', 'error');
+        return;
+    }
+    if (!price || Number(price) <= 0) {
+        window.showToast?.('Please enter a valid price.', 'error');
+        return;
+    }
+    if (!condition) {
+        window.showToast?.('Please select a condition.', 'error');
+        return;
+    }
+    if (!isEditMode && !category) {
+        window.showToast?.('Please select a category.', 'error');
+        return;
+    }
+    // ────────────────────────────────────────────────────────────────────────
 
     const submitBtn = document.getElementById('submitBtn');
     submitBtn.disabled    = true;
     submitBtn.textContent = isEditMode ? 'Saving…' : 'Publishing...';
 
     const productData = {
-        title:       document.getElementById('title').value.trim(),
-        description: document.getElementById('description').value.trim(),
-        price:       Number(document.getElementById('price').value),
-        condition:   document.getElementById('condition').value,
-        ...(!isEditMode && { category: document.getElementById('category').value })
+        title,
+        description,
+        price:     Number(price),
+        condition,
+        ...(!isEditMode && { category })
     };
 
     try {
         let productId;
 
         if (isEditMode) {
+            // Update existing record
             await apiService.updateProduct(editId, productData, userInfo.token);
             productId = editId;
-            // Handle image changes in edit mode
+            // Handle image lifecycle
             if (removeExisting && existingImgName) await removeProductImage(productId);
             if (selectedFile) await uploadProductImage(productId);
         } else {
+            // Create new record
             const newProduct = await apiService.create(productData, userInfo.token);
             productId = newProduct._id || newProduct.product?._id;
-            // Upload image for new listing
+            // Upload image for the new listing
             if (selectedFile && productId) await uploadProductImage(productId);
         }
 
