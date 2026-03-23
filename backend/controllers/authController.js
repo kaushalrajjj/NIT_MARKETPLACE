@@ -1,5 +1,8 @@
 const authService = require('../services/authService');
 
+/**
+ * Authenticate student or admin and return a JWT token.
+ */
 const login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -11,6 +14,9 @@ const login = async (req, res) => {
     }
 };
 
+/**
+ * Register a new student account.
+ */
 const register = async (req, res) => {
     try {
         const data = await authService.register(req.body);

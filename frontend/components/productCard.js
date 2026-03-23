@@ -1,5 +1,14 @@
 import { getEmoji, getOptimizedImageUrl } from '../js/utils/helpers.js';
 
+/**
+ * Shared Product Card Component:
+ * Centralizes the logic for rendering product thumbnails and seller details.
+ */
+
+/** 
+ * Sub-component for product images.
+ * Handles Cloudinary optimization and fallback to category-specific emojis if the image fails to load.
+ */
 function productImg(p, size = '3rem') {
     if (p.img) {
         let src = getOptimizedImageUrl(p.img, 400);
@@ -12,6 +21,10 @@ function productImg(p, size = '3rem') {
     return `<span style="font-size:${size}">${getEmoji(p.category)}</span>`;
 }
 
+/** 
+ * Sub-component for small seller avatars.
+ * Shows either the user's profile picture or a colored circle with their initial.
+ */
 function sellerAvatar(seller) {
     if (seller?.profileImage) {
         let src = getOptimizedImageUrl(seller.profileImage, 100);
@@ -27,8 +40,14 @@ function sellerAvatar(seller) {
     return { html: initial, hasImage: false };
 }
 
+/** 
+ * Primary entry point to get the HTML for a product card.
+ * @param {Object} p - The product data object.
+ * @param {Boolean} isBrowse - If true, uses the detailed "Browse Grid" style. Else uses the "Home Page" style.
+ */
 export function renderProductCard(p, isBrowse = false) {
     if (isBrowse) {
+        // STYLE 1: Detailed Browse Card (Horizontal elements, Wishlist btn, Seller profile link)
         const sellerName    = p.seller?.name || 'Seller';
         const sellerRoll    = p.seller?.rollNo ? ` · ${p.seller.rollNo}` : '';
         const avatar        = sellerAvatar(p.seller);
@@ -56,6 +75,7 @@ export function renderProductCard(p, isBrowse = false) {
                         <button class="btn btn-blue">View Details</button>
                     </div>
                     <div class="p-footer">
+                        <!-- Seller link allows UX to filter by specific sellers -->
                         <div class="p-seller" onclick="event.stopPropagation(); window.openProfileModal('${p._id}')" style="cursor:pointer">
                             <div class="p-seller-img" style="${avatarStyle}">
                                 ${avatar.html}
@@ -68,7 +88,7 @@ export function renderProductCard(p, isBrowse = false) {
         `;
     }
 
-    // Home page card
+    // STYLE 2: Home Page Card (Simpler, more visual, for the landing page showcase)
     const homeAvatar      = sellerAvatar(p.seller);
     const homeAvatarStyle = homeAvatar.hasImage
         ? 'background:transparent;padding:0'

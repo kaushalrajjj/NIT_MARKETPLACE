@@ -3,8 +3,14 @@ import { getSidebarHTML } from '../../components/Sidebar.js';
 import { getFooterHTML } from '../../components/Footer.js';
 import { apiService } from '../services/apiService.js';
 
-// ─── Sidebar open / close ─────────────────────────────────────────────────────
+/**
+ * Shared Navigation Logic:
+ * Manages sidebars, global navigation rendering, and authentication-aware UI updates.
+ */
 
+// ─── SIDEBAR MANAGEMENT ───────────────────────────────────────────────────────
+
+/** Open the off-canvas navigation sidebar and dim the background */
 export function openSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
@@ -13,6 +19,7 @@ export function openSidebar() {
     document.body.style.overflow = 'hidden';
 }
 
+/** Close the off-canvas sidebar and restore normal scrolling */
 export function closeSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
@@ -21,11 +28,17 @@ export function closeSidebar() {
     document.body.style.overflow = '';
 }
 
-// ─── Main entry point called by every page controller ─────────────────────────
+// ─── MAIN BOOTSTRAP ───────────────────────────────────────────────────────────
 
+/** 
+ * Bootstraps common layout elements (Navbar, Sidebar, Footer) for every page.
+ * Also performs 'Hot-patching' on the user's profile image to ensure the 
+ * sidebar always reflects the latest state from the server.
+ */
 export function initNavigation() {
     const userInfo = apiService.getUserInfo();
-    // No more forced redirect! Admins can browse.
+    
+    // Inject dynamic HTML from components
     const navRoot = document.getElementById('navbar-root');
     if (navRoot) navRoot.innerHTML = getNavbarHTML();
 
@@ -35,8 +48,10 @@ export function initNavigation() {
     const footRoot = document.getElementById('footer-root');
     if (footRoot) footRoot.innerHTML = getFooterHTML();
 
+    // Visual feedback for active links (Home, Browse, etc.)
     setActiveLinks();
 
+    // Global events
     const overlay = document.getElementById('sidebarOverlay');
     if (overlay) overlay.addEventListener('click', closeSidebar);
 
@@ -44,9 +59,12 @@ export function initNavigation() {
         if (e.key === 'Escape') closeSidebar();
     });
 
-    // ── Silently refresh profile image in sidebar ────────────────────────────
-    // Old localStorage sessions may not have `profileImage` stored.
-    // We fetch from /api/users/activity (cheap call) and hot-patch the avatar.
+    /** 
+     * Sidebar Avatar Hot-patch:
+     * Since every page includes this script, it's the perfect place to 
+     * silently fetch the user's latest photo URL from the backend
+     * and update the sidebar image without needing a page refresh.
+     */
     if (userInfo?.token) {
         fetch('/api/users/activity', {
             headers: { 'Authorization': `Bearer ${userInfo.token}` }
@@ -56,31 +74,43 @@ export function initNavigation() {
             if (!activity) return;
             const img = activity.img || null;
 
-            // Sync to localStorage so next getSidebarHTML() also picks it up
+            // Sync to local session store
             if (userInfo.profileImage !== img) {
                 userInfo.profileImage = img;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
             }
 
-            // Hot-patch the already-rendered .sb-avatar
-            const avatar = document.querySelector('.sb-avatar');
-            if (!avatar) return;
+            // Patch the UI if the avatar currently exists in DOM
+            const sbAvatar = document.querySelector('.sb-avatar');
+            const navAvatar = document.querySelector('.profile-av');
+
             if (img) {
                 const src = img.startsWith('http') ? img : `/profile-images/${img}`;
-                avatar.style.background = 'transparent';
-                avatar.innerHTML = `<img src="${src}" alt="Me"
-                    style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
+                const imgHTML = `<img src="${src}" alt="Me" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
+                
+                if (sbAvatar) {
+                    sbAvatar.style.background = 'transparent';
+                    sbAvatar.innerHTML = imgHTML;
+                }
+                if (navAvatar) {
+                    navAvatar.innerHTML = imgHTML;
+                }
             } else {
-                // No image — make sure initial letter is showing correctly
                 const initial = (userInfo.name || '?').charAt(0).toUpperCase();
-                avatar.style.background = '';
-                avatar.textContent = initial;
+                if (sbAvatar) {
+                    sbAvatar.style.background = '';
+                    sbAvatar.textContent = initial;
+                }
+                if (navAvatar) {
+                    navAvatar.textContent = initial;
+                }
             }
         })
-        .catch(() => { /* non-fatal — sidebar still shows the initial */ });
+        .catch(() => { /* non-fatal — defaults back to initial card style */ });
     }
 }
 
+/** Utility to add 'active' CSS class to links matching current URL path */
 function setActiveLinks() {
     const path = window.location.pathname;
     const links = document.querySelectorAll('.nav-links-mini a, .sb-nav .sb-link');
@@ -93,11 +123,16 @@ function setActiveLinks() {
     });
 }
 
-// ─── Global window exports ────────────────────────────────────────────────────
+// ─── GLOBAL WINDOW EXPORTS ────────────────────────────────────────────────────
+// These make legacy inline onclick handlers work (e.g., onclick="openSidebar()")
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 window.logout = () => apiService.logout();
 
+/** 
+ * Handles search input from the top navbar across all pages.
+ * Redirects user to /browse with search query attached as a URL param.
+ */
 window.handleSiteSearch = (query) => {
     if (!query.trim()) return;
     const url = new URL('/browse', window.location.origin);

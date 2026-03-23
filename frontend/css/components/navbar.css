@@ -10,10 +10,10 @@
     width: 100%;
     z-index: 1100;
     height: var(--nav-h);
-    background: rgba(255, 255, 255, .96);
+    background: var(--nav-bg, var(--pri-dark));
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     transition: background var(--tr);
 }
 
@@ -59,13 +59,13 @@ body {
 .nav-logo-text .l1 {
     font-weight: 800;
     font-size: .95rem;
-    color: var(--text);
+    color: #ffffff;
     line-height: 1;
 }
 
 .nav-logo-text .l2 {
     font-size: .65rem;
-    color: var(--text-3);
+    color: rgba(255, 255, 255, 0.65);
     font-weight: 600;
 }
 
@@ -76,21 +76,21 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
     border-radius: 99px;
     padding: 8px 15px;
     transition: border-color var(--tr), box-shadow var(--tr);
 }
 
 .nav-search-bar:focus-within {
-    border-color: var(--pri);
-    box-shadow: 0 0 0 3px rgba(20, 71, 230, .1);
-    background: var(--surface);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .1);
+    background: rgba(0, 0, 0, 0.35);
 }
 
 .nav-search-bar i {
-    color: var(--text-3);
+    color: rgba(255, 255, 255, 0.6);
     font-size: .82rem;
 }
 
@@ -100,24 +100,24 @@ body {
     outline: none;
     font-family: inherit;
     font-size: .88rem;
-    color: var(--text);
+    color: #ffffff;
     flex: 1;
     min-width: 0;
 }
 
 .nav-search-bar input::placeholder {
-    color: var(--text-3);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* Category dropdown inside search */
 .nav-search-bar .search-cat {
     border: none;
     background: transparent;
-    color: var(--text-3);
+    color: rgba(255, 255, 255, 0.7);
     font-size: .8rem;
     cursor: pointer;
     padding: 0 4px;
-    border-left: 1px solid var(--border);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
     padding-left: 10px;
     margin-left: 4px;
     outline: none;
@@ -131,7 +131,7 @@ body {
 }
 
 .nav-links-mini a {
-    color: var(--text-2);
+    color: rgba(255, 255, 255, 0.75);
     font-size: .85rem;
     font-weight: 600;
     padding: 6px 12px;
@@ -143,8 +143,8 @@ body {
 
 .nav-links-mini a:hover,
 .nav-links-mini a.active {
-    color: var(--pri);
-    background: var(--pri-light);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
     font-weight: 700;
 }
 
@@ -162,22 +162,22 @@ body {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all var(--tr);
-    color: var(--text-2);
+    color: #ffffff;
     position: relative;
     font-size: .9rem;
 }
 
 .icon-btn:hover {
-    border-color: var(--pri);
-    color: var(--pri);
-    background: var(--pri-light);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
 }
 
@@ -195,7 +195,7 @@ body {
     padding: 0 4px;
     border-radius: 99px;
     font-weight: 800;
-    border: 2px solid var(--surface);
+    border: 2px solid var(--pri-deep);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -215,14 +215,61 @@ body {
     font-weight: 800;
     font-size: .9rem;
     cursor: pointer;
-    border: 2.5px solid var(--border);
+    border: 2.5px solid rgba(255, 255, 255, 0.2);
     transition: all var(--tr);
 }
 
 .profile-av:hover,
 .profile-avatar:hover {
-    border-color: var(--pri);
-    box-shadow: var(--shadow);
+    border-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+}
+
+/* ── Profile Hover Card (Tooltip replacement) ── */
+.nav-profile-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile-hover-card {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 140px;
+    background: var(--nav-bg, #0B0E23);
+    backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1200;
+}
+
+.nav-profile-wrapper:hover .profile-hover-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.phc-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.phc-roll {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
 }
 
 /* ── Hamburger (mobile) ── */
@@ -235,25 +282,25 @@ body {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.08);
     cursor: pointer;
     transition: all var(--tr);
 }
 
 .hamburger:hover {
-    border-color: var(--pri);
-    background: var(--pri-light);
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .hamburger:hover span {
-    background: var(--pri);
+    background: #ffffff;
 }
 
 .hamburger span {
     width: 20px;
     height: 2.5px;
-    background: var(--text);
+    background: #ffffff;
     border-radius: 10px;
     transition: all var(--tr);
 }

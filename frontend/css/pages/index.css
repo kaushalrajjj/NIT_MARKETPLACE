@@ -9,17 +9,17 @@
 
 /* ── Index-specific design tokens ── */
 :root {
-    --blue: #2563EB;
-    --blue-soft: #EFF6FF;
-    --blue-mid: #BFDBFE;
+    --blue: var(--pri);
+    --blue-soft: var(--pri-light);
+    --blue-mid: var(--pri-mid);
     --yellow: #F59E0B;
     --green: #059669;
     --red: #EF4444;
-    --ink: #1E293B;
-    --ink-2: #475569;
-    --ink-3: #94A3B8;
-    --paper: #FAFBFF;
-    --white: #FFFFFF;
+    --ink: var(--text);
+    --ink-2: var(--text-2);
+    --ink-3: var(--text-3);
+    --paper: var(--bg);
+    --white: var(--surface);
     --r: 16px;
     --r-sm: 10px;
     --shadow: 0 4px 20px rgba(37, 99, 235, .1);
@@ -84,7 +84,7 @@ p.sec-sub {
 
 /* ── HERO ── */
 .hero {
-    background: linear-gradient(140deg, #1e3a8a 0%, #2563EB 55%, #1d4ed8 100%);
+    background: var(--hero-bg-grad, linear-gradient(140deg, var(--pri-deep) 0%, var(--pri) 55%, var(--pri-dark) 100%));
     padding: 70px 0 80px;
     position: relative;
     overflow: hidden;

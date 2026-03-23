@@ -1,19 +1,25 @@
 import { renderProductCard } from '../../components/productCard.js';
 
 /**
- * BrowseUI — Pure DOM rendering for the Browse page.
- * Receives plain data, no state objects.
+ * BrowseUI Layer:
+ * Handles the visual presentation of products and filter states on the browse page.
+ * Separates "how things look" (UI) from "how data is fetched" (Page Logic).
  */
 export const browseUI = {
 
+    /** 
+     * Renders the product grid and updates result counts.
+     * Uses the 'renderProductCard' component for each item.
+     */
     renderProducts({ products, total, filters = {} }) {
         const grid = document.getElementById('productsGrid');
         if (!grid) return;
 
+        // Update the 'X results found' counter
         const resCount = document.getElementById('resultsCount');
         if (resCount) resCount.textContent = total ?? products.length;
 
-        // Update results label text
+        // Update the descriptive label (e.g., 'items in "Electronics"')
         const resLabel = document.getElementById('resultsLabel');
         if (resLabel) {
             const labelText = filters.sellerName 
@@ -27,6 +33,10 @@ export const browseUI = {
             : products.map(p => renderProductCard(p, true)).join('');
     },
 
+    /** 
+     * Generates removable 'filter chips' (tags) for every active filter.
+     * Maps click events to provided handler functions for removal.
+     */
     renderActiveFilters(filters, handlers) {
         const container = document.getElementById('activeFilters');
         if (!container) return;
@@ -54,6 +64,7 @@ export const browseUI = {
 
         container.innerHTML = html;
 
+        // Attach event listeners for each removal trigger
         document.getElementById('removeCat')?.addEventListener('click', handlers.onRemoveCategory);
         document.getElementById('removePrice')?.addEventListener('click', handlers.onRemovePrice);
         document.getElementById('removeCondition')?.addEventListener('click', handlers.onRemoveCondition);
@@ -62,6 +73,7 @@ export const browseUI = {
         document.getElementById('clearAllFilters')?.addEventListener('click', handlers.onClearAll);
     },
 
+    /** Sync the visible text of the sort dropdown button */
     updateSortLabel(label) {
         const lbl = document.getElementById('sortLbl');
         if (lbl) lbl.textContent = label;

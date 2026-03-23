@@ -4,9 +4,31 @@
  */
 export function getNavbarHTML() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    const isLoggedIn = !!userInfo.name;
+    const initial = isLoggedIn ? userInfo.name.charAt(0).toUpperCase() : '?';
+    const avatarImg = userInfo.profileImage 
+        ? (userInfo.profileImage.startsWith('http') ? userInfo.profileImage : `/profile-images/${userInfo.profileImage}`)
+        : null;
+
     const adminLink = userInfo.role === 'admin' 
         ? '<li><a href="/admin" style="color:var(--pri);font-weight:700">Admin</a></li>' 
         : '';
+
+    const authContent = isLoggedIn ? `
+        <div class="nav-profile-wrapper">
+            <div class="profile-av" title="${userInfo.name}">
+                ${avatarImg 
+                    ? `<img src="${avatarImg}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">` 
+                    : initial}
+            </div>
+            <div class="profile-hover-card">
+                <div class="phc-name">${userInfo.name}</div>
+                <div class="phc-roll">${userInfo.rollNo || 'NIT KKR Student'}</div>
+            </div>
+        </div>
+    ` : `
+        <a href="/auth" class="btn btn-blue btn-sm" style="border-radius:10px; padding: 7px 16px;">Login</a>
+    `;
 
     return `
         <header class="navbar" id="nav">
@@ -41,6 +63,10 @@ export function getNavbarHTML() {
                     <li><a href="/profile">Profile</a></li>
                     <li><a href="#footer-root" onclick="event.preventDefault(); document.getElementById('footer-root')?.scrollIntoView({ behavior: 'smooth' })">Contact</a></li>
                 </ul>
+
+                <div class="nav-right">
+                    ${authContent}
+                </div>
 
             </div>
         </header>

@@ -14,7 +14,7 @@ export function getFooterHTML() {
                     </div>
                     <p>The exclusive buy-sell platform for NIT Kurukshetra students. Trade safely within the campus community.</p>
                     <div class="foot-socials">
-                        <a href="https://www.instagram.com/NIT_KHARIDARI" target="_blank" rel="noopener" class="fs-link" title="@NIT_KHARIDARI on Instagram">📸</a>
+                        <a href="https://www.instagram.com/NIT_KHARIDARI" target="_blank" rel="noopener" class="fs-link" title="@NIT_KHARIDARI on Instagram"><img src="../assets/icons/instalogo.png" alt="Instagram"></a>
                     </div>
                 </div>
 

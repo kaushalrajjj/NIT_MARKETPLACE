@@ -2,14 +2,24 @@ import { apiService } from '../services/apiService.js';
 import { initToast, getToastHTML } from '../../components/Toast.js';
 import { getEmoji } from '../utils/helpers.js';
 
+/**
+ * Admin Panel Logic:
+ * Moderation tools and platform statistics.
+ */
+
+// ─── AUTH GUARD ───────────────────────────────────────────────────────────────
+// Restrict access to administrators only.
 const userInfo = apiService.getUserInfo();
 if (!userInfo || userInfo.role !== 'admin') {
     window.location.href = '/auth'; // Redirect if not admin
 }
 
 const TOKEN = userInfo?.token;
-let allProducts = [];
+let allProducts = []; // Global list of products for admin review
 
+/** 
+ * Generate colored labels for product states (Available, Sold, Pending, Deleted).
+ */
 function getStatusBadge(status, isApproved) {
     if (isApproved === false) {
         return '<span class="admin-pc-status status-pending">Pending Approval</span>';
@@ -26,6 +36,10 @@ function getStatusBadge(status, isApproved) {
     }
 }
 
+/** 
+ * Render the moderation grid.
+ * Displays seller contact info and moderation buttons for every product.
+ */
 function renderProducts() {
     const grid = document.getElementById('adminProductsGrid');
     const load = document.getElementById('productsLoading');
@@ -37,11 +51,11 @@ function renderProducts() {
         grid.style.display = 'grid';
         grid.innerHTML = allProducts.map(p => {
             const thumb = p.img 
-                ? `<img src="/product-images/${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;">`
+                ? `<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;">`
                 : `<span style="font-size:3rem; display:flex; justify-content:center; align-items:center; height:100%;">${getEmoji(p.category)}</span>`;
             
             const sellerInfo = p.seller 
-                ? `${p.seller.name} (${p.seller.roll || 'No Roll'}) <br> ${p.seller.email}`
+                ? `${p.seller.name} (${p.seller.rollNo || 'No Roll'}) <br> ${p.seller.email}`
                 : 'Unknown Seller';
             
             const isDeleted = p.status === 'deleted_by_admin';
@@ -61,6 +75,7 @@ function renderProducts() {
                 </div>
                 <div class="p-actions" style="padding:14px; padding-top:0; display:flex; flex-direction:column; gap:8px">
                     ${isPending ? `
+                        <!-- Pending logic: Approve or Reject -->
                         <div style="display:flex; gap:8px; width:100%">
                             <button class="btn btn-blue" style="flex:1; font-size:0.8rem;" 
                                     onclick="window.approveProductAdmin('${p._id}', true)">
@@ -72,6 +87,7 @@ function renderProducts() {
                             </button>
                         </div>
                     ` : `
+                        <!-- Active logic: Delete tool -->
                         <button class="btn btn-danger" style="width:100%; font-size:0.8rem;" 
                                 onclick="window.deleteProductAdmin('${p._id}')" ${isDeleted ? 'disabled' : ''}>
                             ${isDeleted ? 'Already Deleted' : 'Delete Product'}
@@ -84,6 +100,7 @@ function renderProducts() {
     load.style.display = 'none';
 }
 
+/** Fetch top-level platform metrics for the stat boxes */
 async function fetchStats() {
     try {
         const stats = await apiService.adminGetStats(TOKEN);
@@ -92,7 +109,7 @@ async function fetchStats() {
         document.getElementById('pendingListingsCount').textContent = stats.pendingListings || 0;
         document.getElementById('totalVolumeCount').textContent = (stats.totalVolume || 0).toLocaleString('en-IN');
         
-        // Add color coding to pending
+        // Visual indicator if there are pending items needing attention
         const pBox = document.getElementById('pendingListingsCount').parentElement;
         if (stats.pendingListings > 0) {
             pBox.classList.add('danger');
@@ -104,6 +121,7 @@ async function fetchStats() {
     }
 }
 
+/** Fetch all products on the platform from the admin API */
 async function fetchProducts() {
     try {
         allProducts = await apiService.adminGetProducts(TOKEN);
@@ -114,6 +132,10 @@ async function fetchProducts() {
     }
 }
 
+/** 
+ * Admin tool to approve a listing (making it visible on browse) 
+ * or reject it (permanently deleting it).
+ */
 window.approveProductAdmin = async (id, approve) => {
     const action = approve ? 'approve' : 'reject';
     if (!confirm(`Are you sure you want to ${action} this product?`)) return;
@@ -126,6 +148,10 @@ window.approveProductAdmin = async (id, approve) => {
     }
 };
 
+/** 
+ * Admin tool to force-delete an active product. 
+ * Doesn't physically remove it but marks status as 'deleted_by_admin'. 
+ */
 window.deleteProductAdmin = async (id) => {
     if (!confirm('Are you sure you want to delete this product? The seller will see it as "Deleted by Admin".')) return;
     try {
@@ -137,14 +163,17 @@ window.deleteProductAdmin = async (id) => {
     }
 };
 
+/** Batch refresh of all dashboard data */
 async function refreshAll() {
     await Promise.all([fetchProducts(), fetchStats()]);
 }
 
+/** Sign out and redirect */
 window.logout = () => {
     apiService.logout();
 };
 
+/** Kick off admin scripts on page load */
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('toast-root').innerHTML = getToastHTML();
     initToast();
