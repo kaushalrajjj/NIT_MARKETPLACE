@@ -12,7 +12,7 @@ const productRepository = {
 
     /** Find many products with filtering logic. */
     query: async (filters = {}) => {
-        const { category, minPrice, maxPrice, condition, search, excludeSeller, seller } = filters;
+        const { category, minPrice, maxPrice, condition, search, excludeSeller, seller, sellerYear } = filters;
         
         let query = { isApproved: true, status: 'available' };
 
@@ -21,6 +21,22 @@ const productRepository = {
         }
         if (seller) {
             query.seller = seller;
+        }
+
+        // Logic for filtering by seller year
+        if (sellerYear) {
+            const User = require('../models/User'); // Import on-demand to avoid circular dependency
+            const sellersInYear = await User.find({ year: sellerYear }).select('_id');
+            const sellerIds = sellersInYear.map(u => u._id);
+            
+            if (query.seller) {
+                // If already filtering by a specific seller, check if they are in the specified year
+                if (!sellerIds.some(id => id.toString() === query.seller.toString())) {
+                    return []; // No match
+                }
+            } else {
+                query.seller = { $in: sellerIds };
+            }
         }
 
         if (category && category !== 'all') {
@@ -60,7 +76,7 @@ const productRepository = {
 
     // Update an existing product's fields (status, info, etc.)
     update: async (id, updateData) => {
-        return await Product.findByIdAndUpdate(id, updateData, { new: true });
+        return await Product.findByIdAndUpdate(id, updateData, { returnDocument: 'after' });
     },
 
     // Remove a product from the database

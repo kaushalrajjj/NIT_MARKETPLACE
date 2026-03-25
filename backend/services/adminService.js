@@ -22,12 +22,10 @@ const adminService = {
      */
     approveProduct: async (productId, approve) => {
         if (approve) {
-            return await productRepository.update(productId, { isApproved: true });
+            return await productRepository.update(productId, { isApproved: true, status: 'available' });
         } else {
-            const res = await productRepository.delete(productId);
-            // Cleanup everywhere
-            await activityRepository.removeProductEverywhereOnDelete(productId);
-            return res;
+            // Instead of deleting, we mark it as rejected so the user can see it on their dashboard
+            return await productRepository.update(productId, { isApproved: false, status: 'rejected_by_admin' });
         }
     },
 
@@ -80,7 +78,10 @@ const adminService = {
      * Forcefully change product status to 'deleted_by_admin'. 
      */
     deleteProductAdmin: async (productId) => {
-        return await productRepository.update(productId, { status: 'deleted_by_admin' });
+        const result = await productRepository.update(productId, { status: 'deleted_by_admin' });
+        // Remove from every user's wishlist — product is no longer obtainable
+        await activityRepository.removeFromAllWishlists(productId);
+        return result;
     }
 };
 

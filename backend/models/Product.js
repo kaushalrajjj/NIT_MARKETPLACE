@@ -22,7 +22,7 @@ const productSchema = new mongoose.Schema({
     status: { 
         type: String, 
         default: 'available', 
-        enum: ["available", "sold", "reserved"] 
+        enum: ["available", "sold", "reserved", "deleted_by_admin", "rejected_by_admin"] 
     },
     // URL for Cloudinary image
     img: { type: String, default: null }

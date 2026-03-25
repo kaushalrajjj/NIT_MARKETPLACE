@@ -1,0 +1,78 @@
+[2026-03-25T16:11:26.317Z] Not Found - /dashboard
+Error: Not Found - /dashboard
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at read (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\read.js:53:5)
+    at jsonParser (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+
+[2026-03-25T16:11:26.428Z] Not Found - /favicon.ico
+Error: Not Found - /favicon.ico
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at read (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\read.js:53:5)
+    at jsonParser (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+
+[2026-03-25T16:11:28.580Z] Not Found - /dashboard
+Error: Not Found - /dashboard
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at read (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\read.js:53:5)
+    at jsonParser (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+
+[2026-03-25T16:11:32.961Z] Not Found - /
+Error: Not Found - /
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at read (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\read.js:53:5)
+    at jsonParser (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+
+[2026-03-25T16:11:45.325Z] Not Found - /
+Error: Not Found - /
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at read (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\read.js:53:5)
+    at jsonParser (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+
+[2026-03-25T16:11:46.995Z] Not Found - /favicon.ico
+Error: Not Found - /favicon.ico
+    at notFound (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\middlewares\errorMiddleware.js:7:19)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+    at C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:291:5)
+    at read (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\read.js:53:5)
+    at jsonParser (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\akshi\Desktop\work\NIT_MARKETPLACE\backend\node_modules\router\index.js:342:13)
+
