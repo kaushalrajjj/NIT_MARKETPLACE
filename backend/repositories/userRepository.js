@@ -23,7 +23,7 @@ const userRepository = {
 
     // Update an existing user by ID
     update: async (id, data) => {
-        return await User.findByIdAndUpdate(id, data, { new: true });
+        return await User.findByIdAndUpdate(id, data, { returnDocument: 'after' });
     }
 };
 

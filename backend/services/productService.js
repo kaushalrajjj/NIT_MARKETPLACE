@@ -148,9 +148,10 @@ const productService = {
 
         const updated = await productRepository.update(productId, { status });
 
-        // If marking as sold, record in activity
+        // If marking as sold, record in seller's activity AND remove from all users' wishlists
         if (status === 'sold') {
             await activityRepository.markSold(userId, productId);
+            await activityRepository.removeFromAllWishlists(productId);
         }
 
         return updated;

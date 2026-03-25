@@ -1,18 +1,16 @@
 /**
  * Main Express Application configuration.
- * Sets up middleware, API routes, and static frontend serving.
+ * Sets up middleware, API routes, and serves the React SPA from frontend/dist.
  */
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-dotenv.config();
 
 const app = express();
 
@@ -25,31 +23,28 @@ app.use('/api/users',    userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/admin',    adminRoutes);
 
-// ─── Serve Frontend ───────────────────────────────────────────────────────────
-const frontendPath = path.join(__dirname, '..', 'frontend');
-app.use(express.static(frontendPath));
+// ─── Serve React SPA (production only: built frontend/dist) ─────────────────
+// In development, Vite middleware (mounted in devServer.js) serves everything.
+if (process.env.NODE_ENV === 'production') {
+    const distPath = path.join(__dirname, '..', 'frontend', 'dist');
 
-// Root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(frontendPath, 'pages', 'index.html'));
-});
+    // Serve static assets (JS, CSS, images, etc.)
+    app.use(express.static(distPath));
 
-// Clean URLs for main pages
-// NOTE: 'wishlist' is NOT here — it's a tab inside dashboard, not its own page.
-const pages = ['browse', 'sell', 'dashboard', 'admin', 'auth', 'profile'];
-pages.forEach(page => {
-    app.get(`/${page}`, (req, res) => {
-        res.sendFile(path.join(frontendPath, 'pages', `${page}.html`));
+    // Also serve original frontend assets (product-images, profile-images, etc.)
+    const frontendPath = path.join(__dirname, '..', 'frontend');
+    app.use(express.static(frontendPath));
+
+    // SPA Catch-all: All non-API routes get the React index.html
+    app.use((req, res, next) => {
+        if (req.path.startsWith('/api')) return next();
+        if (req.accepts('html')) return res.sendFile(path.join(distPath, 'index.html'));
+        next();
     });
-});
+}
 
-// Redirect legacy .html URLs to clean URLs
-app.get('/:page.html', (req, res) => {
-    res.redirect(301, '/' + req.params.page);
-});
-
-// ─── Error Middleware ─────────────────────────────────────────────────────────
-app.use(notFound);
-app.use(errorHandler);
+// Error middleware is NOT registered here.
+// It is added in devServer.js AFTER Vite middleware,
+// so frontend routes reach Vite before hitting the 404 handler.
 
 module.exports = app;

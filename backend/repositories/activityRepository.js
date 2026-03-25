@@ -35,7 +35,7 @@ const activityRepository = {
      * @param {Object} patch - e.g. { wishlisted: [...] }
      */
     update: async (userId, patch) => {
-        return await UserActivity.findByIdAndUpdate(userId, patch, { new: true });
+        return await UserActivity.findByIdAndUpdate(userId, patch, { returnDocument: 'after' });
     },
 
     /** Add a product to a user's listed array (when they create a listing). */
@@ -43,7 +43,7 @@ const activityRepository = {
         return await UserActivity.findByIdAndUpdate(
             userId, 
             { $addToSet: { listed: productId } }, 
-            { new: true, upsert: true }
+            { returnDocument: 'after', upsert: true }
         );
     },
 
@@ -52,7 +52,7 @@ const activityRepository = {
         return await UserActivity.findByIdAndUpdate(
             userId, 
             { $addToSet: { sold: productId } }, 
-            { new: true, upsert: true }
+            { returnDocument: 'after', upsert: true }
         );
     },
 
@@ -68,6 +68,17 @@ const activityRepository = {
                 sold: productId
             }
         });
+    },
+
+    /**
+     * Remove a product from every user's wishlist (without touching listed/sold).
+     * Used when a product is marked sold or deleted by admin (product doc still exists).
+     */
+    removeFromAllWishlists: async (productId) => {
+        await UserActivity.updateMany(
+            { wishlisted: productId },
+            { $pull: { wishlisted: productId } }
+        );
     }
 };
 
