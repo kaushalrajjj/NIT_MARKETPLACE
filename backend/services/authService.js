@@ -120,10 +120,9 @@ const authService = {
             { upsert: true, new: true }
         );
 
-        // Fire-and-forget — don't block the API response waiting for SMTP
-        sendOtpEmail(email, otp).catch((err) =>
-            console.error('[OTP Email Error]', err.message)
-        );
+        // Await the email — on Vercel serverless the execution context is frozen
+        // the moment a response is returned, so fire-and-forget never completes.
+        await sendOtpEmail(email, otp);
     },
 
     /**
