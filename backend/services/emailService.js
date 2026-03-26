@@ -1,15 +1,23 @@
 const nodemailer = require('nodemailer');
 
+let transporter = null;
+const getTransporter = () => {
+    if (!transporter) {
+        transporter = nodemailer.createTransport({
+            service: 'gmail',
+            pool: true, 
+            maxConnections: 5,
+            maxMessages: 100,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+    }
+    return transporter;
+};
 
 const sendOtpEmail = async (to, otp) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
-
     const mailOptions = {
         from: `"NIT KKR Marketplace" <${process.env.EMAIL_USER}>`,
         to,
@@ -44,7 +52,8 @@ const sendOtpEmail = async (to, otp) => {
         </div>`,
     };
 
-    await transporter.sendMail(mailOptions);
+    const mailTransporter = getTransporter();
+    await mailTransporter.sendMail(mailOptions);
 };
 
 module.exports = { sendOtpEmail };

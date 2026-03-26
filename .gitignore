@@ -28,3 +28,4 @@ npm-debug.log*
 # OS-specific files (Mac and Windows thumbnail caches)
 .DS_Store
 Thumbs.db
+DevNotes/
