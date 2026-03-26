@@ -36,6 +36,39 @@ async function login(email, password) {
   return data;
 }
 
+async function register(userData) {
+  const res = await fetch(`${API}/api/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Registration failed');
+  return data;
+}
+
+async function sendOtp(email) {
+  const res = await fetch(`${API}/api/auth/send-otp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Failed to send OTP');
+  return data;
+}
+
+async function verifyOtpAndRegister(userData, otp) {
+  const res = await fetch(`${API}/api/auth/verify-otp-register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...userData, otp }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'OTP verification failed');
+  return data;
+}
+
 function logout() {
   localStorage.removeItem('userInfo');
   window.location.href = '/auth';
@@ -265,6 +298,9 @@ export const api = {
   getUserInfo,
   getToken,
   login,
+  register,
+  sendOtp,
+  verifyOtpAndRegister,
   logout,
   queryProducts,
   createProduct,

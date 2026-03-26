@@ -1,3 +1,30 @@
+# ==============================================================
+# NIT_MARKETPLACE - Git Ignore File
+# ==============================================================
+
+# Dependencies (Prevent uploading massive node_module folders)
 node_modules/
-backend/node_modules/
+
+# Environment Variables (CRITICAL: Protect your MongoDB URIs, JWT secrets & Cloudinary settings)
 .env
+.env.local
+.env.*.local
+!.env.example
+
+# Build outputs (Automatically generated files for production)
+frontend/dist/
+dist/
+build/
+
+# Logs and Temporary files
+tmp/
+*.log
+npm-debug.log*
+
+# VS Code / IDE Specific (Prevents uploading your personal editor settings to GitHub)
+.vscode/
+.idea/
+
+# OS-specific files (Mac and Windows thumbnail caches)
+.DS_Store
+Thumbs.db

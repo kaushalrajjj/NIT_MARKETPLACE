@@ -25,7 +25,9 @@ const productSchema = new mongoose.Schema({
         enum: ["available", "sold", "reserved", "deleted_by_admin", "rejected_by_admin"] 
     },
     // URL for Cloudinary image
-    img: { type: String, default: null }
+    img: { type: String, default: null },
+    // Admin who took the last action (approve/reject/delete)
+    actionByAdmin: { type: mongoose.Schema.Types.ObjectId, default: null }
 }, { timestamps: true });
 
 const Product = mongoose.model('Product', productSchema);

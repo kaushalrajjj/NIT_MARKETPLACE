@@ -27,12 +27,9 @@ const userController = {
     */
     getMe: async (req, res) => {
         try {
-            const user = await userService.getUserById(req.user._id);
-            if (!user) return res.status(404).json({ message: 'User not found' });
-            
-            const userObj = user.toObject ? user.toObject() : user;
-            const { password, ...safe } = userObj;
-            res.json(safe);
+            // req.user is pre-resolved by the 'protect' middleware 
+            // from either Students or Admins collection.
+            res.json(req.user);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }

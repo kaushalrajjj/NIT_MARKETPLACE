@@ -1,4 +1,5 @@
 const userRepository = require('../repositories/userRepository');
+const adminRepository = require('../repositories/adminRepository');
 const productRepository = require('../repositories/productRepository');
 
 const userService = {
@@ -19,14 +20,18 @@ const userService = {
      * Retrieve a user's database document by its ID. 
      */
     getUserById: async (id) => {
-        return await userRepository.findById(id);
+        const student = await userRepository.findById(id);
+        if (student) return student;
+        return await adminRepository.findById(id);
     },
 
     /** 
      * Update user details (Mobile, WhatsApp, or Password). 
      */
     updateUserProfile: async (userId, profileData) => {
-        return await userRepository.update(userId, profileData);
+        const student = await userRepository.update(userId, profileData);
+        if (student) return student;
+        return await adminRepository.update(userId, profileData);
     }
 };
 

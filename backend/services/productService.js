@@ -1,6 +1,7 @@
 const userRepository = require('../repositories/userRepository');
 const productRepository = require('../repositories/productRepository');
 const activityRepository = require('../repositories/activityRepository');
+const userService = require('./userService');
 
 /**
  * Product Service — Business Logic Layer
@@ -16,7 +17,9 @@ const productService = {
         const { filters = {}, sort = 'newest', fields = [], page = 1, limit = 12 } = params;
 
         // 1. Fetch raw data from repository
-        let products = await productRepository.query(filters);
+        const repoResult = await productRepository.query(filters);
+        let products = repoResult.products || [];
+        const repoDebug = repoResult._debug || {};
 
         // 2. Apply Sorting (Sorting is now handled in query, but we can refine here if needed)
         // For convenience, we'll keep the JS sorting if complex logic is needed, 
@@ -113,8 +116,17 @@ const productService = {
 
         const seller = await userRepository.findById(product.seller);
         const activity = await activityRepository.getOrCreate(product.seller);
+        
+        const pObj = product.toObject ? product.toObject() : product;
+        if (pObj.actionByAdmin) {
+            const admin = await userService.getUserById(pObj.actionByAdmin);
+            if (admin) {
+                pObj.adminDetails = { name: admin.name, email: admin.email };
+            }
+        }
+
         return {
-            ...(product.toObject ? product.toObject() : product),
+            ...pObj,
             seller: seller ? {
                 _id: seller._id,
                 name: seller.name,
@@ -134,7 +146,17 @@ const productService = {
      * Retrieve all products listed by a specific seller. 
      */
     getUserProducts: async (userId) => {
-        return productRepository.find({ seller: userId });
+        const products = await productRepository.find({ seller: userId });
+        return await Promise.all(products.map(async p => {
+            const pObj = p.toObject ? p.toObject() : p;
+            if (pObj.actionByAdmin) {
+                const admin = await userService.getUserById(pObj.actionByAdmin);
+                if (admin) {
+                    pObj.adminDetails = { name: admin.name, email: admin.email };
+                }
+            }
+            return pObj;
+        }));
     },
 
     /** 

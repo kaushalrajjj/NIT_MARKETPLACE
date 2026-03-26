@@ -3,6 +3,10 @@ const adminRepository = require('../repositories/adminRepository');
 const activityRepository = require('../repositories/activityRepository');
 const generateToken = require('../config/generateToken');
 const bcrypt = require('bcryptjs');
+const { sendOtpEmail } = require('./emailService');
+
+// In-memory OTP store: email -> { otp, expiresAt }
+const otpStore = new Map();
 
 const authService = {
     /** 
@@ -90,8 +94,54 @@ const authService = {
         } else {
             throw new Error('Invalid user data');
         }
-    }
+    },
+    /** 
+     * Generate and email a 6-digit OTP for the given email.
+     * Validates domain and duplicate account before sending.
+     */
+    sendOtp: async (email) => {
+        email = email ? email.trim() : '';
+
+        if (!email.endsWith('@nitkkr.ac.in')) {
+            throw new Error('Only NIT Kurukshetra (@nitkkr.ac.in) emails are allowed.');
+        }
+
+        if (await userRepository.findOne({ email })) {
+            throw new Error('User already exists with this email.');
+        }
+
+        const otp = String(Math.floor(100000 + Math.random() * 900000)); // 6-digit
+        const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+        otpStore.set(email, { otp, expiresAt });
+
+        // Fire-and-forget — don't block the API response waiting for SMTP
+        sendOtpEmail(email, otp).catch((err) =>
+            console.error('[OTP Email Error]', err.message)
+        );
+    },
+
+    /**
+     * Verify the OTP and, if valid, register the user.
+     */
+    verifyOtpAndRegister: async (userData, otp) => {
+        const email = userData.email ? userData.email.trim() : '';
+        const record = otpStore.get(email);
+
+        if (!record) {
+            throw new Error('No OTP found. Please request a new one.');
+        }
+        if (Date.now() > record.expiresAt) {
+            otpStore.delete(email);
+            throw new Error('OTP has expired. Please request a new one.');
+        }
+        if (record.otp !== String(otp).trim()) {
+            throw new Error('Invalid OTP. Please try again.');
+        }
+
+        // OTP correct — clear it and register
+        otpStore.delete(email);
+        return authService.register({ ...userData, email });
+    },
 };
 
 module.exports = authService;
-

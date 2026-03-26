@@ -26,4 +26,30 @@ const register = async (req, res) => {
     }
 };
 
-module.exports = { login, register };
+/**
+ * Send OTP to the provided email (step 1 of sign-up).
+ */
+const sendOtp = async (req, res) => {
+    const { email } = req.body;
+    try {
+        await authService.sendOtp(email);
+        res.json({ message: 'OTP sent successfully.' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+/**
+ * Verify OTP and register the user (step 2 of sign-up).
+ */
+const verifyOtpAndRegister = async (req, res) => {
+    const { otp, ...userData } = req.body;
+    try {
+        const data = await authService.verifyOtpAndRegister(userData, otp);
+        res.status(201).json(data);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+module.exports = { login, register, sendOtp, verifyOtpAndRegister };

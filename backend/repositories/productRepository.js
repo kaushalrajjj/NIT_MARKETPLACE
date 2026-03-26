@@ -16,26 +16,39 @@ const productRepository = {
         
         let query = { isApproved: true, status: 'available' };
 
-        if (excludeSeller) {
-            query.seller = { $ne: excludeSeller };
-        }
-        if (seller) {
-            query.seller = seller;
-        }
-
-        // Logic for filtering by seller year
+        // 2. Logic for filtering by seller year
         if (sellerYear) {
             const User = require('../models/User'); // Import on-demand to avoid circular dependency
-            const sellersInYear = await User.find({ year: sellerYear }).select('_id');
-            const sellerIds = sellersInYear.map(u => u._id);
+            const mongoose = require('mongoose');
+            const yearNum = Number(sellerYear);
             
-            if (query.seller) {
-                // If already filtering by a specific seller, check if they are in the specified year
-                if (!sellerIds.some(id => id.toString() === query.seller.toString())) {
-                    return []; // No match
+            const sellersInYear = await User.find({ year: yearNum }).select('_id');
+            const sellerIds = sellersInYear.map(u => u._id);
+
+            // Consolidate seller filters: exclude, specific, and year
+            if (seller) {
+                // Specific seller filtering
+                if (!sellerIds.some(id => id.toString() === seller.toString())) {
+                    return { products: [] };
                 }
+                query.seller = seller;
             } else {
-                query.seller = { $in: sellerIds };
+                // Combined exclude + year filtering
+                const yearMatch = { $in: sellerIds.map(id => new mongoose.Types.ObjectId(id.toString())) };
+                if (excludeSeller) {
+                    query.seller = { $ne: new mongoose.Types.ObjectId(excludeSeller.toString()), ...yearMatch };
+                } else {
+                    query.seller = yearMatch;
+                }
+            }
+        } else {
+            // No year filter: apply legacy seller logic
+            if (excludeSeller) {
+                const mongoose = require('mongoose');
+                query.seller = { $ne: new mongoose.Types.ObjectId(excludeSeller.toString()) };
+            }
+            if (seller) {
+                query.seller = seller;
             }
         }
 
@@ -61,7 +74,11 @@ const productRepository = {
             ];
         }
 
-        return await Product.find(query).sort({ createdAt: -1 });
+        const finalProducts = await Product.find(query).sort({ createdAt: -1 });
+        
+        return {
+            products: finalProducts
+        };
     },
 
     // Fetch a single product by ID

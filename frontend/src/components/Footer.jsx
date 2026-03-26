@@ -28,6 +28,15 @@ export default function Footer() {
               >
                 <ThemedIcon name="instagram" size={24} />
               </a>
+              <a
+                href="https://nitkkr.ac.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all hover:scale-110 p-2"
+                title="Official NIT KKR Website"
+              >
+                <img src="/assets/nit-logo.png" alt="NIT KKR Logo" className="w-full h-full object-contain" />
+              </a>
             </div>
           </div>
 

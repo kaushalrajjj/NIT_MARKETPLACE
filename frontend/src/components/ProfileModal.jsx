@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ThemedIcon from './ThemedIcon';
 import { useTheme } from '../services/ThemeContext';
 import { getOptimizedImageUrl } from '../services/helpers';
 
 export default function ProfileModal({ user, onClose, onFilterBySeller }) {
   const { theme } = useTheme();
+  
+  // Scroll lock
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = 'unset'; };
+  }, []);
   
   if (!user) return null;
 
@@ -13,12 +19,12 @@ export default function ProfileModal({ user, onClose, onFilterBySeller }) {
   const infoFields = [
     { label: 'Email', value: user.email, iconName: 'email' },
     { label: 'Branch', value: user.branch || 'N/A', iconName: 'cat-academic' },
-    { label: 'Year', value: user.year || 'N/A', iconName: 'cat-all' },
+    { label: 'Year', value: user.year || 'N/A', iconName: 'dashboard' },
     { label: 'Hostel', value: user.hostel || 'N/A', iconName: 'home' },
   ];
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[60] flex items-start justify-center p-4 pt-24 overflow-y-auto">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       
       <div className="relative bg-surface rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-slide-up">
@@ -28,7 +34,7 @@ export default function ProfileModal({ user, onClose, onFilterBySeller }) {
             onClick={onClose}
             className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
           >
-            <ThemedIcon name="help" size={16} color="white" className="rotate-45" />
+            ✕
           </button>
           
           <div className="mx-auto w-24 h-24 rounded-full bg-white p-1 shadow-xl mb-4">
@@ -69,7 +75,7 @@ export default function ProfileModal({ user, onClose, onFilterBySeller }) {
                 href={`tel:${user.mobileNo}`}
                 className="flex items-center justify-center gap-2 w-full py-3 bg-bg border border-border rounded-xl font-bold text-ink hover:bg-surface-2 transition-colors"
               >
-                <ThemedIcon name="help" size={18} color={theme.pri} /> Call {user.mobileNo}
+                <ThemedIcon name="call-receive" size={18} color={theme.pri} /> Call {user.mobileNo}
               </a>
             )}
             

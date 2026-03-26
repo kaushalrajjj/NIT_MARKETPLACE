@@ -14,6 +14,11 @@ const adminRepository = {
     // Create a new administrator account (rarely used)
     create: async (data) => {
         return await Admin.create(data);
+    },
+
+    // Update an existing administrator by ID
+    update: async (id, data) => {
+        return await Admin.findByIdAndUpdate(id, data, { returnDocument: 'after' });
     }
 };
 

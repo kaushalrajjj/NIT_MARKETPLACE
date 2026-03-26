@@ -20,12 +20,12 @@ const adminService = {
     /** 
      * Approve a listing or permanently delete a rejected one. 
      */
-    approveProduct: async (productId, approve) => {
+    approveProduct: async (productId, approve, adminId) => {
         if (approve) {
-            return await productRepository.update(productId, { isApproved: true, status: 'available' });
+            return await productRepository.update(productId, { isApproved: true, status: 'available', actionByAdmin: adminId });
         } else {
             // Instead of deleting, we mark it as rejected so the user can see it on their dashboard
-            return await productRepository.update(productId, { isApproved: false, status: 'rejected_by_admin' });
+            return await productRepository.update(productId, { isApproved: false, status: 'rejected_by_admin', actionByAdmin: adminId });
         }
     },
 
@@ -48,7 +48,11 @@ const adminService = {
         const users = await userRepository.find();
         const products = await productRepository.find({});
         const liveListings = products.filter(p => p.status === 'available' && p.isApproved).length;
-        const pendingListings = products.filter(p => p.isApproved === false).length;
+        const pendingListings = products.filter(p => 
+            p.isApproved === false && 
+            p.status !== 'rejected_by_admin' && 
+            p.status !== 'deleted_by_admin'
+        ).length;
 
         return {
             totalUsers: users.length,
@@ -77,8 +81,8 @@ const adminService = {
     /** 
      * Forcefully change product status to 'deleted_by_admin'. 
      */
-    deleteProductAdmin: async (productId) => {
-        const result = await productRepository.update(productId, { status: 'deleted_by_admin' });
+    deleteProductAdmin: async (productId, adminId) => {
+        const result = await productRepository.update(productId, { status: 'deleted_by_admin', actionByAdmin: adminId });
         // Remove from every user's wishlist — product is no longer obtainable
         await activityRepository.removeFromAllWishlists(productId);
         return result;

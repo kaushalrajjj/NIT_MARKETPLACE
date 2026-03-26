@@ -19,7 +19,7 @@ const adminController = {
     approveProduct: async (req, res) => {
         const { approve } = req.body;
         try {
-            const result = await adminService.approveProduct(req.params.id, approve);
+            const result = await adminService.approveProduct(req.params.id, approve, req.user._id);
             if (approve) {
                 res.json(result);
             } else {
@@ -71,7 +71,7 @@ const adminController = {
      */
     deleteProductAdmin: async (req, res) => {
         try {
-            const result = await adminService.deleteProductAdmin(req.params.id);
+            const result = await adminService.deleteProductAdmin(req.params.id, req.user._id);
             res.json({ message: 'Product deleted by admin', product: result });
         } catch (error) {
             res.status(500).json({ message: error.message });
