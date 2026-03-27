@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ThemedIcon from '../ThemedIcon';
 import { useTheme } from '../../services/ThemeContext';
-import { getOptimizedImageUrl, formatPrice } from '../../services/helpers';
+import { getOptimizedImageUrl, getOriginalImageUrl, formatPrice } from '../../services/helpers';
+import ImageLightbox from './ImageLightbox';
 
 /**
  * QuickViewModal — shared between BrowsePage and DashboardPage.
@@ -16,6 +17,7 @@ import { getOptimizedImageUrl, formatPrice } from '../../services/helpers';
  */
 export default function QuickViewModal({ product, onClose, onShowProfile, user, requireAuth = false }) {
   const { theme } = useTheme();
+  const [lightbox, setLightbox] = useState(false);
   
   // Scroll lock
   useEffect(() => {
@@ -69,7 +71,8 @@ export default function QuickViewModal({ product, onClose, onShowProfile, user, 
                   <img
                     src={product.img.startsWith('http') ? getOptimizedImageUrl(product.img, 800) : product.img}
                     alt={product.title}
-                    className="w-full rounded-2xl object-contain bg-bg max-h-80"
+                    className="w-full rounded-2xl object-contain bg-bg max-h-80 cursor-zoom-in"
+                    onClick={() => setLightbox(true)}
                   />
                 ) : (
                   <div className="w-full h-64 bg-pri-light rounded-2xl flex items-center justify-center text-6xl">
@@ -148,6 +151,14 @@ export default function QuickViewModal({ product, onClose, onShowProfile, user, 
           </div>
         )}
       </div>
+
+      {lightbox && product.img && (
+        <ImageLightbox
+          src={getOriginalImageUrl(product.img)}
+          alt={product.title}
+          onClose={() => setLightbox(false)}
+        />
+      )}
     </div>
   );
 }
