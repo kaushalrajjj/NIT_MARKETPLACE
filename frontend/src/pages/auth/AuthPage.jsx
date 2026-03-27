@@ -9,7 +9,9 @@ import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 
 export default function AuthPage() {
-  const [mode, setMode] = useState('login'); // 'login' | 'signup'
+  const [mode, setMode] = useState(
+    () => localStorage.getItem('authTab') || 'login'
+  );
   const { user }        = useAuth();
   const { theme }       = useTheme();
   const navigate        = useNavigate();
@@ -29,12 +31,12 @@ export default function AuthPage() {
           <div className="w-full max-w-[420px] py-4">
             <div className="bg-surface rounded-2xl shadow-xl border border-border p-7 sm:p-8 flex flex-col">
 
-              <AuthModeTabs mode={mode} onModeChange={setMode} />
+              <AuthModeTabs mode={mode} onModeChange={m => { setMode(m); localStorage.setItem('authTab', m); }} />
               <AuthHeading mode={mode} />
 
               {mode === 'login'
-                ? <LoginForm  onSwitchMode={() => setMode('signup')} />
-                : <SignUpForm onSwitchMode={() => setMode('login')}  />
+                ? <LoginForm  onSwitchMode={() => { setMode('signup'); localStorage.setItem('authTab', 'signup'); }} />
+                : <SignUpForm onSwitchMode={() => { setMode('login');  localStorage.setItem('authTab', 'login');  }} />
               }
 
               <div className="mt-5 pt-4 border-t border-border text-center text-[10px] text-ink-3">

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ThemedIcon from '../../components/ThemedIcon';
 import { formatPrice } from '../../services/helpers';
 import { useTheme } from '../../services/ThemeContext';
+import ImageLightbox from '../../components/common/ImageLightbox';
 
 export default function RejectedTab({ products, onDelete }) {
   const { theme } = useTheme();
+  const [lightboxSrc, setLightboxSrc] = useState(null);
   return (
     <div>
       <p className="text-sm text-ink-3 mb-4">
@@ -23,7 +25,11 @@ export default function RejectedTab({ products, onDelete }) {
               <div key={p._id} className="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden opacity-75 border-red-100">
                 <div className="aspect-[4/3] bg-bg overflow-hidden relative">
                   {p.img ? (
-                    <img src={p.img} alt={p.title} className="w-full h-full object-cover grayscale-[30%]" />
+                    <img
+                      src={p.img} alt={p.title}
+                      className="w-full h-full object-cover grayscale-[30%] cursor-zoom-in"
+                      onClick={() => setLightboxSrc(p.img)}
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-5xl bg-surface-2">
                       <ThemedIcon name={`cat-${p.category?.toLowerCase().replace(' ', '') || 'other'}`} size={48} color={theme.pri} className="opacity-50" />
@@ -58,6 +64,10 @@ export default function RejectedTab({ products, onDelete }) {
             );
           })}
         </div>
+      )}
+
+      {lightboxSrc && (
+        <ImageLightbox src={lightboxSrc} alt="Product" onClose={() => setLightboxSrc(null)} />
       )}
     </div>
   );

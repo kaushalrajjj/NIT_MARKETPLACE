@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ThemedIcon from './ThemedIcon';
 import { useTheme } from '../services/ThemeContext';
-import { getOptimizedImageUrl } from '../services/helpers';
+import { getOptimizedImageUrl, getOriginalImageUrl } from '../services/helpers';
+import ImageLightbox from './common/ImageLightbox';
 
 export default function ProfileModal({ user, onClose, onFilterBySeller }) {
   const { theme } = useTheme();
+  const [lightbox, setLightbox] = useState(false);
   
   // Scroll lock
   useEffect(() => {
@@ -37,7 +39,11 @@ export default function ProfileModal({ user, onClose, onFilterBySeller }) {
             ✕
           </button>
           
-          <div className="mx-auto w-24 h-24 rounded-full bg-white p-1 shadow-xl mb-4">
+          <div
+            className={`mx-auto w-24 h-24 rounded-full bg-white p-1 shadow-xl mb-4 ${user.profileImage ? 'cursor-pointer' : ''}`}
+            onClick={() => user.profileImage && setLightbox(true)}
+            title={user.profileImage ? 'View photo' : ''}
+          >
             <div className="w-full h-full rounded-full bg-pri-light flex items-center justify-center overflow-hidden">
               {user.profileImage ? (
                 <img 
@@ -88,6 +94,10 @@ export default function ProfileModal({ user, onClose, onFilterBySeller }) {
           </div>
         </div>
       </div>
+
+      {lightbox && user.profileImage && (
+        <ImageLightbox src={getOriginalImageUrl(user.profileImage)} alt={user.name} onClose={() => setLightbox(false)} />
+      )}
     </div>
   );
 }

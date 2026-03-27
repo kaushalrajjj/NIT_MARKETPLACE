@@ -3,7 +3,7 @@ const adminRepository = require('../repositories/adminRepository');
 const activityRepository = require('../repositories/activityRepository');
 const generateToken = require('../config/generateToken');
 const bcrypt = require('bcryptjs');
-const { sendOtpEmail } = require('./emailService');
+const { sendOtpEmail, sendPasswordChangeOtpEmail } = require('./emailService');
 const Otp = require('../models/Otp');
 
 const authService = {
@@ -115,7 +115,7 @@ const authService = {
         // Using MongoDB instead of in-memory Map so it persists across
         // Vercel serverless function invocations (cold starts).
         await Otp.findOneAndUpdate(
-            { email },
+            { email, purpose: 'signup' },
             { otp, expireAt },
             { upsert: true, new: true }
         );
@@ -132,13 +132,13 @@ const authService = {
         const email = userData.email ? userData.email.trim() : '';
 
         // Read the OTP from MongoDB (works across serverless invocations)
-        const record = await Otp.findOne({ email });
+        const record = await Otp.findOne({ email, purpose: 'signup' });
 
         if (!record) {
             throw new Error('No OTP found. Please request a new one.');
         }
         if (Date.now() > record.expireAt.getTime()) {
-            await Otp.deleteOne({ email });
+            await Otp.deleteOne({ email, purpose: 'signup' });
             throw new Error('OTP has expired. Please request a new one.');
         }
         if (record.otp !== String(otp).trim()) {
@@ -146,8 +146,62 @@ const authService = {
         }
 
         // OTP correct — clear it and register
-        await Otp.deleteOne({ email });
+        await Otp.deleteOne({ email, purpose: 'signup' });
         return authService.register({ ...userData, email });
+    },
+
+    /**
+     * Step 1 of OTP-gated password change:
+     * Verifies the current password is correct, then sends an OTP to the user's email.
+     */
+    sendPasswordChangeOtp: async (userId, currentPassword) => {
+        const user = await userRepository.findOne({ _id: userId });
+        if (!user) throw new Error('User not found.');
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) throw new Error('Current password is incorrect.');
+
+        const otp = String(Math.floor(100000 + Math.random() * 900000)); // 6-digit
+        const expireAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+        // Use compound key (email + purpose) so password-change OTPs
+        // don't collide with signup OTPs for the same address.
+        await Otp.findOneAndUpdate(
+            { email: user.email, purpose: 'password-change' },
+            { otp, expireAt },
+            { upsert: true, new: true }
+        );
+
+        await sendPasswordChangeOtpEmail(user.email, otp);
+    },
+
+    /**
+     * Step 2 of OTP-gated password change:
+     * Verifies the OTP then updates the password.
+     */
+    verifyOtpAndChangePassword: async (userId, otp, newPassword) => {
+        if (!newPassword || newPassword.length < 6 || newPassword.length > 12) {
+            throw new Error('New password must be between 6 and 12 characters.');
+        }
+
+        const user = await userRepository.findOne({ _id: userId });
+        if (!user) throw new Error('User not found.');
+
+        const record = await Otp.findOne({ email: user.email, purpose: 'password-change' });
+        if (!record) throw new Error('No OTP found. Please request a new one.');
+        if (Date.now() > record.expireAt.getTime()) {
+            await Otp.deleteOne({ email: user.email, purpose: 'password-change' });
+            throw new Error('OTP has expired. Please request a new one.');
+        }
+        if (record.otp !== String(otp).trim()) {
+            throw new Error('Invalid OTP. Please try again.');
+        }
+
+        await Otp.deleteOne({ email: user.email, purpose: 'password-change' });
+
+        const salt = await bcrypt.genSalt(12);
+        const hashedNew = await bcrypt.hash(newPassword, salt);
+        await userRepository.update(user._id, { password: hashedNew });
     },
 };
 

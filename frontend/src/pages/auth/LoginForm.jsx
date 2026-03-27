@@ -8,7 +8,7 @@ import ThemedIcon from '../../components/ThemedIcon';
 import Field, { inputCls } from './Field';
 
 export default function LoginForm({ onSwitchMode }) {
-  const [email, setEmail]       = useState('');
+  const [email, setEmail]       = useState(() => sessionStorage.getItem('loginEmail') || '');
   const [password, setPassword] = useState('');
   const [loading, setLoading]   = useState(false);
   const [emailErr, setEmailErr] = useState(false);
@@ -27,6 +27,7 @@ export default function LoginForm({ onSwitchMode }) {
       const data = await api.login(email, password);
       if (data.token) {
         loginUser(data);
+        sessionStorage.removeItem('loginEmail');
         showToast('Login success!', 'success');
         setTimeout(() => navigate(data.role === 'admin' ? '/admin' : '/'), 600);
       } else {
@@ -45,7 +46,7 @@ export default function LoginForm({ onSwitchMode }) {
         <input
           type="email"
           value={email}
-          onChange={(e) => { setEmail(e.target.value); validateEmail(e.target.value); }}
+          onChange={(e) => { setEmail(e.target.value); sessionStorage.setItem('loginEmail', e.target.value); validateEmail(e.target.value); }}
           placeholder="yourname@nitkkr.ac.in"
           className={inputCls('email', emailErr)}
         />

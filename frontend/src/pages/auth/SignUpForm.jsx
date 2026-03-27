@@ -15,21 +15,49 @@ const GIRLS_HOSTELS = ['KALPANA CHAWLA','BHAGIRATHI','CAUVERY','ALAKNANDA'];
 const YEARS         = [1, 2, 3, 4, 5];
 
 export default function SignUpForm({ onSwitchMode }) {
+  const STORAGE_KEY = 'signupFormDraft';
+
+  const loadDraft = () => {
+    try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+  };
+
   const [step, setStep]           = useState(1);
-  const [form, setForm]           = useState({ name: '', email: '', rollNo: '', branch: '', year: '', hostel: '', mobileNo: '', password: '', confirmPassword: '' });
+  const [form, setForm]           = useState(() => {
+    const draft = loadDraft();
+    return {
+      name: draft.name || '', email: draft.email || '', rollNo: draft.rollNo || '',
+      branch: draft.branch || '', year: draft.year || '', hostel: draft.hostel || '',
+      mobileNo: draft.mobileNo || '', password: '', confirmPassword: ''
+    };
+  });
   const [errors, setErrors]       = useState({});
   const [loading, setLoading]     = useState(false);
   const [otpDigits, setOtpDigits] = useState(['', '', '', '', '', '']);
   const [otpError, setOtpError]   = useState('');
   const [resendCd, setResendCd]   = useState(0);
-  const [expirySec, setExpirySec] = useState(300);
+  const [expirySec, setExpirySec] = useState(600); // 10 min — matches backend
   const { loginUser }             = useAuth();
   const { showToast }             = useToast();
   const { theme }                 = useTheme();
   const navigate                  = useNavigate();
   const otpRefs                   = Array.from({ length: 6 }, () => React.useRef(null));
 
-  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
+  const set = (key) => (e) => setForm((f) => {
+    const updated = { ...f, [key]: e.target.value };
+
+    // Auto-fill roll number from email (format: rollno@nitkkr.ac.in)
+    if (key === 'email') {
+      const local = e.target.value.split('@')[0];
+      if (/^\d{5,9}$/.test(local)) {
+        updated.rollNo = local;
+      }
+    }
+
+    // Persist non-sensitive fields only
+    const { password: _p, confirmPassword: _c, ...safe } = updated;
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(safe));
+    return updated;
+  });
 
   const validate = () => {
     const errs = {};
@@ -56,7 +84,7 @@ export default function SignUpForm({ onSwitchMode }) {
       showToast(`OTP sent to ${form.email}`, 'success');
       setStep(2);
       setResendCd(60);
-      setExpirySec(300);
+      setExpirySec(600);
       setOtpDigits(['', '', '', '', '', '']);
       setOtpError('');
       setTimeout(() => otpRefs[0].current?.focus(), 100);
@@ -115,6 +143,7 @@ export default function SignUpForm({ onSwitchMode }) {
       const data = await api.verifyOtpAndRegister(payload, otp);
       if (data.token) {
         loginUser(data);
+        sessionStorage.removeItem(STORAGE_KEY);
         showToast('Account created! Welcome 🎉', 'success');
         setTimeout(() => navigate('/'), 800);
       } else {
@@ -135,7 +164,7 @@ export default function SignUpForm({ onSwitchMode }) {
       await api.sendOtp(form.email);
       showToast('New OTP sent!', 'success');
       setResendCd(60);
-      setExpirySec(300);
+      setExpirySec(600);
       setOtpDigits(['', '', '', '', '', '']);
       setOtpError('');
       otpRefs[0].current?.focus();

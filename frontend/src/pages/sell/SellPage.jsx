@@ -32,10 +32,42 @@ export default function SellPage() {
   const [removeExisting, setRemoveExisting] = useState(false);
   const fileInputRef = useRef(null);
 
+  const DRAFT_KEY = 'sellFormDraft';
+
+  const loadDraft = () => {
+    try { return JSON.parse(sessionStorage.getItem(DRAFT_KEY)) || {}; } catch { return {}; }
+  };
+
+  const saveDraft = (patch) => {
+    try {
+      const current = loadDraft();
+      sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ ...current, ...patch }));
+    } catch {}
+  };
+
+  const clearDraft = () => sessionStorage.removeItem(DRAFT_KEY);
+
+  // Restore draft on mount (new listing only — edit mode loads from server)
   useEffect(() => {
     if (!user) { navigate('/auth'); return; }
-    if (isEditMode) loadProduct();
+    if (isEditMode) {
+      loadProduct();
+    } else {
+      const draft = loadDraft();
+      if (draft.title)       setTitle(draft.title);
+      if (draft.price)       setPrice(draft.price);
+      if (draft.condition)   setCondition(draft.condition);
+      if (draft.category)    setCategory(draft.category);
+      if (draft.description) setDescription(draft.description);
+    }
   }, []);
+
+  // Draft-aware setters
+  const setTitleD       = (v) => { setTitle(v);       saveDraft({ title: v }); };
+  const setPriceD       = (v) => { setPrice(v);       saveDraft({ price: v }); };
+  const setConditionD   = (v) => { setCondition(v);   saveDraft({ condition: v }); };
+  const setCategoryD    = (v) => { setCategory(v);    saveDraft({ category: v }); };
+  const setDescriptionD = (v) => { setDescription(v); saveDraft({ description: v }); };
 
   async function loadProduct() {
     try {
@@ -103,6 +135,7 @@ export default function SellPage() {
         if (selectedFile && productId) await api.uploadProductImage(productId, selectedFile, user.token);
       }
       showToast(isEditMode ? 'Listing updated' : 'Listing published!', 'success');
+      if (!isEditMode) clearDraft();
       setTimeout(() => navigate('/dashboard'), 1000);
     } catch (err) {
       showToast(err.message || 'Something went wrong', 'error');
@@ -116,11 +149,14 @@ export default function SellPage() {
         <SellHeader isEditMode={isEditMode} />
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <CategorySection category={category} onChange={setCategory} isEditMode={isEditMode} />
+          <CategorySection category={category} onChange={isEditMode ? setCategory : setCategoryD} isEditMode={isEditMode} />
 
           <ListingDetailsSection
             title={title} price={price} condition={condition} description={description}
-            onTitle={setTitle} onPrice={setPrice} onCondition={setCondition} onDescription={setDescription}
+            onTitle={isEditMode ? setTitle : setTitleD}
+            onPrice={isEditMode ? setPrice : setPriceD}
+            onCondition={isEditMode ? setCondition : setConditionD}
+            onDescription={isEditMode ? setDescription : setDescriptionD}
           />
 
           <PhotoUploadSection

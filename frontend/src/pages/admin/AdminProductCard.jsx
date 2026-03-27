@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ThemedIcon from '../../components/ThemedIcon';
 import { formatPrice } from '../../services/helpers';
 import { useTheme } from '../../services/ThemeContext';
+import ImageLightbox from '../../components/common/ImageLightbox';
 
 function getStatusBadge(status, isApproved) {
   if (status === 'rejected_by_admin') return <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-lg">Rejected</span>;
@@ -16,6 +17,7 @@ function getStatusBadge(status, isApproved) {
 
 export default function AdminProductCard({ product: p, onApprove, onDelete }) {
   const { theme } = useTheme();
+  const [lightbox, setLightbox] = useState(false);
   const isDeleted  = p.status === 'deleted_by_admin';
   const isRejected = p.status === 'rejected_by_admin';
   const isPending  = p.isApproved === false && !isRejected;
@@ -32,11 +34,16 @@ export default function AdminProductCard({ product: p, onApprove, onDelete }) {
   ];
 
   return (
+    <>
     <div className={`bg-surface rounded-2xl border border-border shadow-sm overflow-hidden flex flex-col h-full transition-all hover:shadow-md ${isDeleted ? 'opacity-60' : ''}`}>
       {/* Image Section */}
       <div className="relative aspect-[16/10] bg-bg overflow-hidden group">
         {p.img ? (
-          <img src={p.img} alt={p.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          <img
+            src={p.img} alt={p.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 cursor-zoom-in"
+            onClick={() => setLightbox(true)}
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-pri-light/30">
             <ThemedIcon name={`cat-${p.category?.toLowerCase().replace(' ', '') || 'other'}`} size={48} color={theme.pri} className="opacity-20" />
@@ -104,5 +111,10 @@ export default function AdminProductCard({ product: p, onApprove, onDelete }) {
         )}
       </div>
     </div>
+
+    {lightbox && p.img && (
+      <ImageLightbox src={p.img} alt={p.title} onClose={() => setLightbox(false)} />
+    )}
+  </>
   );
 }

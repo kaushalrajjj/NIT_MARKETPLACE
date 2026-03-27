@@ -226,6 +226,34 @@ async function changePassword(currentPassword, newPassword, token) {
   return json;
 }
 
+async function sendPasswordChangeOtp(currentPassword, token) {
+  const res = await authFetch(`${API}/api/auth/send-password-change-otp`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ currentPassword }),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message || 'Failed to send OTP');
+  return json;
+}
+
+async function verifyOtpAndChangePassword(otp, newPassword, token) {
+  const res = await authFetch(`${API}/api/auth/verify-otp-change-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ otp, newPassword }),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.message || 'OTP verification failed');
+  return json;
+}
+
 async function fetchWishlist(token) {
   const res = await authFetch(`${API}/api/users/me/wishlist`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -316,6 +344,8 @@ export const api = {
   fetchMe,
   updateMe,
   changePassword,
+  sendPasswordChangeOtp,
+  verifyOtpAndChangePassword,
   fetchWishlist,
   fetchActivity,
   uploadAvatar,
