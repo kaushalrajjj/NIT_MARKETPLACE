@@ -41,27 +41,8 @@ app.use('/api/users',    userRoutes);      // e.g. /api/users/profile
 app.use('/api/products', productRoutes);   // e.g. /api/products/:id
 app.use('/api/admin',    adminRoutes);     // e.g. /api/admin/dashboard
 
-// ------------------------------------------------------------------
-// Production Environment Handling & Frontend Serving
-// ------------------------------------------------------------------
-// When the app runs in production mode, it needs to serve the compiled frontend code.
-// In development, a bundler like Vite runs its own middleware handles frontend updates.
-if (process.env.NODE_ENV === 'production') {
-    const distPath = path.resolve(__dirname, '..', 'frontend', 'dist');
-
-    // 1. First, serve static files (js, css, icons)
-    app.use(express.static(distPath));
-
-    // 2. Catch-all: For all other requests (like /browse or /sell), send index.html
-    // This gives the Backend total control over navigation routing.
-    app.get('*', (req, res, next) => {
-        // Skip API routes so they can reach the 404 error handler if needed
-        if (req.path.startsWith('/api')) return next();
-        
-        // Serve the frontend shell
-        res.sendFile(path.join(distPath, 'index.html'));
-    });
-}
+// Production Environment Handling
+// The backend is now deployed independently, so it no longer serves frontend static files.
 
 // ------------------------------------------------------------------
 // Important Note regarding Error Middleware
