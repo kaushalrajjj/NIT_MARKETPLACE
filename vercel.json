@@ -19,12 +19,13 @@
       "destination": "/backend/api/index.js"
     },
     {
-      "source": "/assets/(.*)",
-      "destination": "/frontend/dist/assets/$1"
+      "source": "/(.*)",
+      "destination": "/$1",
+      "continue": true
     },
     {
       "source": "/(.*)",
-      "destination": "/frontend/dist/index.html"
+      "destination": "/index.html"
     }
   ]
 }
