@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AuthProvider } from './services/AuthContext';
-import { ThemeProvider } from './services/ThemeContext';
-import { ToastProvider } from './components/Toast';
+
+// Global state providers — these wrap everything so any component can access them
+import { AuthProvider } from './services/AuthContext';   // Who is logged in?
+import { ThemeProvider } from './services/ThemeContext'; // Light/dark mode + accent color
+import { ToastProvider } from './components/Toast';      // Pop-up notification system
+
+// Shared UI components shown on every page
 import Navbar from './components/Navbar';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import Footer from './components/Footer';
+
+// One import per page/route
 import HomePage from './pages/home/HomePage';
 import AuthPage from './pages/auth/AuthPage';
 import BrowsePage from './pages/browse/BrowsePage';
@@ -14,6 +20,8 @@ import DashboardPage from './pages/dashboard/DashboardPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import AdminPage from './pages/admin/AdminPage';
 
+// CSS animation for when a new page slides into view
+// Defined as a string so we can inject it via a <style> tag inside JSX
 const pageTransitionStyle = `
   @keyframes pageEnter {
     from { opacity: 0; transform: translateY(14px); }
@@ -24,16 +32,29 @@ const pageTransitionStyle = `
   }
 `;
 
+/**
+ * Layout — The actual page shell
+ * ───────────────────────────────
+ * Renders the Navbar, the current page, and the Footer.
+ * Also handles:
+ *   - Scroll-to-top on every route change
+ *   - Special full-screen layout for /auth
+ *   - Hiding Navbar + Footer on /admin (admin has its own header)
+ */
 function Layout() {
-  const location = useLocation();
+  const location = useLocation(); // current URL path
   const isAuth = location.pathname === '/auth';
+
+  // Admin page has its own full-screen header, so hide the shared Navbar and Footer
   const hideNavFooter = ['/admin'].includes(location.pathname);
 
+  // Scroll to top of page whenever the route changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  // Auth page needs its own full-screen layout (with Navbar but no footer wrapper)
+  // The auth page has a special layout: full viewport height, no footer, overflow hidden
+  // (so the login card doesn't scroll weirdly on mobile)
   if (isAuth) {
     return (
       <div className="h-screen flex flex-col overflow-hidden">
@@ -48,11 +69,16 @@ function Layout() {
     );
   }
 
+  // Standard layout: Navbar on top, page content in the middle, Footer at bottom
   return (
     <div className="flex flex-col min-h-screen">
       <style>{pageTransitionStyle}</style>
+
+      {/* Hide Navbar on admin page (admin has its own header) */}
       {!hideNavFooter && <Navbar />}
+
       <main className="flex-1">
+        {/* key={location.pathname} forces re-mount on route change → triggers page enter animation */}
         <div key={location.pathname} className="page-enter">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -65,18 +91,33 @@ function Layout() {
           </Routes>
         </div>
       </main>
+
+      {/* Hide footer on admin page and on auth page */}
       {(!hideNavFooter && !['/auth'].includes(location.pathname)) && <Footer />}
+
+      {/* Floating scroll-to-top button — appears after scrolling down */}
       <ScrollToTopButton />
     </div>
   );
 }
 
+/**
+ * App — The root component
+ * ─────────────────────────
+ * Wraps everything in providers (context + router) so every child
+ * component can access auth, theme, toasts, and routing.
+ *
+ * Provider order matters:
+ *   BrowserRouter must be outermost (routing)
+ *   AuthProvider next (other providers may need auth state)
+ *   ThemeProvider + ToastProvider are independent, order doesn't matter
+ */
 function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <AuthProvider>
-        <ThemeProvider>
-          <ToastProvider>
+      <AuthProvider>       {/* Global: who is logged in */}
+        <ThemeProvider>    {/* Global: light/dark + accent color */}
+          <ToastProvider>  {/* Global: pop-up notifications */}
             <Layout />
           </ToastProvider>
         </ThemeProvider>

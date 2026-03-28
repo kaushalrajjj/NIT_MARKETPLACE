@@ -135,27 +135,30 @@ export default function AdminPage() {
         {/* Sticky Header with Shutter mask to hide cards scrolling behind the gap */}
         <div className="sticky top-[60px] z-30 pt-[15px] bg-bg">
           <div className="bg-surface rounded-2xl px-6 py-4 mb-8 shadow-xl border border-border transition-all">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <h2 className="text-xl font-black text-ink">Product Listings</h2>
-              
-              <div className="flex flex-wrap gap-2 p-1 bg-surface border border-border rounded-2xl shadow-sm">
-                {filterTabs.map(tab => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setSearchParams({ filter: tab.id })}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                      activeFilter === tab.id 
-                        ? 'bg-pri text-white shadow-lg shadow-pri/20' 
-                        : 'text-ink-3 hover:bg-bg'
-                    }`}
-                  >
-                    <ThemedIcon name={tab.icon} size={14} color={activeFilter === tab.id ? 'white' : 'currentColor'} />
-                    <span>{tab.label}</span>
-                    <span className={`px-1.5 py-0.5 rounded-md text-[10px] ${activeFilter === tab.id ? 'bg-white/20' : 'bg-bg text-ink-3 opacity-60'}`}>
-                      {tab.count}
-                    </span>
-                  </button>
-                ))}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <h2 className="text-xl font-black text-ink shrink-0">Product Listings</h2>
+
+              {/* Scrollable tabs row on mobile, wrapping on desktop */}
+              <div className="overflow-x-auto scrollbar-hide -mx-1 px-1">
+                <div className="flex gap-2 p-1 bg-surface border border-border rounded-2xl shadow-sm min-w-max md:flex-wrap md:min-w-0">
+                  {filterTabs.map(tab => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setSearchParams({ filter: tab.id })}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 ${
+                        activeFilter === tab.id
+                          ? 'bg-pri text-white shadow-lg shadow-pri/20'
+                          : 'text-ink-3 hover:bg-bg'
+                      }`}
+                    >
+                      <ThemedIcon name={tab.icon} size={14} color={activeFilter === tab.id ? 'white' : 'currentColor'} />
+                      <span>{tab.label}</span>
+                      <span className={`px-1.5 py-0.5 rounded-md text-[10px] ${activeFilter === tab.id ? 'bg-white/20' : 'bg-bg text-ink-3 opacity-60'}`}>
+                        {tab.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

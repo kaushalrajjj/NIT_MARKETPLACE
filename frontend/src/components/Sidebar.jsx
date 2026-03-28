@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../services/AuthContext';
 import { useTheme } from '../services/ThemeContext';
@@ -24,6 +24,8 @@ export default function Sidebar({ isOpen, onClose }) {
   const { user, logoutUser } = useAuth();
   const { theme, themeName, changeTheme, THEMES } = useTheme();
   const [showThemePanel, setShowThemePanel] = useState(false);
+  const [themePanelStyle, setThemePanelStyle] = useState({});
+  const themeBtnRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -34,6 +36,21 @@ export default function Sidebar({ isOpen, onClose }) {
   React.useEffect(() => {
     if (!isOpen) setShowThemePanel(false);
   }, [isOpen]);
+
+  const handleThemeToggle = (e) => {
+    e.stopPropagation();
+    if (!showThemePanel && themeBtnRef.current) {
+      const btnRect = themeBtnRef.current.getBoundingClientRect();
+      // Always pin to right edge of screen
+      setThemePanelStyle({
+        position: 'fixed',
+        right: '12px',
+        top: `${btnRect.bottom + 8}px`,
+        left: 'auto',
+      });
+    }
+    setShowThemePanel(prev => !prev);
+  };
   const initial = user ? user.name?.charAt(0).toUpperCase() : '?';
   const name = user ? user.name : 'Guest User';
   const role = user ? 'NIT KKR Student' : 'Login to sell items';
@@ -134,16 +151,19 @@ export default function Sidebar({ isOpen, onClose }) {
                 {/* Theme trigger dot */}
                 <div className="relative">
                     <button
-                      onClick={(e) => { e.stopPropagation(); setShowThemePanel(!showThemePanel); }}
+                      ref={themeBtnRef}
+                      onClick={handleThemeToggle}
                       className="w-7 h-7 rounded-full border-2 border-white shadow-md flex items-center justify-center transition-transform hover:scale-110"
                       style={{ background: theme.color }}
                       title="Change Theme"
                     />
-                  {/* Theme sub-panel */}
+                  {/* Theme sub-panel – smart positioned */}
                   {showThemePanel && (
                     <div
-                      className="absolute left-[calc(100%+12px)] top-[-10px] p-4 rounded-2xl shadow-2xl z-50 min-w-[220px]"
+                      className="p-4 rounded-2xl shadow-2xl z-[1050] min-w-[220px]"
                       style={{
+                        ...themePanelStyle,
+                        position: themePanelStyle.position || 'absolute',
                         backgroundColor: theme.surface,
                         border: `1px solid ${theme.border}`,
                         animation: 'themePanelIn 0.22s cubic-bezier(0.22,1,0.36,1) both',
@@ -196,7 +216,7 @@ export default function Sidebar({ isOpen, onClose }) {
               </Link>
             </div>
           )}
-          {[...(user ? [['/dashboard?tab=wishlist', 'wishlist', 'Wishlist']] : []), ['/profile', 'profile', 'My Profile'], ['#', 'help', 'Help Center']].map(([href, icon, label], i) => (
+          {[...(user ? [['/dashboard?tab=wishlist', 'wishlist', 'Wishlist']] : []), ['/profile', 'profile', 'My Profile']].map(([href, icon, label], i) => (
             <div key={href} style={navItemStyle((user ? 5 : 3) + i)}>{navLink(href, icon, label)}</div>
           ))}
         </nav>

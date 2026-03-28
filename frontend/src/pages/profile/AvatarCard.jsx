@@ -25,7 +25,7 @@ export default function AvatarCard({ profile, activity, avatarUrl, avatarRef, on
   ];
 
   return (
-    <div className="bg-surface rounded-2xl border border-border p-6 text-center self-start sticky top-24">
+    <div className="bg-surface rounded-2xl border border-border p-6 text-center self-start md:sticky md:top-24">
       {/* Avatar — clickable to view full-screen */}
       <div
         onClick={() => avatarUrl && setLightbox(true)}

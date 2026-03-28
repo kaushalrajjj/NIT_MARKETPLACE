@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import ThemedIcon from './ThemedIcon';
 import { useAuth } from '../services/AuthContext';
@@ -8,6 +8,8 @@ import Sidebar from './Sidebar';
 export default function Navbar() {
   const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const mobileInputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -16,7 +18,13 @@ export default function Navbar() {
   const handleSearch = (e) => {
     if (e.key === 'Enter' && e.target.value.trim()) {
       navigate(`/browse?search=${encodeURIComponent(e.target.value.trim())}`);
+      setMobileSearchOpen(false);
     }
+  };
+
+  const openMobileSearch = () => {
+    setMobileSearchOpen(true);
+    setTimeout(() => mobileInputRef.current?.focus(), 50);
   };
 
   const avatarImg = (user?.profileImage || user?.img) ? getOptimizedImageUrl(user?.profileImage || user?.img, 100) : null;
@@ -27,7 +35,7 @@ export default function Navbar() {
       <header className="sticky top-0 z-50 bg-pri-deep backdrop-blur-md border-b border-white/10 shadow-sm">
         <div className="max-w-[1400px] mx-auto px-4 flex items-center h-[60px] gap-3">
 
-          {/* Hamburger - 3 lines like original */}
+          {/* Hamburger */}
           <button
             onClick={() => setSidebarOpen(true)}
             className="flex flex-col justify-center items-center gap-[5px] w-9 h-9 rounded-lg hover:bg-white/10 transition-colors flex-shrink-0"
@@ -47,7 +55,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Search Bar */}
+          {/* Search Bar — desktop (md+) */}
           <div className="flex-1 max-w-md mx-3 hidden md:flex items-center bg-white/10 border border-white/20 rounded-xl px-3 h-[38px] focus-within:border-white/50 focus-within:ring-2 focus-within:ring-white/10 transition-all">
             <ThemedIcon name="search" size={16} color="#ffffff" className="opacity-60 mr-2" />
             <input
@@ -66,7 +74,9 @@ export default function Navbar() {
               <li><Link to="/admin" className={`px-3 py-1.5 rounded-lg text-acc font-bold transition-colors ${location.pathname === '/admin' ? 'bg-white/20 shadow-sm' : 'hover:bg-white/10'}`}>Admin</Link></li>
             )}
             <li><Link to="/dashboard" className={navClass('/dashboard')}>Dashboard</Link></li>
-            <li><Link to="/profile" className={navClass('/profile')}>Profile</Link></li>
+            {user && (
+              <li><Link to="/dashboard?tab=wishlist" className={navClass('/dashboard?tab=wishlist')}>Wishlist</Link></li>
+            )}
             <li>
               <button
                 onClick={() => document.getElementById('footer-root')?.scrollIntoView({ behavior: 'smooth' })}
@@ -77,20 +87,30 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* Right: Profile / Login */}
-          <div className="flex items-center ml-auto lg:ml-3 flex-shrink-0">
+          {/* Right: mobile search icon + Profile / Login */}
+          <div className="flex items-center ml-auto lg:ml-3 gap-2 flex-shrink-0">
+            {/* Search icon — mobile only */}
+            <button
+              onClick={openMobileSearch}
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+              title="Search"
+            >
+              <ThemedIcon name="search" size={18} color="#ffffff" />
+            </button>
+
             {user ? (
               <div className="relative group">
-                <div
-                  className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold cursor-pointer overflow-hidden border-2 border-white shadow-md"
+                <Link
+                  to="/profile"
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold overflow-hidden border-2 border-white shadow-md block"
                   title={user.name}
                 >
                   {avatarImg ? (
                     <img src={avatarImg} alt="Avatar" className="w-full h-full object-cover rounded-full" />
                   ) : initial}
-                </div>
+                </Link>
                 {/* Hover Card */}
-                <div className="absolute right-0 top-full mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="absolute right-0 top-full mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-none">
                   <div className="bg-surface rounded-xl shadow-xl border border-border px-4 py-3 min-w-[160px]">
                     <div className="font-bold text-sm text-ink">{user.name}</div>
                     <div className="text-xs text-ink-3">{user.rollNo || 'NIT KKR Student'}</div>
@@ -105,6 +125,27 @@ export default function Navbar() {
                 Login
               </Link>
             )}
+          </div>
+        </div>
+
+        {/* Mobile search bar — slides down below navbar */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'}`}
+          style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(8px)' }}
+        >
+          <div className="px-4 py-2 flex items-center gap-2">
+            <ThemedIcon name="search" size={16} color="#ffffff" className="opacity-60 flex-shrink-0" />
+            <input
+              ref={mobileInputRef}
+              type="text"
+              placeholder="Search books, electronics, cycles..."
+              onKeyUp={handleSearch}
+              className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/40"
+            />
+            <button
+              onClick={() => setMobileSearchOpen(false)}
+              className="text-white/60 hover:text-white text-lg leading-none px-1"
+            >✕</button>
           </div>
         </div>
       </header>

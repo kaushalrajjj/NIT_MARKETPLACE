@@ -1,52 +1,63 @@
 /**
- * ------------------------------------------------------------------
- * Vercel Serverless Function Entry Point
- * ------------------------------------------------------------------
- * This file serves as the main entry point for the backend API when 
- * deployed to Vercel as a Serverless Function. It connects to the 
- * database on-demand and passes requests to the centralized Express app.
+ * api/index.js — Vercel Serverless Entry Point
+ * ──────────────────────────────────────────────
+ * This file is ONLY used when deployed on Vercel (production).
+ * Locally, server.js is used instead.
+ *
+ * WHY a separate file for Vercel?
+ * ─────────────────────────────────
+ * Normal Node.js servers run as a continuous process:
+ *   Start → Connect DB → Listen forever
+ *
+ * Vercel uses "Serverless Functions":
+ *   - Each incoming request triggers this function fresh
+ *   - The function "spins up", handles the request, then goes idle
+ *   - A "cold start" = the function wakes up from idle (first request after inactivity)
+ *   - There is NO persistent process to connect DB once on startup
+ *
+ * So we must check and connect to MongoDB on EVERY cold start.
+ * But we avoid reconnecting if a connection already exists (from a recent request).
  */
 
-// Import the main Express application logic
+// The configured Express application (routes, middleware, etc.)
 const app = require('../app');
 
-// Import mongoose to manage the connection state with MongoDB
+// Mongoose manages the MongoDB connection state
 const mongoose = require('mongoose');
 
-// Import universal error handling middlewares
+// Global error handlers — must be added after all routes
 const { notFound, errorHandler } = require('../middlewares/errorMiddleware');
 
-// Mount the error handlers to the Express app.
-// In a typical Node.js long-running server (like devServer.js), these are 
-// mounted after Vite middleware. For Vercel, we mount them right away.
+// Add error handlers to the Express app right away
+// (unlike server.js, there's no Vite middleware here to worry about ordering)
 app.use(notFound);
 app.use(errorHandler);
 
 /**
- * Serverless Handler Export
- * Vercel expects an async function that accepts standard HTTP (req, res) objects.
- * This function will be invoked on every incoming API request.
- *
- * @param {Object} req - The incoming HTTP request payload
- * @param {Object} res - The outgoing HTTP response dispatcher
+ * The Serverless Handler
+ * ━━━━━━━━━━━━━━━━━━━━━━
+ * Vercel calls this function for every incoming HTTP request.
+ * It receives the request (req) and a way to send a response (res).
  */
 module.exports = async (req, res) => {
-    // Vercel Serverless Functions suffer from "cold starts", meaning the function
-    // environment spins down when idle. We need to check if a database connection 
-    // already exists (readyState === 1) before trying to connect again to prevent 
-    // exhausting our max connection limit with MongoDB.
+    // Check if MongoDB is already connected (readyState 1 = connected)
+    // This avoids opening a new connection on every warm (non-cold-start) request,
+    // which would quickly exhaust the MongoDB Atlas free-tier connection limit.
     if (mongoose.connection.readyState !== 1) {
         try {
-            // Establish a new connection to the database
+            // Connect to MongoDB using the URI from environment variables
             await mongoose.connect(process.env.MONGODB_URI);
             console.log('[(Serverless)] MongoDB Connected via Vercel');
         } catch (error) {
-            // If connection fails, immediately return an error back to the user
+            // If we can't reach the database, there's no point passing the request
+            // to Express — return a 500 error immediately
             console.error(`[(Serverless Error)] MongoDB Connection Failed: ${error.message}`);
-            return res.status(500).json({ message: 'Database Connection Error. Please try again later.' });
+            return res.status(500).json({ 
+                message: 'Database Connection Error. Please try again later.' 
+            });
         }
     }
-    
-    // Hand over the request to the populated Express app for standard routing
+
+    // Pass the request to the Express app for normal route handling
     return app(req, res);
 };

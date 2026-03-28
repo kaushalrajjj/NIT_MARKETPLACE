@@ -6,6 +6,15 @@ const bcrypt = require('bcryptjs');
 const { sendOtpEmail, sendPasswordChangeOtpEmail } = require('./emailService');
 const Otp = require('../models/Otp');
 
+/** Resolve a user from either students or admins collection */
+const resolveUserById = async (id) => {
+    const student = await userRepository.findById(id);
+    if (student) return { user: student, isAdmin: false };
+    const adminUser = await adminRepository.findById(id);
+    if (adminUser) return { user: adminUser, isAdmin: true };
+    return { user: null, isAdmin: false };
+};
+
 const authService = {
     /** 
      * Perform Login logic: 
@@ -155,17 +164,15 @@ const authService = {
      * Verifies the current password is correct, then sends an OTP to the user's email.
      */
     sendPasswordChangeOtp: async (userId, currentPassword) => {
-        const user = await userRepository.findOne({ _id: userId });
+        const { user, isAdmin } = await resolveUserById(userId);
         if (!user) throw new Error('User not found.');
 
         const isMatch = await bcrypt.compare(currentPassword, user.password);
         if (!isMatch) throw new Error('Current password is incorrect.');
 
-        const otp = String(Math.floor(100000 + Math.random() * 900000)); // 6-digit
-        const expireAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+        const otp = String(Math.floor(100000 + Math.random() * 900000));
+        const expireAt = new Date(Date.now() + 10 * 60 * 1000);
 
-        // Use compound key (email + purpose) so password-change OTPs
-        // don't collide with signup OTPs for the same address.
         await Otp.findOneAndUpdate(
             { email: user.email, purpose: 'password-change' },
             { otp, expireAt },
@@ -184,7 +191,7 @@ const authService = {
             throw new Error('New password must be between 6 and 12 characters.');
         }
 
-        const user = await userRepository.findOne({ _id: userId });
+        const { user, isAdmin } = await resolveUserById(userId);
         if (!user) throw new Error('User not found.');
 
         const record = await Otp.findOne({ email: user.email, purpose: 'password-change' });
@@ -201,7 +208,11 @@ const authService = {
 
         const salt = await bcrypt.genSalt(12);
         const hashedNew = await bcrypt.hash(newPassword, salt);
-        await userRepository.update(user._id, { password: hashedNew });
+        if (isAdmin) {
+            await adminRepository.update(user._id, { password: hashedNew });
+        } else {
+            await userRepository.update(user._id, { password: hashedNew });
+        }
     },
 };
 

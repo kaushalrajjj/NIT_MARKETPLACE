@@ -1,24 +1,59 @@
 const nodemailer = require('nodemailer');
 
+/**
+ * emailService — Sends OTP emails via Gmail SMTP
+ * ─────────────────────────────────────────────────
+ * Uses Nodemailer with a Gmail "App Password" (not the account password).
+ *
+ * WHY App Password and not Gmail login password?
+ *   Google blocks plain username/password login for programmatic access.
+ *   App Passwords are special 16-character codes generated in Google Account settings.
+ *   They work with 2FA enabled and can be revoked independently.
+ *   Setup: Gmail → Security → 2-Step Verification → App Passwords → Generate
+ *
+ * Two email types:
+ *   1. Signup OTP     — sent with an indigo/purple theme
+ *   2. Password change OTP — sent with a red/danger theme
+ */
+
+/**
+ * Transporter singleton — lazy initialization.
+ *
+ * WHY lazy (not created at module load)?
+ *   process.env variables might not be loaded yet when this module is first required.
+ *   By creating the transporter on first use (inside getTransporter), we ensure
+ *   the .env is already loaded by that point.
+ *
+ * WHY singleton (not created every call)?
+ *   Creating an SMTP connection is expensive. We reuse the same transporter
+ *   for all emails in the process lifetime.
+ */
 let transporter = null;
 const getTransporter = () => {
     if (!transporter) {
         transporter = nodemailer.createTransport({
-            service: 'gmail',
+            service: 'gmail',               // Uses Gmail's SMTP server automatically
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: process.env.EMAIL_USER, // e.g. marketplacenit@gmail.com
+                pass: process.env.EMAIL_PASS, // Gmail App Password (not the account password)
             },
         });
     }
     return transporter;
 };
 
+/**
+ * sendOtpEmail — Send sign-up OTP to a new user.
+ *
+ * @param {string} to  - Recipient email (must be @nitkkr.ac.in)
+ * @param {string} otp - 6-digit OTP code to embed in the email
+ */
 const sendOtpEmail = async (to, otp) => {
     const mailOptions = {
-        from: `"NIT KKR Marketplace" <${process.env.EMAIL_USER}>`,
+        from: `"NIT KKR Marketplace" <${process.env.EMAIL_USER}>`, // Display name + address
         to,
         subject: 'Your OTP for NIT Marketplace Sign Up',
+        // HTML email with inline styles (no CSS classes — email clients don't support them)
         html: `
         <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 480px; margin: 0 auto; background: #f9fafb; border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb;">
             <div style="background: #4f46e5; padding: 32px 24px; text-align: center;">
@@ -53,6 +88,14 @@ const sendOtpEmail = async (to, otp) => {
     await mailTransporter.sendMail(mailOptions);
 };
 
+/**
+ * sendPasswordChangeOtpEmail — Send password-change OTP to an authenticated user.
+ *
+ * Uses a red/danger color scheme to visually emphasize this is a security action.
+ *
+ * @param {string} to  - Recipient email (student's @nitkkr.ac.in or admin's email)
+ * @param {string} otp - 6-digit OTP code to embed in the email
+ */
 const sendPasswordChangeOtpEmail = async (to, otp) => {
     const mailOptions = {
         from: `"NIT KKR Marketplace" <${process.env.EMAIL_USER}>`,

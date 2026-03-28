@@ -10,7 +10,7 @@ export default function ListingsTab({ products, sortBy, onSortChange, onMarkSold
     <div>
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm text-ink-3">
-          You have <strong className="text-ink">{products.length}</strong> active listing{products.length !== 1 ? 's' : ''}
+          <strong className="text-ink">{products.length}</strong> active listing{products.length !== 1 ? 's' : ''}
         </p>
         <select value={sortBy} onChange={e => onSortChange(e.target.value)}
           className="px-3 py-2 border border-border rounded-lg text-sm bg-surface text-ink">

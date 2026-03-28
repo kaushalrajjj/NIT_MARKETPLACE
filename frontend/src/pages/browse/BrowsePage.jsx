@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { api } from '../../services/api';
 import { useAuth } from '../../services/AuthContext';
@@ -34,6 +34,9 @@ export default function BrowsePage() {
   const [sellerYear, setSellerYear] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [showSort, setShowSort] = useState(false);
+  const [filterPanelStyle, setFilterPanelStyle] = useState({});
+  const [filterIsMobile, setFilterIsMobile] = useState(false);
+  const filterBtnRef = useRef(null);
   const [sellerId, setSellerId] = useState(null);
   const [sellerName, setSellerName] = useState(null);
 
@@ -118,36 +121,40 @@ export default function BrowsePage() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
+
             {/* Toolbar with Shutter mask */}
             <div className="sticky top-[60px] z-30 pt-[15px] bg-bg">
-              <div className="bg-surface rounded-2xl px-6 py-4 mb-6 shadow-xl border border-border transition-all flex items-center justify-between gap-3">
+              <div className="bg-surface rounded-2xl px-4 sm:px-6 py-4 shadow-xl border border-border transition-all flex items-center justify-between gap-3">
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   <div className="text-sm text-ink-3 shrink-0">
-                    Showing <strong className="text-ink">{total}</strong> results
+                    <strong className="text-ink">{total}</strong> results
                   </div>
-                  <ActiveFilterBadges
-                    sellerName={sellerName}
-                    sellerYear={sellerYear}
-                    category={category}
-                    minPrice={minPrice}
-                    maxPrice={maxPrice}
-                    conditions={conditions}
-                    onClearSeller={() => { setSellerId(null); setSellerName(null); }}
-                    onClearYear={() => setSellerYear('')}
-                    onClearCategory={() => setCategory('all')}
-                    onClearPrice={() => { setMinPrice(''); setMaxPrice(''); }}
-                    onClearCondition={(cond) => setConditions(prev => prev.filter(c => c !== cond))}
-                  />
+                  {/* Active chips — desktop only (hidden on mobile to prevent clustering) */}
+                  <div className="hidden sm:flex flex-1 min-w-0">
+                    <ActiveFilterBadges
+                      sellerName={sellerName}
+                      sellerYear={sellerYear}
+                      category={category}
+                      minPrice={minPrice}
+                      maxPrice={maxPrice}
+                      conditions={conditions}
+                      onClearSeller={() => { setSellerId(null); setSellerName(null); }}
+                      onClearYear={() => setSellerYear('')}
+                      onClearCategory={() => setCategory('all')}
+                      onClearPrice={() => { setMinPrice(''); setMaxPrice(''); }}
+                      onClearCondition={(cond) => setConditions(prev => prev.filter(c => c !== cond))}
+                    />
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-3 shrink-0">
-                  {/* Clear All Filters */}
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                  {/* Clear All — desktop only */}
                   {(category !== 'all' || minPrice !== '' || maxPrice !== '' || conditions.length > 0 || sellerYear !== '' || sellerId !== null) && (
                     <button
                       onClick={() => {
                         setCategory('all'); setMinPrice(''); setMaxPrice(''); setConditions([]); setSellerYear(''); setSellerId(null); setSellerName(null);
                       }}
-                      className="text-xs font-bold text-pri hover:bg-pri/5 px-2 py-1.5 rounded-lg transition-all mr-1"
+                      className="hidden sm:block text-xs font-bold text-pri hover:bg-pri/5 px-2 py-1.5 rounded-lg transition-all"
                     >
                       Clear all
                     </button>
@@ -156,13 +163,37 @@ export default function BrowsePage() {
                   {/* Filters Button */}
                   <div className="relative">
                     <button
-                      onClick={() => setShowFilters(!showFilters)}
-                      className="px-4 py-2 border border-border rounded-lg text-sm bg-surface text-ink hover:bg-bg flex items-center gap-2 transition-colors"
+                      ref={filterBtnRef}
+                      onClick={() => {
+                        if (!showFilters && filterBtnRef.current) {
+                          const rect = filterBtnRef.current.getBoundingClientRect();
+                          const panelWidth = 288;
+                          const spaceOnLeft = rect.left;
+                          if (spaceOnLeft >= panelWidth + 8) {
+                            setFilterIsMobile(false);
+                            setFilterPanelStyle({ position: 'absolute', right: 0, left: 'auto', top: '3rem' });
+                          } else {
+                            setFilterIsMobile(true);
+                            setFilterPanelStyle({
+                              position: 'fixed',
+                              left: '8px',
+                              right: 'auto',
+                              top: `${rect.bottom + 8}px`,
+                            });
+                          }
+                        }
+                        setShowFilters(prev => !prev);
+                      }}
+                      className="px-3 sm:px-4 py-2 border border-border rounded-lg text-sm bg-surface text-ink hover:bg-bg flex items-center gap-2 transition-colors"
                     >
                       <ThemedIcon name="category_nav" size={14} className="text-pri" /> Filters
                     </button>
                     {showFilters && (
                       <FilterPanel
+                        panelStyle={filterPanelStyle}
+                        isMobile={filterIsMobile}
+                        category={category}
+                        onCategory={setCategory}
                         minPrice={minPrice} maxPrice={maxPrice}
                         conditions={conditions} sellerYear={sellerYear}
                         onMinPrice={setMinPrice} onMaxPrice={setMaxPrice}
@@ -182,16 +213,33 @@ export default function BrowsePage() {
                   />
                 </div>
               </div>
-            </div>
 
-            {/* Search bar (mobile) */}
-            <div className="mb-4">
-              <input
-                type="text" value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by name, description..."
-                className="w-full px-4 py-2.5 border border-border rounded-xl text-sm bg-surface text-ink focus:outline-none focus:ring-2 focus:ring-pri/20 focus:border-pri transition-all lg:hidden"
-              />
+              {/* Active filter chips — mobile only, shown below the toolbar */}
+              {(category !== 'all' || minPrice !== '' || maxPrice !== '' || conditions.length > 0 || sellerYear !== '' || sellerId !== null) && (
+                <div className="sm:hidden flex items-center gap-2 pt-2 pb-1 px-1 overflow-x-auto scrollbar-hide">
+                  <ActiveFilterBadges
+                    sellerName={sellerName}
+                    sellerYear={sellerYear}
+                    category={category}
+                    minPrice={minPrice}
+                    maxPrice={maxPrice}
+                    conditions={conditions}
+                    onClearSeller={() => { setSellerId(null); setSellerName(null); }}
+                    onClearYear={() => setSellerYear('')}
+                    onClearCategory={() => setCategory('all')}
+                    onClearPrice={() => { setMinPrice(''); setMaxPrice(''); }}
+                    onClearCondition={(cond) => setConditions(prev => prev.filter(c => c !== cond))}
+                  />
+                  <button
+                    onClick={() => {
+                      setCategory('all'); setMinPrice(''); setMaxPrice(''); setConditions([]); setSellerYear(''); setSellerId(null); setSellerName(null);
+                    }}
+                    className="text-xs font-bold text-pri whitespace-nowrap px-2 py-1 rounded-lg hover:bg-pri/5 flex-shrink-0"
+                  >
+                    Clear all
+                  </button>
+                </div>
+              )}
             </div>
 
             <ProductsGrid

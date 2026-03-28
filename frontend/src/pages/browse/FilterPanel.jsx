@@ -1,12 +1,47 @@
 import React from 'react';
+import ThemedIcon from '../../components/ThemedIcon';
+import { useTheme } from '../../services/ThemeContext';
+import { CATEGORIES } from './CategorySidebar';
 
-export default function FilterPanel({ minPrice, maxPrice, conditions, sellerYear, onMinPrice, onMaxPrice, onToggleCondition, onSellerYear, onReset, onApply, onClose }) {
+export default function FilterPanel({ panelStyle = {}, isMobile, category, onCategory, minPrice, maxPrice, conditions, sellerYear, onMinPrice, onMaxPrice, onToggleCondition, onSellerYear, onReset, onApply, onClose }) {
+  const { theme } = useTheme();
+
   return (
-    <div className="absolute right-0 top-12 w-72 bg-surface rounded-2xl border border-border shadow-2xl p-5 z-40">
+    <div
+      className="w-72 bg-surface rounded-2xl border border-border shadow-2xl p-5 z-[1050] max-h-[85vh] overflow-y-auto"
+      style={panelStyle}
+    >
       <div className="flex items-center justify-between mb-4">
         <h4 className="font-bold text-ink text-sm">Advanced Filters</h4>
         <button onClick={onClose} className="text-ink-3 hover:text-ink">✕</button>
       </div>
+
+      {/* ── Category (mobile only) ── */}
+      {isMobile && (
+        <div className="mb-5">
+          <div className="text-xs font-semibold text-ink-2 mb-2">Category</div>
+          <div className="space-y-1">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat.value}
+                onClick={() => { onCategory(cat.value); }}
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${
+                  category === cat.value ? 'bg-pri-light text-pri font-semibold' : 'text-ink-2 hover:bg-bg'
+                }`}
+              >
+                <ThemedIcon
+                  name={cat.icon}
+                  size={16}
+                  color={category === cat.value ? theme.pri : '#9ca3af'}
+                  fill={category === cat.value}
+                />
+                <span>{cat.name}</span>
+              </button>
+            ))}
+          </div>
+          <div className="my-4 border-t border-border/60" />
+        </div>
+      )}
 
       {/* Price Range */}
       <div className="mb-6">
@@ -64,3 +99,4 @@ export default function FilterPanel({ minPrice, maxPrice, conditions, sellerYear
     </div>
   );
 }
+
