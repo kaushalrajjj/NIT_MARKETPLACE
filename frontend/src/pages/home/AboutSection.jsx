@@ -8,7 +8,7 @@ export default function AboutSection() {
   const STATS = [
     { emoji: <ThemedIcon name="college" size={28} color={theme.pri} />,     num: '2026',  label: 'Founded',            color: theme.pri },
     { emoji: <ThemedIcon name="user-laptop" size={28} color="#9333ea" />,   num: '5',     label: 'Core Team Members', color: '#9333ea',
-      title: '1. Kaushal Raj\n2. Nitin Punetha\n3. Sahil Razvi\n4. Akshit Goyal\n5. Omprakash' },
+      title: '1. Akshit Goyal\n2. Nitin Punetha\n3. Kaushal Raj\n4. Sahil Rizvi\n5. Omprakash' },
     { emoji: <ThemedIcon name="school" size={28} color="#0891b2" />,         num: '10',    label: 'Departments Covered', color: '#0891b2' },
     { emoji: <ThemedIcon name="tick-trick" size={28} color="#10b981" />,     num: '100%',  label: 'Student Approved',   color: '#10b981' },
   ];

@@ -9,6 +9,8 @@ import Field, { inputCls } from './Field';
 import SelectField from './SelectField';
 import OtpStep from './OtpStep';
 
+const NIT_DOMAIN = '@nitkkr.ac.in';
+
 const BRANCHES      = ['CSE', 'IT', 'ECE', 'EE', 'ME', 'CE', 'SET', 'ADS', 'MNC', 'AIML', 'PIE', 'VLSI', 'RA', 'IIOT', 'BArch'];
 const BOYS_HOSTELS  = ['H1','H2','H3','H4','H5','H6','H7','H8','H9','H10','H11'];
 const GIRLS_HOSTELS = ['KALPANA CHAWLA','BHAGIRATHI','CAUVERY','ALAKNANDA'];
@@ -43,13 +45,20 @@ export default function SignUpForm({ onSwitchMode }) {
   const otpRefs                   = Array.from({ length: 6 }, () => React.useRef(null));
 
   const set = (key) => (e) => setForm((f) => {
-    const updated = { ...f, [key]: e.target.value };
+    const value = e.target.value;
+    const updated = { ...f, [key]: value };
 
-    // Auto-fill roll number from email (format: rollno@nitkkr.ac.in)
+    // BI-DIRECTIONAL SYNC: Roll No <-> Email
     if (key === 'email') {
-      const local = e.target.value.split('@')[0];
-      if (/^\d{5,9}$/.test(local)) {
+      const local = value.split('@')[0];
+      // If user types a numeric email prefix, sync it to roll number
+      if (/^\d{5,10}$/.test(local)) {
         updated.rollNo = local;
+      }
+    } else if (key === 'rollNo') {
+      // If user types a numeric roll number, sync it to email
+      if (/^\d*$/.test(value)) {
+        updated.email = value ? `${value}${NIT_DOMAIN}` : '';
       }
     }
 

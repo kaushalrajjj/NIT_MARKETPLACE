@@ -49,6 +49,28 @@ export function AuthProvider({ children }) {
     setUser(merged);
   };
 
+  // Sync state across tabs (logout/login/update)
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'userInfo') {
+        if (!e.newValue) {
+          // If userInfo is cleared in another tab, log out here too
+          setUser(null);
+        } else {
+          // If userInfo is updated or logged in in another tab, sync here too
+          try {
+            setUser(JSON.parse(e.newValue));
+          } catch (err) {
+            console.error('Failed to sync auth state across tabs:', err);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   // Provide the user state and all action functions to every child component
   return (
     <AuthContext.Provider value={{ user, loginUser, logoutUser, updateUser }}>
