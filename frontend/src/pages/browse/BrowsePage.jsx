@@ -53,6 +53,11 @@ export default function BrowsePage() {
   }, [user]);
 
   useEffect(() => {
+    const q = searchParams.get('search') || '';
+    setSearch(q);
+  }, [searchParams]);
+
+  useEffect(() => {
     fetchProducts();
   }, [category, sort, search, conditions, sellerId, sellerYear]);
 
