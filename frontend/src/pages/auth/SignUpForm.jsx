@@ -52,7 +52,7 @@ export default function SignUpForm({ onSwitchMode }) {
     if (key === 'email') {
       const local = value.split('@')[0];
       // If user types a numeric email prefix, sync it to roll number
-      if (/^\d{5,10}$/.test(local)) {
+      if (/^\d+$/.test(local)) {
         updated.rollNo = local;
       }
     } else if (key === 'rollNo') {
